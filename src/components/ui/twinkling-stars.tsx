@@ -24,9 +24,12 @@ export function TwinklingStars({ count = 80, className = "" }: TwinklingStarsPro
     setMounted(true);
   }, []);
 
+  // Reduce stars on mobile for performance
+  const effectiveCount = mounted && typeof window !== "undefined" && window.innerWidth < 768 ? Math.min(count, 25) : count;
+
   // Generate star positions ONCE using useMemo for high performance
   const stars: Star[] = useMemo(() => {
-    return Array.from({ length: count }, (_, i) => {
+    return Array.from({ length: effectiveCount }, (_, i) => {
       const size = Math.floor(Math.random() * 2.5) + 1.2; // 1.2px - 3.5px
       const duration = (2 + Math.random() * 3).toFixed(2); // 2s - 5s
       const delay = (Math.random() * 5).toFixed(2); // 0s - 5s
@@ -47,7 +50,7 @@ export function TwinklingStars({ count = 80, className = "" }: TwinklingStarsPro
         boxShadow,
       };
     });
-  }, [count]);
+  }, [effectiveCount]);
 
   if (!mounted) return null;
 
