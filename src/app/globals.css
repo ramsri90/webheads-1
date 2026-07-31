@@ -1,26 +1,472 @@
 @import "tailwindcss";
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
-
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
-
-@media (prefers-color-scheme: dark) {
+@layer base {
   :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+    --background: #0f0f15;
+    --foreground: #ffffff;
   }
 }
 
-body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+html {
+  scroll-behavior: smooth;
+  color-scheme: dark;
 }
+
+body {
+  background-color: #0f0f15;
+  color: #ffffff;
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+  overflow-x: hidden;
+}
+
+/* ========== 3D SCROLL & CARD ANIMATIONS ========== */
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px) translateZ(-20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) translateZ(0);
+  }
+}
+
+@keyframes orbFloat {
+  0%, 100% {
+    transform: translate(0px, 0px) scale(1);
+  }
+  33% {
+    transform: translate(25px, -30px) scale(1.08);
+  }
+  66% {
+    transform: translate(-20px, 20px) scale(0.95);
+  }
+}
+
+@keyframes subtlePulse {
+  0%, 100% { opacity: 0.8; transform: scale(1); }
+  50% { opacity: 1; transform: scale(1.03); }
+}
+
+.animate-fadeInUp {
+  animation: fadeInUp 0.7s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+.animate-orbFloat {
+  animation: orbFloat 14s ease-in-out infinite;
+}
+
+/* ========== 3D SCROLL REVEAL ========== */
+.scroll-reveal {
+  opacity: 0;
+  transform: translateY(35px) scale(0.97);
+  transition: opacity 0.75s cubic-bezier(0.16, 1, 0.3, 1),
+              transform 0.75s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.scroll-reveal.revealed {
+  opacity: 1;
+  transform: translateY(0) scale(1);
+}
+
+.scroll-reveal-left {
+  opacity: 0;
+  transform: translateX(-50px) rotateY(8deg);
+  transition: opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1),
+              transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.scroll-reveal-left.revealed {
+  opacity: 1;
+  transform: translateX(0) rotateY(0deg);
+}
+
+.scroll-reveal-right {
+  opacity: 0;
+  transform: translateX(50px) rotateY(-8deg);
+  transition: opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1),
+              transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.scroll-reveal-right.revealed {
+  opacity: 1;
+  transform: translateX(0) rotateY(0deg);
+}
+
+.scroll-reveal-scale {
+  opacity: 0;
+  transform: scale(0.9) translateZ(-30px);
+  transition: opacity 0.7s cubic-bezier(0.16, 1, 0.3, 1),
+              transform 0.7s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.scroll-reveal-scale.revealed {
+  opacity: 1;
+  transform: scale(1) translateZ(0);
+}
+
+/* ========== 3D CARD HOVER EFFECTS ========== */
+.card-3d {
+  transform-style: preserve-3d;
+  transition: transform 0.7s cubic-bezier(0.23, 1, 0.32, 1),
+              border-color 0.7s ease,
+              box-shadow 0.7s ease,
+              background-color 0.7s ease;
+}
+
+.card-3d:hover {
+  transform: translateY(-6px) translateZ(16px) rotateX(1.5deg);
+  box-shadow: 0 20px 40px -15px rgba(244, 63, 94, 0.15),
+              0 0 20px 0 rgba(255, 255, 255, 0.05);
+}
+
+/* ========== ANIMATED GRADIENT BACKGROUND ========== */
+@keyframes gradientBlob1 {
+  0%, 100% {
+    transform: translate(0%, 0%) scale(1);
+  }
+  25% {
+    transform: translate(15%, -10%) scale(1.15);
+  }
+  50% {
+    transform: translate(-5%, 15%) scale(0.9);
+  }
+  75% {
+    transform: translate(-15%, -5%) scale(1.08);
+  }
+}
+
+@keyframes gradientBlob2 {
+  0%, 100% {
+    transform: translate(0%, 0%) scale(1);
+  }
+  20% {
+    transform: translate(-20%, 12%) scale(1.1);
+  }
+  40% {
+    transform: translate(10%, -18%) scale(0.85);
+  }
+  60% {
+    transform: translate(18%, 8%) scale(1.2);
+  }
+  80% {
+    transform: translate(-8%, -12%) scale(0.95);
+  }
+}
+
+@keyframes gradientBlob3 {
+  0%, 100% {
+    transform: translate(0%, 0%) scale(1);
+  }
+  30% {
+    transform: translate(20%, 20%) scale(0.9);
+  }
+  60% {
+    transform: translate(-15%, -10%) scale(1.12);
+  }
+}
+
+@keyframes gradientBlob4 {
+  0%, 100% {
+    transform: translate(0%, 0%) scale(1) rotate(0deg);
+  }
+  33% {
+    transform: translate(-10%, 20%) scale(1.1) rotate(60deg);
+  }
+  66% {
+    transform: translate(12%, -15%) scale(0.88) rotate(120deg);
+  }
+}
+
+@keyframes gradientBlob5 {
+  0%, 100% {
+    transform: translate(0%, 0%) scale(1);
+    opacity: 0.5;
+  }
+  25% {
+    transform: translate(25%, 10%) scale(1.2);
+    opacity: 0.7;
+  }
+  50% {
+    transform: translate(-10%, -20%) scale(0.85);
+    opacity: 0.4;
+  }
+  75% {
+    transform: translate(-20%, 15%) scale(1.05);
+    opacity: 0.6;
+  }
+}
+
+@keyframes gradientBlob6 {
+  0%, 100% {
+    transform: translate(0%, 0%) scale(1);
+  }
+  20% {
+    transform: translate(15%, -25%) scale(1.15);
+  }
+  50% {
+    transform: translate(-20%, 10%) scale(0.9);
+  }
+  80% {
+    transform: translate(5%, 20%) scale(1.1);
+  }
+}
+
+@keyframes gradientShift {
+  0%, 100% {
+    filter: hue-rotate(0deg) brightness(1);
+  }
+  50% {
+    filter: hue-rotate(15deg) brightness(1.05);
+  }
+}
+
+/* ========== TWINKLING STAR ANIMATION ========== */
+@keyframes twinkle {
+  0%, 100% {
+    opacity: 0.15;
+    transform: scale(0.85);
+  }
+  50% {
+    opacity: 1;
+    transform: scale(1.2);
+  }
+}
+
+/* ========== 3D FLOATING LOGO WATERMARK ANIMATION ========== */
+@keyframes logoFloat3D {
+  0%, 100% {
+    transform: translateY(0px) rotate(0deg) scale(1);
+    opacity: 0.12;
+  }
+  33% {
+    transform: translateY(-28px) rotate(7deg) scale(1.08);
+    opacity: 0.22;
+  }
+  66% {
+    transform: translateY(22px) rotate(-6deg) scale(0.94);
+    opacity: 0.10;
+  }
+}
+
+.animate-logoFloat3D {
+  animation: logoFloat3D 16s ease-in-out infinite;
+}
+
+/* ========== ANIMATED TEXT GRADIENT & SHIMMER ========== */
+@keyframes textGradientShimmer {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
+
+.text-animated-gradient {
+  background: linear-gradient(
+    90deg,
+    #ffffff 0%,
+    #fca69a 20%,
+    #f43f5e 40%,
+    #818cf8 60%,
+    #34d399 80%,
+    #ffffff 100%
+  );
+  background-size: 200% auto;
+  color: transparent;
+  -webkit-background-clip: text;
+  background-clip: text;
+  animation: textGradientShimmer 6s linear infinite;
+}
+
+.text-animated-shimmer-white-rose {
+  background: linear-gradient(
+    90deg,
+    #ffffff 0%,
+    #fda4af 25%,
+    #f43f5e 50%,
+    #818cf8 75%,
+    #ffffff 100%
+  );
+  background-size: 200% auto;
+  color: transparent;
+  -webkit-background-clip: text;
+  background-clip: text;
+  animation: textGradientShimmer 7s ease-in-out infinite;
+}
+
+.text-animated-shimmer-white-emerald {
+  background: linear-gradient(
+    90deg,
+    #ffffff 0%,
+    #6ee7b7 25%,
+    #10b981 50%,
+    #818cf8 75%,
+    #ffffff 100%
+  );
+  background-size: 200% auto;
+  color: transparent;
+  -webkit-background-clip: text;
+  background-clip: text;
+  animation: textGradientShimmer 7s ease-in-out infinite;
+}
+
+/* ========== STRICT WHITE & ICE BLUE TEXT ANIMATION ========== */
+@keyframes iceBlueToWhiteText {
+  0%, 100% {
+    color: #38bdf8; /* Full Ice Blue */
+    text-shadow: 0 0 25px rgba(56, 189, 248, 0.5);
+  }
+  50% {
+    color: #ffffff; /* Full Pure White */
+    text-shadow: 0 0 25px rgba(255, 255, 255, 0.5);
+  }
+}
+
+.text-animated-iceblue-white {
+  animation: iceBlueToWhiteText 4s ease-in-out infinite;
+}
+
+/* ========== WHITE & NEON GREEN SLOW SLIDING TEXT ANIMATION ========== */
+@keyframes whiteNeonGreenSlide {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
+
+.text-animated-white-neongreen {
+  background: linear-gradient(
+    90deg,
+    #ffffff 0%,
+    #ffffff 18%,
+    #c4f982 38%,
+    #99f54e 50%,
+    #7ee628 62%,
+    #ffffff 82%,
+    #ffffff 100%
+  );
+  background-size: 250% auto;
+  color: transparent;
+  -webkit-background-clip: text;
+  background-clip: text;
+  animation: whiteNeonGreenSlide 7s ease-in-out infinite;
+  filter: drop-shadow(0 0 18px rgba(153, 245, 78, 0.5));
+}
+
+/* ========== HERO HEADLINE DEDICATED GRADIENT & WHITE SLIDE ========== */
+@keyframes heroGradientWhiteSlide {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
+
+.text-animated-hero-gradient-white {
+  background: linear-gradient(
+    90deg,
+    #ffffff 0%,
+    #ffffff 18%,
+    #38bdf8 40%,
+    #06b6d4 50%,
+    #38bdf8 60%,
+    #ffffff 82%,
+    #ffffff 100%
+  );
+  background-size: 250% auto;
+  color: transparent;
+  -webkit-background-clip: text;
+  background-clip: text;
+  animation: heroGradientWhiteSlide 6s ease-in-out infinite;
+  filter: drop-shadow(0 0 20px rgba(56, 189, 248, 0.4));
+}
+
+/* ========== CUSTOM SCROLLBAR ========== */
+::-webkit-scrollbar {
+  width: 6px;
+}
+::-webkit-scrollbar-track {
+  background: #08080c;
+}
+::-webkit-scrollbar-thumb {
+  background: #333;
+  border-radius: 3px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #555;
+}
+
+/* ========== SYNAPSE PREMIUM MOCKUP THEME ELEMENTS ========== */
+.synapse-dark-bg {
+  background-color: #0f0f15;
+}
+
+.synapse-glass {
+  background: rgba(15, 15, 20, 0.45);
+  backdrop-filter: blur(20px);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  box-shadow: 0 12px 40px -10px rgba(0, 0, 0, 0.5);
+  transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.synapse-glass:hover {
+  border-color: rgba(236, 72, 153, 0.3); /* magenta-500 */
+  box-shadow: 0 0 30px rgba(6, 182, 212, 0.12), 0 0 50px rgba(236, 72, 153, 0.04);
+}
+
+.text-animated-neon-gradient {
+  background: linear-gradient(
+    90deg,
+    #06b6d4 0%,
+    #8b5cf6 50%,
+    #ec4899 100%
+  );
+  color: transparent;
+  -webkit-background-clip: text;
+  background-clip: text;
+  filter: drop-shadow(0 0 15px rgba(139, 92, 246, 0.3));
+}
+
+@keyframes purpleWhiteSlide {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
+
+.text-animated-purple-white {
+  background: linear-gradient(
+    90deg,
+    #ffffff 0%,
+    #ffffff 30%,
+    #a855f7 50%,
+    #ffffff 70%,
+    #ffffff 100%
+  );
+  background-size: 250% auto;
+  color: transparent;
+  -webkit-background-clip: text;
+  background-clip: text;
+  animation: purpleWhiteSlide 8s ease-in-out infinite;
+  filter: drop-shadow(0 0 15px rgba(168, 85, 247, 0.2));
+}
+
