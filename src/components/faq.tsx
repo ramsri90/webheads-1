@@ -60,9 +60,9 @@ export function FAQSection() {
                   onClick={() => setOpenIndex(isOpen ? null : idx)}
                   className="w-full flex items-center justify-between p-5 sm:p-6 text-left transition-colors hover:bg-white/5 group"
                 >
-                  <span className="text-sm sm:text-base font-bold text-white pr-4 group-hover:text-rose-300 transition-colors">{faq.q}</span>
-                  <div className={`flex h-8 w-8 items-center justify-center rounded-full ${isOpen ? "bg-rose-500/20" : "bg-white/10"} transition-colors shrink-0`}>
-                    <ChevronDown className={`h-4 w-4 text-rose-400 shrink-0 transition-transform duration-300 ${isOpen ? "rotate-180" : ""}`} />
+                  <span className="text-sm sm:text-base font-bold text-white pr-4 group-hover:text-purple-300 transition-colors">{faq.q}</span>
+                  <div className={`flex h-8 w-8 items-center justify-center rounded-full ${isOpen ? "bg-purple-500/20" : "bg-white/10"} transition-colors shrink-0`}>
+                    <ChevronDown className={`h-4 w-4 text-purple-400 shrink-0 transition-transform duration-300 ${isOpen ? "rotate-180" : ""}`} />
                   </div>
                 </button>
 

@@ -17,7 +17,7 @@ export function Navbar() {
   return (
     <header className="fixed top-5 left-1/2 -translate-x-1/2 z-50 w-[calc(100%-2rem)] max-w-7xl">
       {/* Glass Navbar Container */}
-      <div className="flex items-center justify-between px-8 py-3.5 rounded-full synapse-glass">
+      <div className="flex items-center justify-between px-4 sm:px-8 py-3.5 rounded-full synapse-glass">
         {/* Transparent Logo Icon Shape + Company Name */}
         <a href="#" className="flex items-center gap-3 group" aria-label="WebbHeads Home">
           <img 

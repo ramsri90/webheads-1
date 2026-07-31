@@ -118,7 +118,7 @@ export function WebbheadsHeroAnimated() {
           {["Sri Chess Academy", "Aum Free Yoga", "Gitam Institution", "Thompson Luxury Homes", "TripSpark"].map((brand) => (
             <div 
               key={brand} 
-              className="rounded-full border border-white/10 bg-white/5 px-4 py-2 backdrop-blur-sm hover:border-rose-500/40 hover:text-white transition-all cursor-default"
+              className="rounded-full border border-white/10 bg-white/5 px-4 py-2 backdrop-blur-sm hover:border-purple-500/40 hover:text-white transition-all cursor-default"
             >
               {brand}
             </div>
