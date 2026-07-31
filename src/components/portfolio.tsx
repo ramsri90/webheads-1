@@ -193,7 +193,7 @@ export function PortfolioSection() {
               Real businesses. Real results.
             </h2>
             <p className="mt-4 text-white/70 text-xs sm:text-sm">
-              Explore some of our recent custom platform builds. Swipe or click navigation buttons to browse studies.
+              Explore some of our recent custom platform builds. Swipe or click navigation buttons to browse Case studies.
             </p>
           </div>
 
