@@ -64,11 +64,11 @@ export function WebbheadsHeroAnimated() {
 
           {/* Headline - Dedicated Gradient (Purple & White Slide Slowly) */}
           <h1 style={{ animationDelay: '200ms' }} className={`mt-8 text-3xl font-extrabold tracking-tight sm:text-5xl md:text-6xl lg:text-[58px] max-w-6xl leading-[1.15] text-animated-purple-white ${isMounted ? 'animate-fadeInUp' : 'opacity-0'}`}>
-            Smart, Premium Digital Ecosystems<br className="hidden sm:inline" /> for Vizag Businesses
+            Premium Digital Ecosystems<br className="hidden sm:inline" /> for Vizag Businesses
           </h1>
 
           {/* Subtitle */}
-          <p style={{ animationDelay: '300ms' }} className={`mx-auto mt-8 max-w-3xl text-balance text-base text-white/80 sm:text-lg md:text-xl font-normal leading-relaxed ${isMounted ? 'animate-fadeInUp' : 'opacity-0'}`}>
+          <p style={{ animationDelay: '300ms' }} className={`mx-auto mt-8 max-w-3xl text-balance text-base text-white/95 sm:text-lg md:text-xl font-medium leading-relaxed ${isMounted ? 'animate-fadeInUp' : 'opacity-0'}`}>
             Tech plus content, executed as a system: we align your website, apps, and social content so everything works together to grow your business in Vizag.
           </p>
 
