@@ -1,10 +1,11 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Menu, X, ArrowRight, PhoneCall } from "lucide-react";
 
 export function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
+  const [activeSection, setActiveSection] = useState("");
 
   const navLinks = [
     { name: "Services", href: "#services" },
@@ -13,6 +14,36 @@ export function Navbar() {
     { name: "Pricing", href: "#pricing" },
     { name: "FAQ", href: "#faq" }
   ];
+
+  useEffect(() => {
+    const observerOptions = {
+      root: null,
+      rootMargin: "-25% 0px -55% 0px",
+      threshold: 0
+    };
+
+    const observerCallback = (entries: IntersectionObserverEntry[]) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          setActiveSection(entry.target.id);
+        }
+      });
+    };
+
+    const observer = new IntersectionObserver(observerCallback, observerOptions);
+
+    navLinks.forEach((link) => {
+      const el = document.querySelector(link.href);
+      if (el) observer.observe(el);
+    });
+
+    return () => {
+      navLinks.forEach((link) => {
+        const el = document.querySelector(link.href);
+        if (el) observer.unobserve(el);
+      });
+    };
+  }, []);
 
   return (
     <header className="fixed top-5 left-1/2 -translate-x-1/2 z-50 w-[calc(100%-2rem)] max-w-7xl">
@@ -32,15 +63,23 @@ export function Navbar() {
 
         {/* Desktop Navigation */}
         <nav className="hidden items-center gap-9 text-base font-medium text-white md:flex">
-          {navLinks.map((link) => (
-            <a 
-              key={link.name} 
-              href={link.href} 
-              className="text-white/80 hover:text-cyan-400 transition-colors"
-            >
-              {link.name}
-            </a>
-          ))}
+          {navLinks.map((link) => {
+            const isActive = activeSection === link.href.slice(1);
+            return (
+              <a 
+                key={link.name} 
+                href={link.href} 
+                className={`transition-all duration-300 relative ${
+                  isActive ? "text-cyan-400 font-semibold" : "text-white/80 hover:text-cyan-400"
+                }`}
+              >
+                <span>{link.name}</span>
+                {isActive && (
+                  <span className="absolute -bottom-1 left-0 right-0 h-[2px] bg-gradient-to-r from-cyan-400 to-purple-500 rounded-full" />
+                )}
+              </a>
+            );
+          })}
         </nav>
 
         {/* CTA Buttons */}
