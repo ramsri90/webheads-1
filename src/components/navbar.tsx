@@ -56,7 +56,7 @@ export function Navbar() {
             alt="WebbHeads Logo" 
             className="h-9.5 w-auto object-contain group-hover:scale-105 transition-transform duration-300"
           />
-          <span className="text-xl font-bold tracking-tight text-white group-hover:text-cyan-400 transition-colors">
+          <span className="text-xl font-bold tracking-tight text-white group-hover:text-white transition-colors">
             WebbHeads
           </span>
         </a>
@@ -70,12 +70,12 @@ export function Navbar() {
                 key={link.name} 
                 href={link.href} 
                 className={`transition-all duration-300 relative ${
-                  isActive ? "text-cyan-400 font-semibold" : "text-white/80 hover:text-cyan-400"
+                  isActive ? "text-white font-semibold" : "text-white/80 hover:text-white"
                 }`}
               >
                 <span>{link.name}</span>
                 {isActive && (
-                  <span className="absolute -bottom-1 left-0 right-0 h-[2px] bg-gradient-to-r from-cyan-400 to-purple-500 rounded-full" />
+                  <span className="absolute -bottom-1 left-0 right-0 h-[2px] bg-white rounded-full" />
                 )}
               </a>
             );
@@ -88,7 +88,7 @@ export function Navbar() {
             href="tel:+919494259453" 
             className="flex items-center gap-2 text-xs sm:text-sm font-semibold text-white/80 hover:text-white transition-colors py-2 px-3.5 rounded-full hover:bg-white/5 font-mono"
           >
-            <PhoneCall className="h-4 w-4 text-cyan-400" />
+            <PhoneCall className="h-4 w-4 text-white" />
             <span>+91 9494259453</span>
           </a>
           <a 
