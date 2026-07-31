@@ -12,10 +12,12 @@ import { TestimonialsAndStats } from "@/components/testimonials-stats";
 import { FAQSection } from "@/components/faq";
 import { Footer } from "@/components/footer";
 import { FloatingCTA } from "@/components/floating-cta";
+import { IntroVideo } from "@/components/intro-video";
 
 export default function Home() {
   return (
     <main className="min-h-screen bg-transparent text-white selection:bg-rose-500 selection:text-white">
+      <IntroVideo />
       <Navbar />
       <WebbheadsHeroAnimated />
       <ServicesSection />
