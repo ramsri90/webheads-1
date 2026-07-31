@@ -33,6 +33,17 @@ export function IntroVideo() {
     };
   }, [isPlaying]);
 
+  // Attempt to manually trigger play when the source changes,
+  // which helps bypass some mobile browser autoplay restrictions
+  useEffect(() => {
+    if (videoSrc && videoRef.current) {
+      videoRef.current.load();
+      videoRef.current.play().catch(error => {
+        console.warn("Autoplay blocked by browser:", error);
+      });
+    }
+  }, [videoSrc]);
+
   const handleVideoEnd = () => {
     setIsPlaying(false);
   };
@@ -45,15 +56,15 @@ export function IntroVideo() {
         <motion.div
           initial={{ opacity: 1 }}
           exit={{ opacity: 0 }}
-          transition={{ duration: 0.8, ease: "easeInOut" }}
+          transition={{ duration: 0.5, ease: "easeInOut" }}
           className="fixed inset-0 z-[100] flex items-center justify-center bg-black"
         >
           <video
             ref={videoRef}
             src={videoSrc}
-            autoPlay
-            muted
-            playsInline
+            autoPlay={true}
+            muted={true}
+            playsInline={true}
             onEnded={handleVideoEnd}
             className="w-full h-full object-cover"
           />

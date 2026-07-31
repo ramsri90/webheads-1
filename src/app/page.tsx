@@ -29,7 +29,6 @@ export default function Home() {
       <TestimonialsAndStats />
       <FAQSection />
       <Footer />
-      <FloatingCTA />
     </main>
   );
 }
