@@ -45,7 +45,7 @@ export function ProcessSection() {
             Three steps. Zero guesswork.
           </h2>
           <p className="mt-4 text-white/85 text-sm sm:text-base leading-relaxed">
-            A proven process from strategy to launch — designed to get results without wasting your time.
+            A proven process from strategy to launch - designed to get results without wasting your time.
           </p>
         </div>
 

@@ -14,7 +14,7 @@ const services = [
   {
     icon: Smartphone,
     title: "App Development",
-    description: "A mobile app your buyers actually want to use. Browse properties, book viewings, and close deals — all from their phone.",
+    description: "A mobile app your buyers actually want to use. Browse properties, book viewings, and close deals - all from their phone.",
   },
   {
     icon: Bot,
@@ -24,7 +24,7 @@ const services = [
   {
     icon: Share2,
     title: "Social Media Management",
-    description: "Consistent, on-brand content across Instagram, Facebook, and more — keeping your business visible and top-of-mind in Vizag.",
+    description: "Consistent, on-brand content across Instagram, Facebook, and more - keeping your business visible and top-of-mind in Vizag.",
   },
   {
     icon: Megaphone,
@@ -55,7 +55,7 @@ export function ServicesSection() {
             Everything your business needs to grow online
           </h2>
           <p className="mt-4 text-white/85 text-sm sm:text-base leading-relaxed">
-            We don&apos;t just build websites. We build the system around it — apps, automation, content, ads — so it all works together.
+            We don&apos;t just build websites. We build the system around it - apps, automation, content, ads - so it all works together.
           </p>
         </div>
 

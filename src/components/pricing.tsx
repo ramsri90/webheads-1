@@ -37,7 +37,7 @@ const plans = [
     name: "Your Ecosystem",
     price: "Custom",
     note: "Scoped to your business goals.",
-    description: "Tech and content as one connected system — built and managed end to end.",
+    description: "Tech and content as one connected system - built and managed end to end.",
     popular: false,
     features: [
       "Full website or app development",
@@ -65,7 +65,7 @@ export function PricingSection() {
             Plans that scale with you
           </h2>
           <p className="mt-4 text-white/80 text-sm sm:text-base">
-            Flexible pricing designed to deliver real value — no hidden costs.
+            Flexible pricing designed to deliver real value - no hidden costs.
           </p>
         </div>
 

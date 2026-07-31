@@ -17,6 +17,7 @@ body {
   color: #ffffff;
   font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
   overflow-x: hidden;
+  text-transform: capitalize;
 }
 
 /* ========== 3D SCROLL & CARD ANIMATIONS ========== */

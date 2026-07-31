@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState } from "react";
-import { ExternalLink, X, ArrowUpRight, Info, CheckSquare, Monitor, TrendingUp } from "lucide-react";
+import { ExternalLink, X, ArrowUpRight, Info, CheckSquare, Monitor, TrendingUp, ChevronLeft, ChevronRight } from "lucide-react";
 import { useMultiScrollReveal } from "@/hooks/use-scroll-reveal";
 
 interface Project {
@@ -137,7 +137,7 @@ const caseStudies: Project[] = [
       "Enhanced inquiry generation through conversion-focused listing design",
       "Improved browsing performance with scalable search architecture property listings"
     ],
-    impact: "Impact: 3x Inquiries"
+    impact: "3x Inquiries"
   },
   {
     id: "corporate-website",
@@ -161,78 +161,139 @@ const caseStudies: Project[] = [
       "Enhanced user engagement through strategic storytelling",
       "Improved lead quality with conversion-focused workflows"
     ],
-    impact: "Impact: #1 Local Rank"
+    impact: "#1 Local Rank"
   }
 ];
 
 export function PortfolioSection() {
   const [selectedProject, setSelectedProject] = useState<Project | null>(null);
+  const [currentIndex, setCurrentIndex] = useState(0);
   const sectionRef = useMultiScrollReveal();
+
+  const handlePrev = () => {
+    setCurrentIndex((prev) => (prev === 0 ? caseStudies.length - 1 : prev - 1));
+  };
+
+  const handleNext = () => {
+    setCurrentIndex((prev) => (prev === caseStudies.length - 1 ? 0 : prev + 1));
+  };
 
   return (
     <section id="cases" className="relative z-10 bg-transparent py-20 md:py-28 px-4 sm:px-6 md:px-8 overflow-hidden" style={{ perspective: "1200px" }}>
       {/* 3D Floating Glow Orbs */}
-      <div className="absolute top-1/3 left-[8%] -z-10 h-72 w-72 rounded-full bg-rose-500/10 blur-[120px] pointer-events-none animate-orbFloat" />
-      <div className="absolute bottom-1/4 right-[8%] -z-10 h-80 w-80 rounded-full bg-indigo-500/10 blur-[120px] pointer-events-none animate-orbFloat" style={{ animationDelay: "6s" }} />
+      <div className="absolute top-1/3 left-[8%] -z-10 h-72 w-72 rounded-full bg-purple-500/5 blur-[120px] pointer-events-none animate-orbFloat" />
+      <div className="absolute bottom-1/4 right-[8%] -z-10 h-80 w-80 rounded-full bg-cyan-500/5 blur-[120px] pointer-events-none animate-orbFloat" style={{ animationDelay: "6s" }} />
 
       <div ref={sectionRef} className="mx-auto max-w-7xl">
-        <div className="text-center max-w-2xl mx-auto mb-14 md:mb-20 scroll-reveal">
-          <p className="text-[#99F54E] text-xs sm:text-sm font-semibold uppercase tracking-wider mb-2">Our Work</p>
-          <h2 className="text-2xl sm:text-4xl md:text-5xl font-extrabold text-animated-white-neongreen leading-tight">
-            Real businesses. Real results.
-          </h2>
-          <p className="mt-4 text-white/60 text-sm sm:text-base">
-            Click any project to see the full case study.
-          </p>
+        {/* Header with Navigation Controls */}
+        <div className="flex flex-col md:flex-row md:items-end justify-between mb-14 md:mb-20 scroll-reveal gap-6">
+          <div className="max-w-2xl">
+            <p className="text-purple-400 text-xs sm:text-sm font-semibold uppercase tracking-wider mb-2 font-mono">Our Work</p>
+            <h2 className="text-2xl sm:text-4xl md:text-5xl font-extrabold text-white leading-tight">
+              Real businesses. Real results.
+            </h2>
+            <p className="mt-4 text-white/70 text-xs sm:text-sm">
+              Explore some of our recent custom platform builds. Swipe or click navigation buttons to browse studies.
+            </p>
+          </div>
+
+          {/* Controls */}
+          <div className="flex gap-3 shrink-0">
+            <button
+              onClick={handlePrev}
+              className="flex h-12 w-12 items-center justify-center rounded-full border border-white/10 bg-white/5 text-white hover:border-purple-500/50 hover:bg-purple-500/10 transition-all"
+              aria-label="Previous slide"
+            >
+              <ChevronLeft className="h-5 w-5" />
+            </button>
+            <button
+              onClick={handleNext}
+              className="flex h-12 w-12 items-center justify-center rounded-full border border-white/10 bg-white/5 text-white hover:border-purple-500/50 hover:bg-purple-500/10 transition-all"
+              aria-label="Next slide"
+            >
+              <ChevronRight className="h-5 w-5" />
+            </button>
+          </div>
         </div>
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5 sm:gap-6 lg:gap-8">
-          {caseStudies.map((proj, idx) => (
-            <div
-              key={proj.id}
-              onClick={() => setSelectedProject(proj)}
-              className="scroll-reveal-scale card-3d group cursor-pointer rounded-2xl border border-white/15 bg-gradient-to-b from-white/[0.06] to-white/[0.02] overflow-hidden backdrop-blur-xl hover:border-rose-500/40"
-              style={{ transitionDelay: `${idx * 80}ms` }}
-            >
-              <div className="relative h-48 sm:h-52 w-full overflow-hidden">
-                <img
-                  src={proj.image}
-                  alt={proj.title}
-                  className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-110"
-                />
-                <div className="absolute inset-0 bg-gradient-to-t from-black via-black/30 to-transparent" />
-                <span className="absolute top-3 left-3 text-[11px] font-mono text-white/80 bg-black/60 backdrop-blur-md px-3 py-1 rounded-full border border-white/10">
-                  {proj.category}
-                </span>
-              </div>
+        {/* Sliding Viewport Container */}
+        <div className="relative overflow-hidden w-full max-w-5xl mx-auto py-2">
+          <div
+            className="flex transition-transform duration-500 ease-out"
+            style={{ transform: `translateX(-${currentIndex * 100}%)` }}
+          >
+            {caseStudies.map((proj) => (
+              <div
+                key={proj.id}
+                onClick={() => setSelectedProject(proj)}
+                className="w-full shrink-0 px-2 sm:px-4 cursor-pointer"
+              >
+                <div className="synapse-glass rounded-2xl overflow-hidden group border border-white/10 hover:border-purple-500/40 transition-all">
+                  <div className="grid grid-cols-1 md:grid-cols-12 items-stretch">
+                    {/* Image visual */}
+                    <div className="md:col-span-6 relative min-h-[240px] overflow-hidden">
+                      <img
+                        src={proj.image}
+                        alt={proj.title}
+                        className="absolute inset-0 h-full w-full object-cover transition-transform duration-700 group-hover:scale-105"
+                      />
+                      <div className="absolute inset-0 bg-gradient-to-t md:bg-gradient-to-r from-black/80 via-black/40 to-transparent" />
+                      <span className="absolute top-4 left-4 text-[10px] font-mono text-white/80 bg-black/60 backdrop-blur-md px-3 py-1 rounded-full border border-white/10">
+                        {proj.category}
+                      </span>
+                    </div>
 
-              <div className="p-5 sm:p-6">
-                <div className="flex items-start justify-between mb-1">
-                  <h3 className="text-base sm:text-lg font-bold text-white group-hover:text-rose-300 transition-colors">{proj.title}</h3>
-                  <ArrowUpRight className="h-4 w-4 text-white/40 group-hover:text-rose-400 transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5 shrink-0 mt-0.5" />
-                </div>
-                <p className="text-xs text-white/40 mb-2 font-mono">{proj.subtitle}</p>
-                <p className="text-xs sm:text-sm text-white/60 leading-relaxed line-clamp-2">{proj.description}</p>
+                    {/* Metadata details */}
+                    <div className="md:col-span-6 p-6 sm:p-8 flex flex-col justify-between space-y-6">
+                      <div>
+                        <div className="flex items-start justify-between mb-1">
+                          <h3 className="text-xl sm:text-2xl font-bold text-white group-hover:text-purple-300 transition-colors">
+                            {proj.title}
+                          </h3>
+                          <ArrowUpRight className="h-5 w-5 text-white/40 group-hover:text-purple-400 transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5 mt-1 shrink-0" />
+                        </div>
+                        <p className="text-xs text-white/40 mb-3 font-mono">{proj.subtitle}</p>
+                        <p className="text-xs sm:text-sm text-white/70 leading-relaxed line-clamp-3">
+                          {proj.description}
+                        </p>
+                      </div>
 
-                <div className="mt-5 pt-4 border-t border-white/10 flex items-center justify-between">
-                  <span className="text-xs font-semibold text-rose-400 font-mono">{proj.impact}</span>
-                  <span className="text-xs text-white/60 group-hover:text-white transition-colors">View details →</span>
+                      <div className="pt-4 border-t border-white/10 flex items-center justify-between">
+                        <span className="text-xs font-semibold text-purple-400 font-mono">{proj.impact}</span>
+                        <span className="text-xs text-white/60 group-hover:text-white transition-colors">View details →</span>
+                      </div>
+                    </div>
+                  </div>
                 </div>
               </div>
-            </div>
+            ))}
+          </div>
+        </div>
+
+        {/* Dots Pagination */}
+        <div className="flex justify-center gap-2 mt-8">
+          {caseStudies.map((_, i) => (
+            <button
+              key={i}
+              onClick={() => setCurrentIndex(i)}
+              className={`h-2 rounded-full transition-all duration-300 ${
+                i === currentIndex ? "w-6 bg-purple-500" : "w-2 bg-white/20 hover:bg-white/40"
+              }`}
+              aria-label={`Go to slide ${i + 1}`}
+            />
           ))}
         </div>
       </div>
 
-      {/* Premium Case Study Modal Matching User Screenshot */}
+      {/* Premium Case Study Modal */}
       {selectedProject && (
         <div
           onClick={() => setSelectedProject(null)}
-          className="fixed inset-0 z-[100] flex items-center justify-center p-3 sm:p-6 bg-black/90 backdrop-blur-md overflow-y-auto"
+          className="fixed inset-0 z-[100] flex items-start justify-center p-4 sm:p-6 pt-24 pb-12 bg-black/40 backdrop-blur-sm overflow-y-auto"
         >
           <div
             onClick={(e) => e.stopPropagation()}
-            className="relative w-full max-w-4xl rounded-3xl border border-white/20 bg-neutral-950 shadow-2xl overflow-hidden max-h-[90vh] flex flex-col animate-fadeInUp"
+            className="relative w-full max-w-4xl rounded-3xl border border-white/20 bg-neutral-950 shadow-2xl overflow-hidden max-h-[82vh] flex flex-col animate-fadeInUp my-auto"
           >
             {/* Floating Close Button */}
             <button
@@ -244,62 +305,48 @@ export function PortfolioSection() {
             </button>
 
             {/* Modal Body Container */}
-            <div className="overflow-y-auto flex-1">
-              {/* Split Top Hero Banner */}
-              <div className="grid grid-cols-1 md:grid-cols-12 bg-neutral-900/60 border-b border-white/10 relative">
-                {/* Left Content Column */}
-                <div className="md:col-span-7 p-6 sm:p-8 flex flex-col justify-between space-y-5">
-                  <div className="space-y-4">
-                    {/* Green Outline Pill Tag */}
-                    <div className="inline-flex items-center gap-2 rounded-full border border-[#99F54E]/40 bg-[#99F54E]/10 px-3.5 py-1 text-xs font-semibold text-[#99F54E] font-mono">
-                      <span className="h-1.5 w-1.5 rounded-full bg-[#99F54E] animate-pulse" />
-                      <span>{selectedProject.subtitle}</span>
-                    </div>
-
-                    {/* Headline Title */}
-                    <h2 className="text-2xl sm:text-3xl md:text-4xl font-extrabold text-white tracking-tight leading-tight">
-                      {selectedProject.title}
-                    </h2>
-
-                    {/* Short Description */}
-                    <p className="text-xs sm:text-sm text-white/70 leading-relaxed font-normal">
-                      {selectedProject.description}
-                    </p>
+            <div className="overflow-y-auto flex-1 p-6 sm:p-8 space-y-6 bg-neutral-950">
+              {/* Header Title & Tag */}
+              <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-white/10 pb-5">
+                <div>
+                  <div className="inline-flex items-center gap-2 rounded-full border border-purple-500/40 bg-purple-500/10 px-3 py-1 text-xs font-semibold text-purple-400 font-mono mb-2">
+                    <span className="h-1.5 w-1.5 rounded-full bg-purple-400 animate-pulse" />
+                    <span>{selectedProject.subtitle}</span>
                   </div>
-
-                  {/* Primary CTA Button */}
-                  {selectedProject.demoUrl && (
-                    <div className="pt-2">
-                      <a
-                        href={selectedProject.demoUrl}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="inline-flex items-center gap-2 rounded-full bg-white px-6 py-3 text-xs font-bold text-black shadow-xl hover:bg-white/90 hover:scale-105 transition-all"
-                      >
-                        <span>View Live Demo</span>
-                        <ExternalLink className="h-3.5 w-3.5 text-black" />
-                      </a>
-                    </div>
-                  )}
+                  <h2 className="text-2xl sm:text-3xl font-extrabold text-white">
+                    {selectedProject.title}
+                  </h2>
+                  <p className="text-xs text-white/40 font-mono mt-1">{selectedProject.description}</p>
                 </div>
+                
+                {selectedProject.demoUrl && (
+                  <a
+                    href={selectedProject.demoUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="inline-flex items-center gap-2 rounded-full bg-white px-5 py-2.5 text-xs font-bold text-black shadow-xl hover:bg-neutral-100 transition-all shrink-0 self-start sm:self-center"
+                  >
+                    <span>View Live Demo</span>
+                    <ExternalLink className="h-3.5 w-3.5 text-black" />
+                  </a>
+                )}
+              </div>
 
-                {/* Right Image Screenshot Column */}
-                <div className="md:col-span-5 relative overflow-hidden min-h-[220px] md:min-h-[300px]">
-                  <img
-                    src={selectedProject.image}
-                    alt={selectedProject.title}
-                    className="h-full w-full object-cover"
-                  />
-                  <div className="absolute inset-0 bg-gradient-to-r from-neutral-950/90 via-transparent to-transparent hidden md:block" />
-                </div>
+              {/* Main Image Banner */}
+              <div className="relative rounded-2xl overflow-hidden max-h-[320px] h-60 w-full border border-white/10">
+                <img
+                  src={selectedProject.image}
+                  alt={selectedProject.title}
+                  className="w-full h-full object-cover"
+                />
               </div>
 
               {/* Bottom Details Section */}
-              <div className="p-6 sm:p-8 space-y-8 bg-neutral-950">
+              <div className="space-y-6">
                 {/* Overview */}
                 <div className="space-y-3">
-                  <h3 className="text-xs font-bold uppercase tracking-wider text-[#99F54E] flex items-center gap-2 font-mono">
-                    <Info className="h-4 w-4 text-[#99F54E]" />
+                  <h3 className="text-xs font-bold uppercase tracking-wider text-purple-400 flex items-center gap-2 font-mono">
+                    <Info className="h-4 w-4 text-purple-400" />
                     <span>Overview</span>
                   </h3>
                   <p className="text-xs sm:text-sm text-white/75 leading-relaxed font-light">
@@ -310,14 +357,14 @@ export function PortfolioSection() {
                 {/* Key Features */}
                 {selectedProject.keyFeatures.length > 0 && (
                   <div className="space-y-4">
-                    <h3 className="text-xs font-bold uppercase tracking-wider text-[#99F54E] flex items-center gap-2 font-mono">
-                      <CheckSquare className="h-4 w-4 text-[#99F54E]" />
+                    <h3 className="text-xs font-bold uppercase tracking-wider text-purple-400 flex items-center gap-2 font-mono">
+                      <CheckSquare className="h-4 w-4 text-purple-400" />
                       <span>Key Features</span>
                     </h3>
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-3.5">
                       {selectedProject.keyFeatures.map((feat, i) => (
                         <div key={i} className="flex items-start gap-2.5 text-xs sm:text-sm text-white/80">
-                          <span className="h-2 w-2 rounded-full bg-[#99F54E] mt-1.5 shrink-0" />
+                          <span className="h-2 w-2 rounded-full bg-purple-400 mt-1.5 shrink-0" />
                           <span>{feat}</span>
                         </div>
                       ))}
@@ -328,8 +375,8 @@ export function PortfolioSection() {
                 {/* Tech Stack */}
                 {selectedProject.techStack.length > 0 && (
                   <div className="space-y-3">
-                    <h3 className="text-xs font-bold uppercase tracking-wider text-[#99F54E] flex items-center gap-2 font-mono">
-                      <Monitor className="h-4 w-4 text-[#99F54E]" />
+                    <h3 className="text-xs font-bold uppercase tracking-wider text-purple-400 flex items-center gap-2 font-mono">
+                      <Monitor className="h-4 w-4 text-purple-400" />
                       <span>Tech Stack</span>
                     </h3>
                     <div className="text-xs sm:text-sm text-white/75 font-mono leading-relaxed">
@@ -341,14 +388,14 @@ export function PortfolioSection() {
                 {/* Results */}
                 {selectedProject.results.length > 0 && (
                   <div className="space-y-4">
-                    <h3 className="text-xs font-bold uppercase tracking-wider text-[#99F54E] flex items-center gap-2 font-mono">
-                      <TrendingUp className="h-4 w-4 text-[#99F54E]" />
+                    <h3 className="text-xs font-bold uppercase tracking-wider text-purple-400 flex items-center gap-2 font-mono">
+                      <TrendingUp className="h-4 w-4 text-purple-400" />
                       <span>Results</span>
                     </h3>
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-3.5">
                       {selectedProject.results.map((res, i) => (
-                        <div key={i} className="flex items-start gap-2.5 text-xs sm:text-sm text-[#99F54E]/90 font-medium">
-                          <span className="h-2 w-2 rounded-full bg-[#99F54E] mt-1.5 shrink-0" />
+                        <div key={i} className="flex items-start gap-2.5 text-xs sm:text-sm text-purple-300 font-medium">
+                          <span className="h-2 w-2 rounded-full bg-purple-400 mt-1.5 shrink-0" />
                           <span>{res}</span>
                         </div>
                       ))}
@@ -362,7 +409,7 @@ export function PortfolioSection() {
                     href="https://cal.com/webb-heads"
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="text-xs font-semibold text-rose-400 hover:text-rose-300 transition-colors"
+                    className="text-xs font-semibold text-purple-400 hover:text-purple-300 transition-colors"
                   >
                     Want a similar solution for your business? Book a call &rarr;
                   </a>

@@ -15,7 +15,7 @@ const geistMono = Geist_Mono({
 
 export const metadata: Metadata = {
   title: "WebbHeads | Modern Web Design, Mobile Apps, AI Automation & SEO in Vizag",
-  description: "WebbHeads — Modern web design, mobile app development, and AI-powered solutions to grow your business online.",
+  description: "WebbHeads - Modern web design, mobile app development, and AI-powered solutions to grow your business online.",
   keywords: ["WebbHeads", "web design Vizag", "AI automation", "mobile app development", "SEO services Vizag", "Next.js agency"],
   icons: {
     icon: [

@@ -14,14 +14,14 @@ const stats = [
 const testimonials = [
   {
     name: "Srikanth",
-    role: "Founder — Sri Chess Academy",
+    role: "Founder - Sri Chess Academy",
     content: "Best decision we made for our business! Their website and app designs are top-notch, and the AI automation feels like magic.",
     avatar: "https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=150&q=80"
   },
   {
     name: "Chilaka Venkata Ramesh",
-    role: "Founder — Aum Free Yoga",
-    content: "They built our website exactly how we imagined — clean, modern, and super user-friendly. The AI automation made our workflow so much easier.",
+    role: "Founder - Aum Free Yoga",
+    content: "They built our website exactly how we imagined - clean, modern, and super user-friendly. The AI automation made our workflow so much easier.",
     avatar: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=150&q=80"
   },
   {
@@ -102,7 +102,7 @@ export function TestimonialsAndStats() {
                 Meet the mind behind it all
               </h3>
               <p className="text-xs sm:text-sm text-white/85 leading-relaxed max-w-xl font-medium">
-                Driven by a passion for high-performance web engineering, mobile apps, and AI automation — building solutions that actually work for your business.
+                Driven by a passion for high-performance web engineering, mobile apps, and AI automation - building solutions that actually work for your business.
               </p>
             </div>
             <div className="md:col-span-4 flex flex-col items-center md:items-end text-center md:text-right">

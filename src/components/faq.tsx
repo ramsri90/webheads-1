@@ -37,17 +37,19 @@ export function FAQSection() {
       <div className="absolute top-1/3 right-[10%] -z-10 h-72 w-72 rounded-full bg-indigo-500/10 blur-[120px] pointer-events-none animate-orbFloat" />
 
       <div ref={sectionRef} className="mx-auto max-w-5xl">
+        {/* Header */}
         <div className="text-center max-w-2xl mx-auto mb-14 md:mb-16 scroll-reveal">
-          <p className="text-[#99F54E] text-xs sm:text-sm font-semibold uppercase tracking-wider mb-2">FAQ</p>
-          <h2 className="text-2xl sm:text-4xl md:text-5xl font-extrabold text-animated-white-neongreen leading-tight">
+          <p className="text-purple-400 text-xs sm:text-sm font-semibold uppercase tracking-wider mb-2 font-mono">FAQ</p>
+          <h2 className="text-2xl sm:text-4xl md:text-5xl font-extrabold text-white leading-tight">
             Frequently Asked Questions
           </h2>
-          <p className="mt-4 text-white/85 text-xs sm:text-sm">
+          <p className="mt-4 text-white/70 text-xs sm:text-sm">
             Everything you need to know about working with us.
           </p>
         </div>
 
-        <div className="space-y-4">
+        {/* FAQ Accordion List */}
+        <div className="space-y-4 max-w-3xl mx-auto">
           {exactFaqs.map((faq, idx) => {
             const isOpen = openIndex === idx;
             return (

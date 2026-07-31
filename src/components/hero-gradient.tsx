@@ -115,7 +115,7 @@ export function WebbheadsHeroAnimated() {
           Trusted By Vizag &amp; Global Organizations
         </p>
         <div className="flex flex-wrap items-center justify-center gap-x-6 gap-y-4 text-xs font-mono uppercase tracking-wider text-white/70">
-          {["Sri Chess Academy", "Aum Free Yoga", "Gitam Institution", "Thompson Luxury Homes", "TripSpark"].map((brand) => (
+          {["Sri Chess Academy", "Aum Free Yoga", "Thompson Luxury Homes", "TripSpark"].map((brand) => (
             <div 
               key={brand} 
               className="rounded-full border border-white/10 bg-white/5 px-4 py-2 backdrop-blur-sm hover:border-purple-500/40 hover:text-white transition-all cursor-default"
