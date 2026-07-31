@@ -2,7 +2,6 @@
 
 import React, { useState, useEffect } from "react";
 import { ArrowRight, Sparkles, CheckCircle2, ShieldCheck, Star } from "lucide-react";
-import { Hero3DLogoScene } from "@/components/3d/hero-3d-logo-scene";
 import { TwinklingStars } from "@/components/ui/twinkling-stars";
 
 export function WebbheadsHeroAnimated() {
@@ -18,9 +17,26 @@ export function WebbheadsHeroAnimated() {
       {/* Organic Twinkling Night Sky Starfield Background */}
       <TwinklingStars count={80} />
 
-      {/* 3D WebGL Interactive Floating WebbHeads Logo & Orbiting Particles */}
-      <div className="absolute inset-0 z-0 flex items-center justify-center pointer-events-none opacity-85">
-        <Hero3DLogoScene />
+      {/* Background Videos */}
+      <div className="absolute inset-0 z-0 pointer-events-none opacity-60">
+        {/* Desktop / Tablet Video */}
+        <video 
+          className="absolute inset-0 w-full h-full object-cover hidden sm:block" 
+          src="/video/landscape.mp4" 
+          autoPlay 
+          loop 
+          muted 
+          playsInline 
+        />
+        {/* Mobile Video */}
+        <video 
+          className="absolute inset-0 w-full h-full object-cover sm:hidden" 
+          src="/video/reel%20ratio.mp4" 
+          autoPlay 
+          loop 
+          muted 
+          playsInline 
+        />
       </div>
       {/* ================== BACKGROUND GRADIENT ================== */}
       <div
