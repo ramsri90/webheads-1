@@ -2,14 +2,25 @@
 
 import { useState, useEffect, useRef } from "react";
 import { motion, AnimatePresence } from "framer-motion";
+import { Play } from "lucide-react";
 
 export function IntroVideo() {
-  const [isPlaying, setIsPlaying] = useState(true);
+  const [isPlaying, setIsPlaying] = useState(false);
   const [videoSrc, setVideoSrc] = useState<string | null>(null);
+  const [progress, setProgress] = useState(0);
+  const [isBlocked, setIsBlocked] = useState(false);
   const videoRef = useRef<HTMLVideoElement>(null);
 
   useEffect(() => {
-    // Determine the video source based on screen width
+    // Check if user already completed or skipped the intro in this session
+    const hasSeen = sessionStorage.getItem("webbheads_intro_seen");
+    if (hasSeen === "true") {
+      setIsPlaying(false);
+      return;
+    }
+
+    setIsPlaying(true);
+
     const handleResize = () => {
       if (window.innerWidth < 768) {
         setVideoSrc("/video/reel ratio.mp4");
@@ -18,10 +29,10 @@ export function IntroVideo() {
       }
     };
 
-    // Initial check
     handleResize();
+  }, []);
 
-    // Prevent scrolling while video is playing
+  useEffect(() => {
     if (isPlaying) {
       document.body.style.overflow = "hidden";
     } else {
@@ -33,22 +44,44 @@ export function IntroVideo() {
     };
   }, [isPlaying]);
 
-  // Attempt to manually trigger play when the source changes,
-  // which helps bypass some mobile browser autoplay restrictions
   useEffect(() => {
-    if (videoSrc && videoRef.current) {
+    if (videoSrc && videoRef.current && isPlaying) {
       videoRef.current.load();
-      videoRef.current.play().catch(error => {
-        console.warn("Autoplay blocked by browser:", error);
-      });
+      const playPromise = videoRef.current.play();
+      if (playPromise !== undefined) {
+        playPromise
+          .then(() => {
+            setIsBlocked(false);
+          })
+          .catch((error) => {
+            console.warn("Autoplay blocked by browser:", error);
+            setIsBlocked(true);
+          });
+      }
     }
-  }, [videoSrc]);
+  }, [videoSrc, isPlaying]);
+
+  const handleTimeUpdate = () => {
+    if (videoRef.current && videoRef.current.duration) {
+      const currentProgress = (videoRef.current.currentTime / videoRef.current.duration) * 100;
+      setProgress(currentProgress);
+    }
+  };
 
   const handleVideoEnd = () => {
+    sessionStorage.setItem("webbheads_intro_seen", "true");
     setIsPlaying(false);
   };
 
+  const handleManualPlay = () => {
+    if (videoRef.current) {
+      videoRef.current.play().then(() => setIsBlocked(false));
+    }
+  };
+
   if (!isPlaying || !videoSrc) return null;
+
+  const strokeDashoffset = 100 - progress;
 
   return (
     <AnimatePresence>
@@ -56,7 +89,7 @@ export function IntroVideo() {
         <motion.div
           initial={{ opacity: 1 }}
           exit={{ opacity: 0 }}
-          transition={{ duration: 0.5, ease: "easeInOut" }}
+          transition={{ duration: 0.6, ease: "easeInOut" }}
           className="fixed inset-0 z-[100] flex items-center justify-center bg-black"
         >
           <video
@@ -65,17 +98,55 @@ export function IntroVideo() {
             autoPlay={true}
             muted={true}
             playsInline={true}
+            onTimeUpdate={handleTimeUpdate}
             onEnded={handleVideoEnd}
             className="w-full h-full object-cover"
           />
-          <button
-            onClick={handleVideoEnd}
-            className="absolute bottom-8 right-8 z-[101] px-6 py-2 bg-white/10 hover:bg-white/20 backdrop-blur-md border border-white/20 text-white rounded-full text-sm font-medium transition-all"
-          >
-            Skip Intro
-          </button>
+
+          {/* Autoplay Fallback Overlay */}
+          {isBlocked && (
+            <div className="absolute inset-0 z-[102] flex flex-col items-center justify-center bg-black/70 backdrop-blur-md">
+              <button
+                onClick={handleManualPlay}
+                className="flex items-center gap-3 px-8 py-4 bg-rose-600 hover:bg-rose-500 text-white rounded-full text-base font-bold shadow-lg shadow-rose-500/30 transition-all hover:scale-105"
+              >
+                <Play className="w-5 h-5 fill-current" />
+                <span>Play Intro</span>
+              </button>
+            </div>
+          )}
+
+          {/* Skip Intro Button with Circular Progress */}
+          <div className="absolute bottom-8 right-8 z-[101] flex items-center gap-3">
+            <button
+              onClick={handleVideoEnd}
+              className="relative group flex items-center gap-3 px-5 py-2.5 bg-black/40 hover:bg-black/60 backdrop-blur-md border border-white/20 hover:border-rose-500/50 text-white rounded-full text-xs font-semibold tracking-wider uppercase transition-all shadow-lg"
+            >
+              <span>Skip Intro</span>
+              <svg className="w-5 h-5 -rotate-90" viewBox="0 0 36 36">
+                <path
+                  className="text-white/20"
+                  strokeWidth="3"
+                  stroke="currentColor"
+                  fill="none"
+                  d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831"
+                />
+                <path
+                  className="text-rose-500 transition-all duration-150"
+                  strokeDasharray="100, 100"
+                  strokeDashoffset={strokeDashoffset}
+                  strokeWidth="3"
+                  strokeLinecap="round"
+                  stroke="currentColor"
+                  fill="none"
+                  d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831"
+                />
+              </svg>
+            </button>
+          </div>
         </motion.div>
       )}
     </AnimatePresence>
   );
 }
+

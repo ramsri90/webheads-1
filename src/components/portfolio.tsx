@@ -168,14 +168,21 @@ const caseStudies: Project[] = [
 export function PortfolioSection() {
   const [selectedProject, setSelectedProject] = useState<Project | null>(null);
   const [currentIndex, setCurrentIndex] = useState(0);
+  const [activeCategory, setActiveCategory] = useState("All");
   const sectionRef = useMultiScrollReveal();
 
+  const categories = ["All", "Travel", "Real Estate", "AI Automation", "Analytics"];
+
+  const filteredCaseStudies = activeCategory === "All"
+    ? caseStudies
+    : caseStudies.filter((p) => p.category.toLowerCase().includes(activeCategory.toLowerCase()) || p.title.toLowerCase().includes(activeCategory.toLowerCase()));
+
   const handlePrev = () => {
-    setCurrentIndex((prev) => (prev === 0 ? caseStudies.length - 1 : prev - 1));
+    setCurrentIndex((prev) => (prev === 0 ? filteredCaseStudies.length - 1 : prev - 1));
   };
 
   const handleNext = () => {
-    setCurrentIndex((prev) => (prev === caseStudies.length - 1 ? 0 : prev + 1));
+    setCurrentIndex((prev) => (prev === filteredCaseStudies.length - 1 ? 0 : prev + 1));
   };
 
   return (
@@ -186,7 +193,7 @@ export function PortfolioSection() {
 
       <div ref={sectionRef} className="mx-auto max-w-7xl">
         {/* Header with Navigation Controls */}
-        <div className="flex flex-col md:flex-row md:items-end justify-between mb-14 md:mb-20 scroll-reveal gap-6">
+        <div className="flex flex-col md:flex-row md:items-end justify-between mb-8 scroll-reveal gap-6">
           <div className="max-w-2xl">
             <p className="text-purple-400 text-xs sm:text-sm font-semibold uppercase tracking-wider mb-2 font-mono">Our Work</p>
             <h2 className="text-2xl sm:text-4xl md:text-5xl font-extrabold text-white leading-tight">
@@ -216,19 +223,42 @@ export function PortfolioSection() {
           </div>
         </div>
 
+        {/* Category Filter Tabs */}
+        <div className="flex flex-wrap items-center gap-2.5 mb-10">
+          {categories.map((cat) => {
+            const isActive = activeCategory === cat;
+            return (
+              <button
+                key={cat}
+                onClick={() => {
+                  setActiveCategory(cat);
+                  setCurrentIndex(0);
+                }}
+                className={`px-4 py-2 rounded-full text-xs font-semibold font-mono transition-all border ${
+                  isActive
+                    ? "bg-purple-600 text-white border-purple-400 shadow-lg shadow-purple-500/25"
+                    : "bg-white/5 text-white/70 border-white/10 hover:border-white/20 hover:text-white"
+                }`}
+              >
+                {cat}
+              </button>
+            );
+          })}
+        </div>
+
         {/* Sliding Viewport Container */}
         <div className="relative overflow-hidden w-full max-w-5xl mx-auto py-2">
           <div
             className="flex transition-transform duration-500 ease-out"
-            style={{ transform: `translateX(-${currentIndex * 100}%)` }}
+            style={{ transform: `translateX(-${Math.min(currentIndex, Math.max(0, filteredCaseStudies.length - 1)) * 100}%)` }}
           >
-            {caseStudies.map((proj) => (
+            {filteredCaseStudies.map((proj) => (
               <div
                 key={proj.id}
                 onClick={() => setSelectedProject(proj)}
                 className="w-full shrink-0 px-2 sm:px-4 cursor-pointer"
               >
-                <div className="synapse-glass rounded-2xl overflow-hidden group border border-white/10 hover:border-purple-500/40 transition-all">
+                <div className="synapse-glass rounded-2xl overflow-hidden group border border-white/10 hover:border-purple-500/40 transition-all shadow-xl hover:shadow-purple-500/10">
                   <div className="grid grid-cols-1 md:grid-cols-12 items-stretch">
                     {/* Image visual */}
                     <div className="md:col-span-6 relative min-h-[240px] overflow-hidden">
@@ -272,7 +302,7 @@ export function PortfolioSection() {
 
         {/* Dots Pagination */}
         <div className="flex justify-center gap-2 mt-8">
-          {caseStudies.map((_, i) => (
+          {filteredCaseStudies.map((_, i) => (
             <button
               key={i}
               onClick={() => setCurrentIndex(i)}

@@ -3,7 +3,6 @@
 import React from "react";
 import { Compass, Cpu, Rocket } from "lucide-react";
 import { useMultiScrollReveal } from "@/hooks/use-scroll-reveal";
-import { Card3DTilt } from "@/components/ui/card-3d-tilt";
 
 const steps = [
   {
@@ -55,17 +54,41 @@ export function ProcessSection() {
             const revealClass = idx % 2 === 0 ? "scroll-reveal-left" : "scroll-reveal-right";
 
             return (
-              <Card3DTilt
+              <div
                 key={idx}
-                className={`${revealClass} group relative flex flex-col md:flex-row md:items-center gap-6 rounded-2xl border border-white/15 bg-gradient-to-b from-white/[0.06] to-white/[0.02] p-6 sm:p-8 backdrop-blur-xl hover:border-purple-500/40 hover:bg-white/[0.06]`}
+                className={`${revealClass} group relative flex flex-col md:flex-row md:items-center gap-6 rounded-2xl border border-white/15 bg-gradient-to-b from-white/[0.06] to-white/[0.02] p-6 sm:p-8 backdrop-blur-xl hover:border-purple-500/40 hover:bg-white/[0.06] transition-colors duration-300`}
                 style={{ transitionDelay: `${idx * 120}ms` }}
               >
                 <div className="flex items-center gap-4 md:w-56 shrink-0">
                   <span className="text-4xl font-extrabold text-white/20 font-mono group-hover:text-purple-400/40 transition-colors">
                     {step.number}
                   </span>
-                  <div className="flex h-12 w-12 items-center justify-center rounded-2xl border border-white/15 bg-purple-500/10 shrink-0 group-hover:bg-purple-500/20 group-hover:scale-105 transition-all duration-300 shadow-md">
-                    <Icon className="h-6 w-6 text-purple-400" strokeWidth={1.8} />
+                  <div className="relative flex h-14 w-14 items-center justify-center rounded-2xl border border-white/20 bg-purple-500/10 shrink-0 group-hover:bg-purple-500/25 group-hover:border-purple-400/50 group-hover:scale-110 transition-all duration-300 shadow-lg shadow-purple-500/10 overflow-hidden">
+                    {/* Glowing background aura */}
+                    <div className="absolute inset-0 bg-gradient-to-tr from-purple-500/20 to-rose-500/20 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+                    
+                    {idx === 0 && (
+                      <Compass 
+                        className="h-6 w-6 text-purple-400 group-hover:text-purple-300 transition-colors animate-spin" 
+                        style={{ animationDuration: "12s" }}
+                        strokeWidth={1.8} 
+                      />
+                    )}
+
+                    {idx === 1 && (
+                      <Cpu 
+                        className="h-6 w-6 text-purple-400 group-hover:text-cyan-300 transition-colors animate-pulse" 
+                        style={{ animationDuration: "2s" }}
+                        strokeWidth={1.8} 
+                      />
+                    )}
+
+                    {idx === 2 && (
+                      <Rocket 
+                        className="h-6 w-6 text-purple-400 group-hover:text-rose-300 transition-colors group-hover:-translate-y-1 group-hover:translate-x-1 transition-transform duration-300" 
+                        strokeWidth={1.8} 
+                      />
+                    )}
                   </div>
                 </div>
 
@@ -84,7 +107,7 @@ export function ProcessSection() {
                     ))}
                   </div>
                 </div>
-              </Card3DTilt>
+              </div>
             );
           })}
         </div>
