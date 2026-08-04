@@ -1,7 +1,7 @@
 "use client";
 
-import React, { useState, useRef, useEffect } from "react";
-import { Play, Pause, Volume2, VolumeX, Sparkles, Film } from "lucide-react";
+import React, { useEffect, useRef } from "react";
+import { Film } from "lucide-react";
 import { useMultiScrollReveal } from "@/hooks/use-scroll-reveal";
 
 const videoClips = [
@@ -23,142 +23,83 @@ const videoClips = [
     id: "prahari-realty",
     title: "Prahari Realty",
     desc: "Immersive real estate platform and property exploration experience.",
-    src: "/video/3945489529037579392.mp4",
-    tag: "Concept File"
+    src: "/video/3930971935131133465.mp4",
+    tag: "Prahari Realty Reel"
   }
 ];
 
+const reels = [...videoClips, ...videoClips];
+
+function ReelFrame({ clip }: { clip: (typeof videoClips)[number] }) {
+  return (
+    <div className="flex flex-col items-center gap-3 shrink-0">
+      {/* Phone Mock Reel */}
+      <div className="relative w-[230px] sm:w-[260px] aspect-[9/16] rounded-[36px] border-[6px] border-neutral-800 bg-black shadow-2xl overflow-hidden ring-1 ring-white/15">
+        {/* Speaker / Camera Pill */}
+        <div className="absolute top-3 left-1/2 -translate-x-1/2 w-24 h-3.5 rounded-full bg-neutral-900 z-30 flex items-center justify-center">
+          <span className="h-1 w-1 rounded-full bg-neutral-800 mr-1.5" />
+          <span className="h-0.5 w-10 rounded-full bg-neutral-800" />
+        </div>
+
+        {/* Autoplaying Reel Video */}
+        <video
+          src={clip.src}
+          autoPlay
+          muted
+          loop
+          playsInline
+          preload="metadata"
+          className="absolute inset-0 h-full w-full object-cover"
+        />
+
+        {/* Bottom Tag Overlay */}
+        <div className="absolute bottom-0 inset-x-0 z-20 bg-gradient-to-t from-black/70 to-transparent px-3 pb-2.5 pt-8">
+          <p className="text-[12px] font-mono font-semibold text-white/85 tracking-wide">{clip.tag}</p>
+        </div>
+      </div>
+
+      {/* Caption */}
+      <div className="text-center px-1 max-w-[260px]">
+        <p className="font-bold text-sm sm:text-base text-teal-950">{clip.title}</p>
+        <p className="text-[12px] text-teal-950/60 leading-snug mt-0.5">{clip.desc}</p>
+      </div>
+    </div>
+  );
+}
 
 export function VideoShowcase() {
-  const [activeClip, setActiveClip] = useState(videoClips[0]);
-  const [isPlaying, setIsPlaying] = useState(false);
-  const [isMuted, setIsMuted] = useState(true);
-  const videoRef = useRef<HTMLVideoElement>(null);
   const sectionRef = useMultiScrollReveal();
+  const trackRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    if (videoRef.current) {
-      videoRef.current.load();
-      if (isPlaying) {
-        videoRef.current.play().catch(() => setIsPlaying(false));
-      }
-    }
-  }, [activeClip]);
-
-  const togglePlay = () => {
-    if (!videoRef.current) return;
-    if (isPlaying) {
-      videoRef.current.pause();
-    } else {
-      videoRef.current.play().catch(() => {});
-    }
-    setIsPlaying(!isPlaying);
-  };
-
-  const toggleMute = () => {
-    if (!videoRef.current) return;
-    videoRef.current.muted = !isMuted;
-    setIsMuted(!isMuted);
-  };
+    const videos = trackRef.current?.querySelectorAll("video") ?? [];
+    videos.forEach((video) => video.play().catch(() => {}));
+  }, []);
 
   return (
     <section ref={sectionRef} id="showcase" className="relative z-10 bg-transparent py-20 md:py-28 px-4 sm:px-6 md:px-8 overflow-hidden" style={{ perspective: "1200px" }}>
       {/* Glow Orbs */}
-      <div className="absolute top-1/4 left-[8%] -z-10 h-72 w-72 rounded-full bg-purple-500/10 blur-[120px] pointer-events-none animate-orbFloat" />
+      <div className="absolute top-1/4 left-[8%] -z-10 h-72 w-72 rounded-full bg-teal-500/10 blur-[120px] pointer-events-none animate-orbFloat" />
       <div className="absolute bottom-1/4 right-[8%] -z-10 h-80 w-80 rounded-full bg-cyan-500/10 blur-[120px] pointer-events-none animate-orbFloat" style={{ animationDelay: "4s" }} />
 
       <div className="mx-auto max-w-7xl">
         {/* Header */}
         <div className="text-center max-w-2xl mx-auto mb-14 md:mb-20 scroll-reveal">
-          <p className="text-purple-400 text-xs sm:text-sm font-semibold uppercase tracking-wider mb-2 flex items-center justify-center gap-1.5 font-mono">
+          <p className="text-teal-600 text-xs sm:text-sm font-semibold uppercase tracking-wider mb-2 flex items-center justify-center gap-1.5 font-mono">
             <Film className="h-4 w-4" /> Live Demo Showcase
           </p>
-          <h2 className="text-2xl sm:text-4xl md:text-5xl font-extrabold text-white leading-tight">
+          <h2 className="text-2xl sm:text-4xl md:text-5xl font-extrabold text-teal-950 leading-tight">
             See the content in action
           </h2>
+          <p className="mt-3 text-sm text-teal-950/60">Reels auto-play and glide by — hover to pause.</p>
         </div>
 
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center max-w-5xl mx-auto">
-          {/* Left: Interactive Selector List */}
-          <div className="lg:col-span-6 space-y-4 order-2 lg:order-1">
-            {videoClips.map((clip) => {
-              const isActive = clip.id === activeClip.id;
-              return (
-                <button
-                  key={clip.id}
-                  onClick={() => {
-                    setActiveClip(clip);
-                    setIsPlaying(true);
-                  }}
-                  className={`w-full flex flex-col justify-between p-5 rounded-2xl border text-left transition-all ${
-                    isActive
-                      ? "bg-gradient-to-br from-purple-500/15 to-transparent border-purple-500/50 shadow-lg"
-                      : "synapse-glass hover:border-white/20"
-                  }`}
-                >
-                  <div className="flex items-center justify-between w-full mb-1">
-                    <span className="font-bold text-sm sm:text-base text-white">{clip.title}</span>
-                    <span className={`text-[10px] font-mono font-semibold px-2 py-0.5 rounded-full border ${isActive ? "border-purple-400/40 bg-purple-500/10 text-purple-400" : "border-white/10 text-white/50"}`}>
-                      {clip.tag}
-                    </span>
-                  </div>
-                  <p className="text-xs text-white/60 leading-relaxed">{clip.desc}</p>
-                </button>
-              );
-            })}
-          </div>
-
-          {/* Right: Phone Mock Player */}
-          <div className="lg:col-span-6 flex justify-center order-1 lg:order-2">
-            <div className="relative mx-auto max-w-[280px] w-full aspect-[9/16] rounded-[36px] border-[6px] border-neutral-800 bg-black shadow-2xl overflow-hidden synapse-glass ring-1 ring-white/15">
-              {/* Speaker / Camera Pill */}
-              <div className="absolute top-3 left-1/2 -translate-x-1/2 w-28 h-4 rounded-full bg-neutral-900 z-30 flex items-center justify-center">
-                <span className="h-1.5 w-1.5 rounded-full bg-neutral-800 mr-2" />
-                <span className="h-1 w-12 rounded-full bg-neutral-800" />
-              </div>
-
-              {/* Video Element */}
-              <video
-                ref={videoRef}
-                src={activeClip.src}
-                loop
-                muted={isMuted}
-                playsInline
-                className="absolute inset-0 h-full w-full object-cover"
-                onClick={togglePlay}
-              />
-
-              {/* Play Overlay Button */}
-              {!isPlaying && (
-                <div 
-                  onClick={togglePlay}
-                  className="absolute inset-0 z-20 flex items-center justify-center bg-black/40 cursor-pointer transition-colors"
-                >
-                  <div className="flex h-14 w-14 items-center justify-center rounded-full bg-white/20 text-white backdrop-blur-md border border-white/30 scale-100 hover:scale-105 transition-all">
-                    <Play className="h-6 w-6 text-white fill-white ml-0.5" />
-                  </div>
-                </div>
-              )}
-
-              {/* Quick UI Controls */}
-              <div className="absolute bottom-4 left-4 right-4 z-20 flex justify-between items-center gap-3">
-                <button
-                  onClick={togglePlay}
-                  className="flex h-9 w-9 items-center justify-center rounded-full bg-black/60 text-white border border-white/10 backdrop-blur-md hover:bg-black/80 transition-all"
-                  aria-label={isPlaying ? "Pause video" : "Play video"}
-                >
-                  {isPlaying ? <Pause className="h-4 w-4" /> : <Play className="h-4 w-4 ml-0.5" />}
-                </button>
-
-                <button
-                  onClick={toggleMute}
-                  className="flex h-9 w-9 items-center justify-center rounded-full bg-black/60 text-white border border-white/10 backdrop-blur-md hover:bg-black/80 transition-all"
-                  aria-label={isMuted ? "Unmute video" : "Mute video"}
-                >
-                  {isMuted ? <VolumeX className="h-4 w-4" /> : <Volume2 className="h-4 w-4" />}
-                </button>
-              </div>
-            </div>
+        {/* Auto-sliding Reel Marquee */}
+        <div className="relative overflow-hidden [mask-image:linear-gradient(to_right,transparent,black_6%,black_94%,transparent)]">
+          <div ref={trackRef} className="reel-marquee flex w-max gap-6">
+            {reels.map((clip, i) => (
+              <ReelFrame key={`${clip.id}-${i}`} clip={clip} />
+            ))}
           </div>
         </div>
       </div>

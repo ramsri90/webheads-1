@@ -44,17 +44,17 @@ export function ServicesSection() {
   return (
     <section id="services" className="relative z-10 bg-transparent py-20 md:py-28 px-4 sm:px-6 md:px-8 overflow-hidden" style={{ perspective: "1200px" }}>
       {/* 3D Ambient Glowing Orbs */}
-      <div className="absolute top-1/4 left-[5%] -z-10 h-72 w-72 rounded-full bg-rose-500/10 blur-[120px] pointer-events-none animate-orbFloat" />
-      <div className="absolute bottom-1/4 right-[5%] -z-10 h-80 w-80 rounded-full bg-indigo-500/10 blur-[120px] pointer-events-none animate-orbFloat" style={{ animationDelay: "6s" }} />
+      <div className="absolute top-1/4 left-[5%] -z-10 h-72 w-72 rounded-full bg-teal-500/10 blur-[120px] pointer-events-none animate-orbFloat" />
+      <div className="absolute bottom-1/4 right-[5%] -z-10 h-80 w-80 rounded-full bg-cyan-500/10 blur-[120px] pointer-events-none animate-orbFloat" style={{ animationDelay: "6s" }} />
 
       <div ref={sectionRef} className="mx-auto max-w-7xl">
         {/* Header */}
         <div className="max-w-2xl mb-14 md:mb-20 scroll-reveal">
-          <p className="text-[#99F54E] text-xs sm:text-sm font-semibold uppercase tracking-wider mb-2">What We Do</p>
+          <p className="text-teal-600 text-xs sm:text-sm font-semibold uppercase tracking-wider mb-2">What We Do</p>
           <h2 className="text-2xl sm:text-4xl md:text-5xl font-extrabold text-animated-white-neongreen leading-tight">
             Everything your business needs to grow online
           </h2>
-          <p className="mt-4 text-white/85 text-sm sm:text-base leading-relaxed">
+          <p className="mt-4 text-teal-950/75 text-sm sm:text-base leading-relaxed">
             We don&apos;t just build websites. We build the system around it - apps, automation, content, ads - so it all works together.
           </p>
         </div>
@@ -72,15 +72,15 @@ export function ServicesSection() {
                 <div>
                   <div className="flex items-center gap-4 mb-4">
                     {/* Squircle Rounded Icon Container */}
-                    <div className="flex h-12 w-12 items-center justify-center rounded-2xl border border-white/10 bg-white/5 shrink-0 group-hover:border-cyan-400/50 group-hover:bg-cyan-500/10 group-hover:scale-105 transition-all duration-300 shadow-md">
-                      <Icon className="h-6 w-6 text-white group-hover:text-cyan-400 transition-colors duration-300" strokeWidth={1.8} />
+                    <div className="flex h-12 w-12 items-center justify-center rounded-2xl border border-teal-500/20 bg-teal-500/5 shrink-0 group-hover:border-teal-500/50 group-hover:bg-teal-500/10 group-hover:scale-105 transition-all duration-300 shadow-md">
+                      <Icon className="h-6 w-6 text-teal-600 group-hover:text-teal-500 transition-colors duration-300" strokeWidth={1.8} />
                     </div>
-                    <h3 className="text-base sm:text-lg font-bold text-white group-hover:text-cyan-400 transition-colors duration-300 leading-snug">
+                    <h3 className="text-base sm:text-lg font-bold text-teal-950 group-hover:text-teal-600 transition-colors duration-300 leading-snug">
                       {s.title}
                     </h3>
                   </div>
 
-                  <p className="text-xs sm:text-sm text-white/85 leading-relaxed font-medium">
+                  <p className="text-xs sm:text-sm text-teal-950/70 leading-relaxed font-medium">
                     {s.description}
                   </p>
                 </div>
@@ -95,7 +95,7 @@ export function ServicesSection() {
             href="https://cal.com/webb-heads"
             target="_blank"
             rel="noopener noreferrer"
-            className="inline-flex items-center gap-2 text-xs sm:text-sm font-semibold text-rose-400 hover:text-rose-300 transition-colors"
+            className="inline-flex items-center gap-2 text-xs sm:text-sm font-semibold text-teal-600 hover:text-teal-500 transition-colors"
           >
             <span>Talk to us about your project</span> &rarr;
           </a>

@@ -32,18 +32,18 @@ export function FAQSection() {
   const sectionRef = useMultiScrollReveal();
 
   return (
-    <section id="faq" className="relative z-10 bg-transparent py-20 md:py-28 px-4 sm:px-6 md:px-8 border-t border-white/10 overflow-hidden" style={{ perspective: "1200px" }}>
+    <section id="faq" className="relative z-10 bg-transparent py-20 md:py-28 px-4 sm:px-6 md:px-8 border-t border-teal-500/15 overflow-hidden" style={{ perspective: "1200px" }}>
       {/* 3D Floating Glow Orb */}
-      <div className="absolute top-1/3 right-[10%] -z-10 h-72 w-72 rounded-full bg-indigo-500/10 blur-[120px] pointer-events-none animate-orbFloat" />
+      <div className="absolute top-1/3 right-[10%] -z-10 h-72 w-72 rounded-full bg-cyan-500/10 blur-[120px] pointer-events-none animate-orbFloat" />
 
       <div ref={sectionRef} className="mx-auto max-w-5xl">
         {/* Header */}
         <div className="text-center max-w-2xl mx-auto mb-14 md:mb-16 scroll-reveal">
-          <p className="text-purple-400 text-xs sm:text-sm font-semibold uppercase tracking-wider mb-2 font-mono">FAQ</p>
-          <h2 className="text-2xl sm:text-4xl md:text-5xl font-extrabold text-white leading-tight">
+          <p className="text-teal-600 text-xs sm:text-sm font-semibold uppercase tracking-wider mb-2 font-mono">FAQ</p>
+          <h2 className="text-2xl sm:text-4xl md:text-5xl font-extrabold text-teal-950 leading-tight">
             Frequently Asked Questions
           </h2>
-          <p className="mt-4 text-white/70 text-xs sm:text-sm">
+          <p className="mt-4 text-teal-950/70 text-xs sm:text-sm">
             Everything you need to know about working with us.
           </p>
         </div>
@@ -55,21 +55,21 @@ export function FAQSection() {
             return (
               <div
                 key={idx}
-                className="scroll-reveal-scale card-3d rounded-2xl border border-white/15 bg-gradient-to-b from-white/[0.06] to-white/[0.02] overflow-hidden backdrop-blur-xl hover:border-white/25 transition-all"
+                className="scroll-reveal-scale card-3d rounded-2xl border border-teal-500/20 bg-gradient-to-b from-teal-500/10 to-teal-500/[0.02] overflow-hidden backdrop-blur-xl hover:border-teal-500/40 transition-all"
                 style={{ transitionDelay: `${idx * 70}ms` }}
               >
                 <button
                   onClick={() => setOpenIndex(isOpen ? null : idx)}
-                  className="w-full flex items-center justify-between p-5 sm:p-6 text-left transition-colors hover:bg-white/5 group"
+                  className="w-full flex items-center justify-between p-5 sm:p-6 text-left transition-colors hover:bg-teal-500/5 group"
                 >
-                  <span className="text-sm sm:text-base font-bold text-white pr-4 group-hover:text-purple-300 transition-colors">{faq.q}</span>
-                  <div className={`flex h-8 w-8 items-center justify-center rounded-full ${isOpen ? "bg-purple-500/20" : "bg-white/10"} transition-colors shrink-0`}>
-                    <ChevronDown className={`h-4 w-4 text-purple-400 shrink-0 transition-transform duration-300 ${isOpen ? "rotate-180" : ""}`} />
+                  <span className="text-sm sm:text-base font-bold text-teal-950 pr-4 group-hover:text-teal-600 transition-colors">{faq.q}</span>
+                  <div className={`flex h-8 w-8 items-center justify-center rounded-full ${isOpen ? "bg-teal-500/20" : "bg-teal-500/10"} transition-colors shrink-0`}>
+                    <ChevronDown className={`h-4 w-4 text-teal-600 shrink-0 transition-transform duration-300 ${isOpen ? "rotate-180" : ""}`} />
                   </div>
                 </button>
 
                 {isOpen && (
-                  <div className="px-5 sm:px-6 pb-6 text-xs sm:text-sm text-white/90 leading-relaxed border-t border-white/10 pt-4 font-medium">
+                  <div className="px-5 sm:px-6 pb-6 text-xs sm:text-sm text-teal-950/80 leading-relaxed border-t border-teal-500/15 pt-4 font-medium">
                     {faq.a}
                   </div>
                 )}

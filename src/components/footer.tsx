@@ -44,26 +44,26 @@ export function Footer() {
   };
 
   return (
-    <footer id="contact" className="relative z-10 bg-black/40 backdrop-blur-lg text-white border-t border-white/10">
+    <footer id="contact" className="relative z-10 bg-teal-500/5 backdrop-blur-lg text-teal-950 border-t border-teal-500/15">
       {/* Floating WhatsApp Button */}
       <a
-        href="https://wa.me/919494259453"
+        href="https://wa.me/919494259453?text=Hi%20WebbHeads%2C%20I%20need%20an%20enquiry.%20I%20need%20your%20help"
         target="_blank"
         rel="noopener noreferrer"
         aria-label="Chat on WhatsApp"
-        className="fixed bottom-6 right-6 z-50 flex items-center gap-2.5 rounded-full bg-white/10 hover:bg-white/20 text-white border border-white/20 backdrop-blur-md px-4 py-3 shadow-2xl transition-all duration-300 hover:scale-105 active:scale-95 group font-medium text-xs"
+        className="fixed bottom-6 right-6 z-50 flex items-center gap-2.5 rounded-full bg-white/85 hover:bg-teal-500/10 text-teal-950 border border-teal-500/25 backdrop-blur-md px-4 py-3 shadow-2xl transition-all duration-300 hover:scale-105 active:scale-95 group font-medium text-xs"
       >
-        <WhatsAppLogoIcon className="h-5 w-5 fill-white group-hover:rotate-12 transition-transform duration-300" />
+        <WhatsAppLogoIcon className="h-5 w-5 fill-teal-600 group-hover:rotate-12 transition-transform duration-300" />
         <span className="hidden sm:inline font-semibold">Chat on WhatsApp</span>
       </a>
 
       {/* Ready CTA Banner */}
       <div ref={sectionRef} className="mx-auto max-w-6xl px-6 md:px-8 pt-20">
         <div className="scroll-reveal p-8 md:p-12 text-center">
-          <h3 className="text-2xl sm:text-4xl font-bold text-white">
+          <h3 className="text-2xl sm:text-4xl font-bold text-teal-950">
             Ready to scale your business?
           </h3>
-          <p className="mt-3 text-sm sm:text-base text-white/60 max-w-lg mx-auto">
+          <p className="mt-3 text-sm sm:text-base text-teal-950/60 max-w-lg mx-auto">
             Let us handle the technical build and digital marketing while you focus on growth.
           </p>
           <div className="mt-8 flex flex-col sm:flex-row items-center justify-center gap-4">
@@ -71,18 +71,18 @@ export function Footer() {
               href="https://cal.com/webb-heads"
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex items-center gap-2 rounded-lg bg-white px-6 py-3 text-xs font-semibold text-black hover:bg-white/90 transition-colors"
+              className="inline-flex items-center gap-2 rounded-lg bg-teal-600 px-6 py-3 text-xs font-semibold text-white hover:bg-teal-500 transition-colors"
             >
               <span>Book a Call</span>
-              <ArrowRight className="h-4 w-4 text-black" />
+              <ArrowRight className="h-4 w-4 text-white" />
             </a>
             <a
-              href="https://wa.me/919494259453"
+              href="https://wa.me/919494259453?text=Hi%20WebbHeads%2C%20I%20need%20an%20enquiry.%20I%20need%20your%20help"
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex items-center gap-2 rounded-lg border border-white/20 bg-white/5 px-6 py-3 text-xs font-medium text-white hover:bg-white/10 transition-colors font-mono"
+              className="inline-flex items-center gap-2 rounded-lg border border-teal-500/25 bg-teal-500/5 px-6 py-3 text-xs font-medium text-teal-950 hover:bg-teal-500/10 transition-colors font-mono"
             >
-              <WhatsAppLogoIcon className="h-4 w-4 fill-white" />
+              <WhatsAppLogoIcon className="h-4 w-4 fill-teal-600" />
               <span>WhatsApp Us</span>
             </a>
           </div>
@@ -91,31 +91,31 @@ export function Footer() {
 
       {/* Main Footer Links */}
       <div className="mx-auto max-w-6xl px-6 md:px-8 pt-16 pb-12">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-10 pb-12 border-b border-white/10">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-10 pb-12 border-b border-teal-500/15">
           {/* Brand Col */}
           <div className="lg:col-span-2 space-y-4">
             <div className="flex items-center gap-3">
               <img 
-                src="/images/webbheads-logo.png" 
+                src="/images/webbheads-logo-black.png" 
                 alt="WebbHeads Logo" 
                 className="h-9 w-auto object-contain"
               />
-              <span className="text-2xl font-bold tracking-tight text-white">
+              <span className="text-2xl font-bold tracking-tight text-teal-950">
                 WebbHeads
               </span>
             </div>
-            <p className="text-sm text-white/60 leading-relaxed max-w-sm">
+            <p className="text-sm text-teal-950/60 leading-relaxed max-w-sm">
               Building modern, high-performance digital experiences that help businesses grow faster and smarter.
             </p>
 
             {/* Social Icons Bar */}
             <div className="flex items-center gap-3 pt-2">
               <a
-                href="https://wa.me/919494259453"
+                href="https://wa.me/919494259453?text=Hi%20WebbHeads%2C%20I%20need%20an%20enquiry.%20I%20need%20your%20help"
                 target="_blank"
                 rel="noopener noreferrer"
                 aria-label="WhatsApp"
-                className="flex h-10 w-10 items-center justify-center rounded-lg bg-white/5 border border-white/10 text-white/70 hover:text-[#99F54E] hover:bg-[#99F54E]/10 hover:border-[#99F54E]/30 transition-all"
+                className="flex h-10 w-10 items-center justify-center rounded-lg bg-teal-500/5 border border-teal-500/20 text-teal-950/70 hover:text-teal-600 hover:bg-teal-500/10 hover:border-teal-500/30 transition-all"
               >
                 <WhatsAppLogoIcon className="h-5 w-5 fill-current" />
               </a>
@@ -124,7 +124,7 @@ export function Footer() {
                 target="_blank"
                 rel="noopener noreferrer"
                 aria-label="LinkedIn"
-                className="flex h-10 w-10 items-center justify-center rounded-lg bg-white/5 border border-white/10 text-white/70 hover:text-blue-400 hover:bg-blue-500/10 hover:border-blue-500/30 transition-all"
+                className="flex h-10 w-10 items-center justify-center rounded-lg bg-teal-500/5 border border-teal-500/20 text-teal-950/70 hover:text-sky-500 hover:bg-sky-500/10 hover:border-sky-500/30 transition-all"
               >
                 <LinkedInIcon className="h-5 w-5 fill-current" />
               </a>
@@ -133,7 +133,7 @@ export function Footer() {
                 target="_blank"
                 rel="noopener noreferrer"
                 aria-label="Instagram"
-                className="flex h-10 w-10 items-center justify-center rounded-lg bg-white/5 border border-white/10 text-white/70 hover:text-pink-400 hover:bg-pink-500/10 hover:border-pink-500/30 transition-all"
+                className="flex h-10 w-10 items-center justify-center rounded-lg bg-teal-500/5 border border-teal-500/20 text-teal-950/70 hover:text-pink-500 hover:bg-pink-500/10 hover:border-pink-500/30 transition-all"
               >
                 <InstagramIcon className="h-5 w-5" />
               </a>
@@ -142,7 +142,7 @@ export function Footer() {
                 target="_blank"
                 rel="noopener noreferrer"
                 aria-label="X (Twitter)"
-                className="flex h-10 w-10 items-center justify-center rounded-lg bg-white/5 border border-white/10 text-white/70 hover:text-white hover:bg-white/10 hover:border-white/20 transition-all"
+                className="flex h-10 w-10 items-center justify-center rounded-lg bg-teal-500/5 border border-teal-500/20 text-teal-950/70 hover:text-teal-950 hover:bg-teal-500/10 hover:border-teal-500/30 transition-all"
               >
                 <XIcon className="h-4.5 w-4.5 fill-current" />
               </a>
@@ -151,37 +151,37 @@ export function Footer() {
 
           {/* Quick Links */}
           <div>
-            <h4 className="text-sm font-semibold uppercase tracking-wider text-rose-400 mb-4 font-mono">Services</h4>
-            <ul className="space-y-3 text-sm text-white/70">
-              <li><a href="#services" className="hover:text-white transition-colors">Web Development</a></li>
-              <li><a href="#services" className="hover:text-white transition-colors">App Development</a></li>
-              <li><a href="#services" className="hover:text-white transition-colors">AI & Automation</a></li>
-              <li><a href="#services" className="hover:text-white transition-colors">Digital Marketing</a></li>
+            <h4 className="text-sm font-semibold uppercase tracking-wider text-teal-600 mb-4 font-mono">Services</h4>
+            <ul className="space-y-3 text-sm text-teal-950/70">
+              <li><a href="#services" className="hover:text-teal-600 transition-colors">Web Development</a></li>
+              <li><a href="#services" className="hover:text-teal-600 transition-colors">App Development</a></li>
+              <li><a href="#services" className="hover:text-teal-600 transition-colors">AI & Automation</a></li>
+              <li><a href="#services" className="hover:text-teal-600 transition-colors">Digital Marketing</a></li>
             </ul>
           </div>
 
           {/* Navigation */}
           <div>
-            <h4 className="text-sm font-semibold uppercase tracking-wider text-rose-400 mb-4 font-mono">Navigation</h4>
-            <ul className="space-y-3 text-sm text-white/70">
-              <li><a href="#benefits" className="hover:text-white transition-colors">Benefits</a></li>
-              <li><a href="#process" className="hover:text-white transition-colors">Process</a></li>
-              <li><a href="#cases" className="hover:text-white transition-colors">Case Studies</a></li>
-              <li><a href="#pricing" className="hover:text-white transition-colors">Pricing</a></li>
-              <li><a href="#faq" className="hover:text-white transition-colors">FAQ</a></li>
+            <h4 className="text-sm font-semibold uppercase tracking-wider text-teal-600 mb-4 font-mono">Navigation</h4>
+            <ul className="space-y-3 text-sm text-teal-950/70">
+              <li><a href="#benefits" className="hover:text-teal-600 transition-colors">Benefits</a></li>
+              <li><a href="#process" className="hover:text-teal-600 transition-colors">Process</a></li>
+              <li><a href="#cases" className="hover:text-teal-600 transition-colors">Case Studies</a></li>
+              <li><a href="#pricing" className="hover:text-teal-600 transition-colors">Pricing</a></li>
+              <li><a href="#faq" className="hover:text-teal-600 transition-colors">FAQ</a></li>
             </ul>
           </div>
 
           {/* Connect / Socials */}
           <div>
-            <h4 className="text-sm font-semibold uppercase tracking-wider text-rose-400 mb-4 font-mono">Connect</h4>
-            <ul className="space-y-3 text-sm text-white/70">
+            <h4 className="text-sm font-semibold uppercase tracking-wider text-teal-600 mb-4 font-mono">Connect</h4>
+            <ul className="space-y-3 text-sm text-teal-950/70">
               <li>
                 <a 
-                  href="https://wa.me/919494259453" 
+                  href="https://wa.me/919494259453?text=Hi%20WebbHeads%2C%20I%20need%20an%20enquiry.%20I%20need%20your%20help" 
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="hover:text-white transition-colors flex items-center gap-2"
+                  className="hover:text-teal-600 transition-colors flex items-center gap-2"
                 >
                   <WhatsAppLogoIcon className="h-4 w-4 fill-current" />
                   <span>WhatsApp Chat</span>
@@ -192,7 +192,7 @@ export function Footer() {
                   href="https://www.linkedin.com/company/webb-heads/" 
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="hover:text-white transition-colors flex items-center gap-2"
+                  className="hover:text-teal-600 transition-colors flex items-center gap-2"
                 >
                   <LinkedInIcon className="h-4 w-4 fill-current" />
                   <span>LinkedIn</span>
@@ -203,7 +203,7 @@ export function Footer() {
                   href="https://www.instagram.com/webbheads.studio?igsh=MWh4eWxuZWpleDk1Zw==" 
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="hover:text-white transition-colors flex items-center gap-2"
+                  className="hover:text-teal-600 transition-colors flex items-center gap-2"
                 >
                   <InstagramIcon className="h-4 w-4" />
                   <span>Instagram</span>
@@ -214,7 +214,7 @@ export function Footer() {
                   href="https://x.com/DKushalx1" 
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="hover:text-white transition-colors flex items-center gap-2"
+                  className="hover:text-teal-600 transition-colors flex items-center gap-2"
                 >
                   <XIcon className="h-4 w-4 fill-current" />
                   <span>X (Twitter)</span>
@@ -225,13 +225,13 @@ export function Footer() {
         </div>
 
         {/* Bottom copyright */}
-        <div className="pt-8 flex flex-col sm:flex-row items-center justify-between gap-4 text-sm text-white/50">
+        <div className="pt-8 flex flex-col sm:flex-row items-center justify-between gap-4 text-sm text-teal-950/50">
           <div>
             &copy; 2026 Webb Heads. All rights reserved.
           </div>
           <button
             onClick={scrollToTop}
-            className="flex items-center gap-1.5 rounded-lg bg-white/5 px-3.5 py-1.5 text-xs text-white/70 hover:bg-white/10 hover:text-white transition-all"
+            className="flex items-center gap-1.5 rounded-lg bg-teal-500/5 px-3.5 py-1.5 text-xs text-teal-950/70 hover:bg-teal-500/10 hover:text-teal-950 transition-all"
           >
             <span>Back to top</span>
             <ArrowUp className="h-3.5 w-3.5" />

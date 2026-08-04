@@ -1,0 +1,37 @@
+{
+  "test_suite": "WebbHeads Telugish / Tanglish AI Chatbot Master Suite",
+  "language": "Telugish / Tanglish (Telugu typed in Latin/English script)",
+  "total_cases": 5,
+  "test_cases": [
+    {
+      "id": "TEL-01",
+      "category": "Service Requirements & Timeline",
+      "user": "Naku simple website and mobile app design cheyadaniki entha time pattudhi?",
+      "ai": "WebbHeads lo standard website ki 7-10 days, mobile app ki 2-4 weeks pattudhi! Mee specific requirements ni batti exact timeline chepthanu. Callback arrange cheyammantara? 😊"
+    },
+    {
+      "id": "TEL-02",
+      "category": "Direct Call Request",
+      "user": "Details severe ga discuss cheyali, instant ga call cheyandi.",
+      "ai": "Sure chesthamu! Mee Name, Phone Number, and talk avvaniki convenient time ikkada share cheyandi. WebbHeads team fast ga connect avthundhi 📞"
+    },
+    {
+      "id": "TEL-03",
+      "category": "AI & Automation Inquiries",
+      "user": "Ma business process automate cheyadaniki AI bots kavali, chesthara?",
+      "ai": "Avunu, pakka chesthamu! Custom AI workflows, customer service chatbots, and automated ecosystems build chestham. Meeru e process automatic ga maarchali anukuntunnaru?"
+    },
+    {
+      "id": "TEL-04",
+      "category": "Pricing & Budget Clarification",
+      "user": "Small business ki budget plans yenti? Cost entha undochu?",
+      "ai": "WebbHeads lo budget-friendly plans unnayi! Tech Services starting ₹18,000, and Content Marketing ₹26,400/month. Mee project details chepthe precise quotation istham!"
+    },
+    {
+      "id": "TEL-05",
+      "category": "Quick Greeting & Inquiry",
+      "user": "Namaste brother, mee company yey services provide chesthundhi?",
+      "ai": "Namaskaram! 🙏 WebbHeads mainly website development, mobile apps, digital marketing, and AI automations services isthundhi. Mee requirement enti cheppandi?"
+    }
+  ]
+}

@@ -25,17 +25,17 @@ export function Hero3DLogoScene() {
 
     // 1. Texture Loader for WebbHeads Pure White Logo
     const textureLoader = new THREE.TextureLoader();
-    const logoTexture = textureLoader.load("/images/webbheads-logo-transparent.png");
+    const logoTexture = textureLoader.load("/images/webbheads-logo-black.png");
 
-    // 2. 3D Logo Emblem (Bright White Pure Material)
+    // 2. 3D Logo Emblem (Teal Emissive Material)
     const logoGeometry = new THREE.PlaneGeometry(3.4, 3.4);
     const logoMaterial = new THREE.MeshStandardMaterial({
       map: logoTexture,
       transparent: true,
       alphaTest: 0.05,
       side: THREE.DoubleSide,
-      emissive: 0xffffff,
-      emissiveIntensity: 0.25,
+      emissive: 0x0d9488,
+      emissiveIntensity: 0.35,
       roughness: 0.1,
       metalness: 0.1,
     });
@@ -48,9 +48,9 @@ export function Hero3DLogoScene() {
     const positions = new Float32Array(particleCount * 3);
     const colors = new Float32Array(particleCount * 3);
 
-    const c1 = new THREE.Color(0xffffff); // pure white
-    const c2 = new THREE.Color(0xfca69a); // coral
-    const c3 = new THREE.Color(0xf43f5e); // rose
+    const c1 = new THREE.Color(0x0d9488); // teal
+    const c2 = new THREE.Color(0x2dd4bf); // light teal
+    const c3 = new THREE.Color(0x0891b2); // cyan
 
     for (let i = 0; i < particleCount; i++) {
       const radius = 2.4 + Math.random() * 2.2;
@@ -84,7 +84,7 @@ export function Hero3DLogoScene() {
     light1.position.set(4, 4, 5);
     scene.add(light1);
 
-    const light2 = new THREE.PointLight(0xfca69a, 2, 20);
+    const light2 = new THREE.PointLight(0x2dd4bf, 2, 20);
     light2.position.set(-4, -4, 5);
     scene.add(light2);
 

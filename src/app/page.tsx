@@ -13,10 +13,11 @@ import { FAQSection } from "@/components/faq";
 import { Footer } from "@/components/footer";
 import { FloatingCTA } from "@/components/floating-cta";
 import { IntroVideo } from "@/components/intro-video";
+import { ChatbotWidget } from "@/components/chatbot";
 
 export default function Home() {
   return (
-    <main className="min-h-screen bg-transparent text-white selection:bg-rose-500 selection:text-white">
+    <main className="min-h-screen bg-transparent text-teal-950 selection:bg-teal-500 selection:text-white">
       <IntroVideo />
       <Navbar />
       <WebbheadsHeroAnimated />
@@ -29,6 +30,7 @@ export default function Home() {
       <TestimonialsAndStats />
       <FAQSection />
       <Footer />
+      <ChatbotWidget />
     </main>
   );
 }

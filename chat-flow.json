@@ -1,0 +1,849 @@
+{
+  "test_suite": "WebbHeads AI Chatbot Master Suite",
+  "total_cases": 31,
+  "test_cases": [
+    {
+      "id": "TC-01",
+      "category": "Callback & Lead Capture Flows",
+      "title": "Direct Single-Message Lead",
+      "scenario": "good morning my name is vivek and my mobile number is 630 7089085 can u provide me a call back for website development",
+      "expected_behavior": "Instantly parses Name (Vivek), Phone (6307089085), and Purpose. Saves to Leadcore DB and confirms callback without re-asking questions."
+    },
+    {
+      "id": "TC-02",
+      "category": "Callback & Lead Capture Flows",
+      "title": "Step-by-Step Interactive Flow",
+      "scenario": "Step 1: \"I need a call back\" -> Step 2: \"Rahul\" -> Step 3: \"9494259453\" -> Step 4: \"skip\" -> Step 5: \"Next.js Web App\"",
+      "expected_behavior": "Prompts Name -> Phone -> Email -> Purpose. Handles 'skip' for Email, saves record to Leadcore DB on final step."
+    },
+    {
+      "id": "TC-03",
+      "category": "Pricing, Services & Scope Clarifications",
+      "title": "Pricing Query",
+      "scenario": "What are your pricing plans?",
+      "expected_behavior": "Lists \u20b918,000 Tech, \u20b926,400 Marketing, and Custom Ecosystem options without bold ** markers. Ends with: \"Can I arrange a call back from our team?\"."
+    },
+    {
+      "id": "TC-04",
+      "category": "Portfolio, Real Estate & Local Market",
+      "title": "Portfolio Case Studies",
+      "scenario": "Show me your portfolio case studies",
+      "expected_behavior": "Displays TripSpark (+200% conversion), Appointment Automation, AI Property Assistant, Analytics Dashboard, and Property Listing portal."
+    },
+    {
+      "id": "TC-05",
+      "category": "Pricing, Services & Scope Clarifications",
+      "title": "Services Overview",
+      "scenario": "What services do you offer?",
+      "expected_behavior": "Lists all 6 core services (Web Dev, App Dev, AI Automation, Social Media, Digital Ads, Branding)."
+    },
+    {
+      "id": "TC-06",
+      "category": "Callback & Lead Capture Flows",
+      "title": "Explicit Email Skipping",
+      "scenario": "Entering \"skip\" or \"no email\" during Email step",
+      "expected_behavior": "Accepts skip, bypasses email validation, and moves smoothly to Purpose step or final lead saving."
+    },
+    {
+      "id": "TC-07",
+      "category": "Callback & Lead Capture Flows",
+      "title": "Mid-Flow Question Pivot",
+      "scenario": "While asked for Phone: \"Actually how much does a landing page cost first?\"",
+      "expected_behavior": "Answers pricing question without losing context, then politely resumes: \"Would you like to continue scheduling your callback now?\"."
+    },
+    {
+      "id": "TC-08",
+      "category": "Callback & Lead Capture Flows",
+      "title": "Partial Lead Info Extraction",
+      "scenario": "Hi I'm Sarah, call me at 9876543210 for a Flutter mobile app",
+      "expected_behavior": "Extracts Name (Sarah), Phone (9876543210), and Purpose (Flutter mobile app). Bypasses already-known questions."
+    },
+    {
+      "id": "TC-09",
+      "category": "Callback & Lead Capture Flows",
+      "title": "Short Phone Validation",
+      "scenario": "Entering \"98765\" during Phone step",
+      "expected_behavior": "Rejects short input (<10 digits) and prompts: \"That looks a bit short for a phone number. Could you please share a valid 10-digit number?\"."
+    },
+    {
+      "id": "TC-10",
+      "category": "Callback & Lead Capture Flows",
+      "title": "Time Slot Extraction",
+      "scenario": "Call me tomorrow strictly between 2 PM and 4 PM at 9494259453",
+      "expected_behavior": "Extracts preferred time slot (tomorrow strictly between 2 PM and 4 PM) and stores it in lead_notes in Leadcore DB."
+    },
+    {
+      "id": "TC-11",
+      "category": "Portfolio, Real Estate & Local Market",
+      "title": "Out-of-Scope Guardrails",
+      "scenario": "Can you fix my local printer hardware or write crypto smart contracts?",
+      "expected_behavior": "Politely declines hardware/crypto, re-anchors to web/apps/AI automations, and offers a discovery call."
+    },
+    {
+      "id": "TC-13",
+      "category": "Leadership, Secret Developer Easter Eggs & AI Mechanics",
+      "title": "Founder Inquiry",
+      "scenario": "Who is the founder of WebbHeads?",
+      "expected_behavior": "Identifies DJ Kushal as Founder & CEO of WebbHeads."
+    },
+    {
+      "id": "TC-14",
+      "category": "Portfolio, Real Estate & Local Market",
+      "title": "Vizag Market Query",
+      "scenario": "Do you work with businesses in Vizag?",
+      "expected_behavior": "Confirms specialization in digital ecosystems for Vizag & global businesses."
+    },
+    {
+      "id": "TC-15",
+      "category": "Portfolio, Real Estate & Local Market",
+      "title": "Client References",
+      "scenario": "Which clients have you worked with?",
+      "expected_behavior": "Lists Sri Chess Academy, Aum Free Yoga, Gitam Institution, Thompson Luxury Homes, and TripSpark."
+    },
+    {
+      "id": "TC-16",
+      "category": "Direct Contact, Dial Pad & WhatsApp Buttons",
+      "title": "Direct Consultation Link",
+      "scenario": "How can I book a call directly?",
+      "expected_behavior": "Provides phone/WhatsApp (+91 9494259453) and official booking link (https://cal.com/webb-heads)."
+    },
+    {
+      "id": "TC-17",
+      "category": "Pricing, Services & Scope Clarifications",
+      "title": "Tech Package Scope",
+      "scenario": "Does the \u20b918,000 package include domain and hosting?",
+      "expected_behavior": "Clarifies \u20b918,000 package includes landing page, SEO, AI Chatbot & CRM setup, but domain & hosting are billed separately."
+    },
+    {
+      "id": "TC-18",
+      "category": "Pricing, Services & Scope Clarifications",
+      "title": "Marketing Plan Breakdown",
+      "scenario": "How many reels in the \u20b926,400 plan?",
+      "expected_behavior": "Explains 12 premium reels/month (at \u20b92,200/reel), brand strategy, IG/FB management, and performance reports."
+    },
+    {
+      "id": "TC-19",
+      "category": "Portfolio, Real Estate & Local Market",
+      "title": "Real Estate Solutions",
+      "scenario": "What real estate automations have you built?",
+      "expected_behavior": "Highlights Appointment Automation (24/7 leads), AI Property Assistant (0s delay), and Advanced Property Listing (3x inquiries)."
+    },
+    {
+      "id": "TC-20",
+      "category": "Portfolio, Real Estate & Local Market",
+      "title": "Development Process",
+      "scenario": "What is your 3-step development process?",
+      "expected_behavior": "Outlines: 1. Discover & Design -> 2. Build & Create -> 3. Launch & Grow."
+    },
+    {
+      "id": "TC-21",
+      "category": "Pricing, Services & Scope Clarifications",
+      "title": "Mixed Lead & Custom Price",
+      "scenario": "I want a TripSpark clone in Vizag, call me at 9123456789",
+      "expected_behavior": "Extracts Phone (9123456789), Purpose (TripSpark clone in Vizag), explains Custom Ecosystem plan, and registers lead in Leadcore DB."
+    },
+    {
+      "id": "TC-22",
+      "category": "Direct Contact, Dial Pad & WhatsApp Buttons",
+      "title": "WhatsApp Direct Chat",
+      "scenario": "Can I chat on WhatsApp?",
+      "expected_behavior": "Renders interactive green [Chat on WhatsApp \u2192] button with pre-typed message link."
+    },
+    {
+      "id": "TC-23",
+      "category": "Callback & Lead Capture Flows",
+      "title": "Name Guardrail (Question Input)",
+      "scenario": "Entering \"Can you provide your company number?\" during Name step",
+      "expected_behavior": "Does NOT treat the question as the user's name! Returns company contact info (+91 9494259453) and asks for name."
+    },
+    {
+      "id": "TC-24",
+      "category": "Callback & Lead Capture Flows",
+      "title": "Overlong Phone Validation",
+      "scenario": "Entering \"66666666666666666666\" during Phone step",
+      "expected_behavior": "Rejects input (>12 digits) and prompts: \"That phone number seems a bit long. Please enter a valid 10-digit mobile or WhatsApp number.\""
+    },
+    {
+      "id": "TC-25",
+      "category": "Callback & Lead Capture Flows",
+      "title": "Greeting During Validation",
+      "scenario": "Entering \"hi\" during Phone step",
+      "expected_behavior": "Does NOT trigger a validation error. Responds naturally: \"Hello! To schedule your callback, could you please provide your 10-digit phone number?\"."
+    },
+    {
+      "id": "TC-26",
+      "category": "Callback & Lead Capture Flows",
+      "title": "Gibberish Purpose Check",
+      "scenario": "Entering \"hhh\" or \"asdf\" during Purpose step",
+      "expected_behavior": "Detects low-confidence keyboard mash and prompts: \"Could you share a few more details about what you need help with? (e.g., Website, Mobile App, or AI Automation)\"."
+    },
+    {
+      "id": "TC-27",
+      "category": "Direct Contact, Dial Pad & WhatsApp Buttons",
+      "title": "In-Flow Contact Retrieval",
+      "scenario": "What is your company phone number?",
+      "expected_behavior": "Outputs official contact details with interactive Click-to-Call button."
+    },
+    {
+      "id": "TC-28",
+      "category": "Direct Contact, Dial Pad & WhatsApp Buttons",
+      "title": "Direct 3-Button Contact Card",
+      "scenario": "\"im asking company number\" OR \"webbheads number\"",
+      "expected_behavior": "Outputs 3 interactive buttons without resetting chat state: [Call +91 9494259453], [Chat on WhatsApp], [Schedule via Cal.com]."
+    },
+    {
+      "id": "TC-29",
+      "category": "Leadership, Secret Developer Easter Eggs & AI Mechanics",
+      "title": "Secret Developer Disclosure",
+      "scenario": "\"Who developed this webbheads website?\" OR \"Who built this bot?\"",
+      "expected_behavior": "Overrides founder response and explicitly states: \"This website and AI chatbot were designed and developed by Vivek Ram Sri.\""
+    },
+    {
+      "id": "TC-34",
+      "category": "Leadership, Secret Developer Easter Eggs & AI Mechanics",
+      "title": "AI Mechanics Disambiguation",
+      "scenario": "\"how do u work\" OR \"how do you function\"",
+      "expected_behavior": "Does NOT display portfolio case studies! Explains system mechanics: \"I am a custom AI agent built for WebbHeads, architected by Vivek Ram Sri...\"."
+    },
+    {
+      "id": "TC-35",
+      "category": "Portfolio, Real Estate & Local Market",
+      "title": "Explicit Portfolio Request",
+      "scenario": "\"show me your work\" OR \"what projects have you completed\"",
+      "expected_behavior": "Displays recent case studies (TripSpark, Real Estate Automation, Property Assistant, Analytics Dashboard)."
+    },
+    {
+      "id": "TC-36",
+      "category": "Easter Eggs",
+      "title": "Terminal Mode Query",
+      "expected_behavior": "Render clean terminal output detailing Vivek Ram Sri (Lead AI & Web Engineer).",
+      "scenario": "dev_mode"
+    }
+  ],
+  "company_metadata": {
+    "company_name": "WebbHeads",
+    "alternate_names": [
+      "Webb Heads",
+      "WebbHeads Studio"
+    ],
+    "entity_type": "Digital Engineering & Visual Development Studio",
+    "primary_domains": [
+      "https://www.webbheads.com/",
+      "https://webheads-1.vercel.app/"
+    ],
+    "headquarters": "Visakhapatnam (Vizag), Andhra Pradesh, India",
+    "service_reach": "Regional & Global Remote Operations",
+    "database_pipeline": "Leadcore DB (Real-time lead ingestion & CRM webhooks)",
+    "response_sla": "Instant AI response | Human team sync within 24 hours"
+  },
+  "contact_channels": {
+    "primary_phone": "+91 9494259453",
+    "primary_phone_formatted": "+91 94942 59453",
+    "click_to_call_schema": "tel:+919494259453",
+    "secondary_phone": "+91 8985250220",
+    "secondary_phone_formatted": "+91 89852 50220",
+    "whatsapp_direct_link": "https://wa.me/919494259453",
+    "official_emails": [
+      "contact@webbheads.com",
+      "webbheadsmarketing@gmail.com"
+    ],
+    "calendar_booking_url": "https://cal.com/webb-heads"
+  },
+  "leadership_and_team": {
+    "founder_ceo": {
+      "name": "DJ Kushal",
+      "title": "Founder & CEO",
+      "role_description": "Directs agency vision, strategic partnerships, and overall operations."
+    },
+    "lead_engineer": {
+      "name": "Vivek Ram Sri",
+      "title": "Lead AI & Web Engineer",
+      "role_description": "Architected and engineered the WebbHeads website, custom AI Chatbot ecosystem, NLP routing engine, and Leadcore DB pipeline."
+    },
+    "development_lead": {
+      "name": "Pavan Kumar Cherukuri",
+      "title": "Web & App Development Lead",
+      "role_description": "Leads web application architectures and mobile engineering workflows."
+    },
+    "technical_operations": {
+      "name": "Jax",
+      "title": "Tech Development & Digital Marketing Lead",
+      "role_description": "Oversees visual web development, performance optimization, and marketing execution."
+    }
+  },
+  "core_services": [
+    {
+      "service_id": "SRV-01",
+      "name": "Website Design & Engineering",
+      "description": "High-converting, responsive websites built with Next.js, React, and Tailwind CSS focused on Core Web Vitals and SEO performance.",
+      "deliverables": [
+        "Landing Pages",
+        "Corporate Portals",
+        "SEO Optimization",
+        "Mobile Responsiveness"
+      ]
+    },
+    {
+      "service_id": "SRV-02",
+      "name": "App Design & Development",
+      "description": "Cross-platform iOS and Android mobile app interfaces and backend API engineering.",
+      "deliverables": [
+        "Flutter / React Native Apps",
+        "Figma Prototypes",
+        "REST APIs",
+        "User Workflows"
+      ]
+    },
+    {
+      "service_id": "SRV-03",
+      "name": "Framer Development",
+      "description": "Interactive visual web development for rapid deployment, fluid animations, and clean CMS management.",
+      "deliverables": [
+        "Production Framer Sites",
+        "Custom Animations",
+        "Interactive UI Components"
+      ]
+    },
+    {
+      "service_id": "SRV-04",
+      "name": "Branding & Visual Identity",
+      "description": "Cohesive brand systems, typographical guidelines, and strategic brand positioning.",
+      "deliverables": [
+        "Brand Guidelines",
+        "Color Palettes",
+        "Typography Suites",
+        "Digital Assets"
+      ]
+    },
+    {
+      "service_id": "SRV-05",
+      "name": "Investor Pitch Decks",
+      "description": "Investor-ready presentation decks designed to present business metrics and secure venture funding.",
+      "deliverables": [
+        "Pitch Deck Presentations",
+        "Visual Metric Layouts",
+        "Editable Source Decks"
+      ]
+    },
+    {
+      "service_id": "SRV-06",
+      "name": "Logo Engineering",
+      "description": "Scalable vector marks and iconic logo designs tailored to corporate identity.",
+      "deliverables": [
+        "Vector Files (.SVG, .AI)",
+        "Brand Marks",
+        "Usage Guidelines"
+      ]
+    },
+    {
+      "service_id": "SRV-07",
+      "name": "AI Automation Systems",
+      "description": "Custom 24/7 AI lead qualification chatbots, appointment automation platforms, and CRM webhook pipelines.",
+      "deliverables": [
+        "Chatbot Widgets",
+        "Leadcore DB Sync",
+        "WhatsApp Automation Routing"
+      ]
+    }
+  ],
+  "pricing_architecture": {
+    "tech_package": {
+      "plan_name": "Tech Package",
+      "starting_price": "\u20b918,000",
+      "billing_type": "One-time project fee",
+      "inclusions": [
+        "High-converting landing page / static site",
+        "Mobile & SEO optimization",
+        "Basic AI Chatbot Integration",
+        "Leadcore DB / CRM Integration",
+        "Post-launch support"
+      ],
+      "exclusions": [
+        "Domain & Hosting (Billed separately based on client selection)"
+      ]
+    },
+    "content_marketing_package": {
+      "plan_name": "Content Marketing Package",
+      "starting_price": "\u20b926,400 / month",
+      "billing_type": "Monthly subscription",
+      "inclusions": [
+        "12 high-quality short-form reels (evaluated at \u20b92,200 / reel)",
+        "Social media strategy & platform management",
+        "Content calendar planning",
+        "Monthly performance & growth analytics"
+      ]
+    },
+    "custom_ecosystem_package": {
+      "plan_name": "Custom Ecosystem",
+      "starting_price": "Custom Quote (Scoped via Discovery Call)",
+      "billing_type": "Milestone-based",
+      "inclusions": [
+        "Full-stack custom web & mobile platforms",
+        "Enterprise backend APIs & databases",
+        "Complex AI workflow automation",
+        "Multi-platform integration"
+      ]
+    }
+  },
+  "portfolio_case_studies": [
+    {
+      "project_name": "TripSpark",
+      "category": "Travel Marketplace",
+      "key_metric": "+200% Conversion Rate Increase",
+      "description": "Comprehensive travel booking portal engineered for seamless conversion and dynamic user search."
+    },
+    {
+      "project_name": "Appointment Automation Platform",
+      "category": "Real Estate / Lead Engine",
+      "key_metric": "0-second lead delay & 24/7 capture",
+      "description": "Automated appointment scheduling and lead processing ecosystem connected directly to CRM."
+    },
+    {
+      "project_name": "AI Property Assistant",
+      "category": "Real Estate AI",
+      "key_metric": "Instant WhatsApp Lead Routing",
+      "description": "AI-powered conversational lead qualifier for real estate property inquiries."
+    },
+    {
+      "project_name": "Evan Rios Projects (Sienna Desktop UI)",
+      "category": "Corporate Venture Platform",
+      "client": "Evan Rios (Founder)",
+      "description": "Enterprise platform engineered to showcase scalable, future-driven companies to global investors."
+    },
+    {
+      "project_name": "LostSec (Growly Desktop UI)",
+      "category": "Cybersecurity Toolkit",
+      "client": "James Reynolds / Coffinxp (Security Researcher)",
+      "description": "High-speed bug-hunting toolkit interface balancing complex technical documentation with intuitive UI."
+    },
+    {
+      "project_name": "CCTS (Glidex Desktop UI)",
+      "category": "Enterprise Systems",
+      "description": "High-performance operational system UI designed for streamlined enterprise workflows."
+    },
+    {
+      "project_name": "Aether Studio (Desktop UI)",
+      "category": "Performing Arts Platform",
+      "client": "DJ Kushal (Artist)",
+      "description": "Sleek, mobile-friendly showcase for music, releases, and live events driving direct performance bookings."
+    },
+    {
+      "project_name": "GITAM University (VaultX UI)",
+      "category": "Higher Education Platform",
+      "client": "GITAM Homecoming & G-Studio Media Club (Led by Michael Thompson)",
+      "description": "Alumni engagement portal featuring automated RSVP engines, event pages, and a 10-year media archive."
+    }
+  ],
+  "developer_easter_eggs": {
+    "attribution_query": "This website and AI chatbot were designed, engineered, and fine-tuned by Vivek Ram Sri \ud83d\ude80",
+    "vip_referral_trigger": "vivek sent me",
+    "vip_code_issued": "VIVEK-WEB-2026",
+    "terminal_commands": [
+      "sudo developer info",
+      "dev_mode",
+      "dev_status"
+    ],
+    "terminal_output": {
+      "developer": "Vivek Ram Sri",
+      "role": "Lead AI & Web Engineer",
+      "stack": "Next.js, React, Tailwind CSS, Custom NLP, Leadcore DB",
+      "status": "ONLINE & OPERATIONAL"
+    }
+  },
+  "dynamic_query_knowledge_base": [
+    {
+      "query_id": "KB-001",
+      "intent": "company_overview",
+      "sample_utterances": [
+        "what is webbheads",
+        "tell me about webbheads",
+        "who are you",
+        "what does your company do"
+      ],
+      "answer": "WebbHeads is a digital engineering and visual design studio specializing in modern web platforms, mobile app design, Framer development, brand identity design, investor pitch decks, and AI automation ecosystems."
+    },
+    {
+      "query_id": "KB-002",
+      "intent": "get_phone_number",
+      "sample_utterances": [
+        "what is your phone number",
+        "give me webbheads contact number",
+        "how to call you",
+        "phone number to call"
+      ],
+      "answer": "You can reach us directly on our primary phone line at [\ud83d\udcde Call +91 9494259453](tel:+919494259453) or our secondary line at +91 8985250220."
+    },
+    {
+      "query_id": "KB-003",
+      "intent": "get_whatsapp_link",
+      "sample_utterances": [
+        "whatsapp number",
+        "can i chat on whatsapp",
+        "give me whatsapp link",
+        "send whatsapp contact"
+      ],
+      "answer": "You can chat with our team directly on WhatsApp here: [\ud83d\udcac Chat on WhatsApp (+91 9494259453)](https://wa.me/919494259453)."
+    },
+    {
+      "query_id": "KB-004",
+      "intent": "book_meeting",
+      "sample_utterances": [
+        "how to book a call",
+        "schedule a meeting",
+        "book consultation link",
+        "cal com link"
+      ],
+      "answer": "You can schedule a direct strategy meeting on our official calendar here: [\ud83d\udcc5 Book Strategy Meeting](https://cal.com/webb-heads)."
+    },
+    {
+      "query_id": "KB-005",
+      "intent": "founder_inquiry",
+      "sample_utterances": [
+        "who is the founder",
+        "who is the ceo of webbheads",
+        "who leads webbheads",
+        "who is dj kushal"
+      ],
+      "answer": "DJ Kushal is the Founder & CEO of WebbHeads."
+    },
+    {
+      "query_id": "KB-006",
+      "intent": "developer_inquiry",
+      "sample_utterances": [
+        "who built this website",
+        "who created this AI chatbot",
+        "who is vivek",
+        "who engineered the site"
+      ],
+      "answer": "This website and AI chatbot ecosystem were designed, engineered, and fine-tuned by Vivek Ram Sri \ud83d\ude80 (Lead AI & Web Engineer)."
+    },
+    {
+      "query_id": "KB-007",
+      "intent": "pricing_tech_package",
+      "sample_utterances": [
+        "how much does a website cost",
+        "landing page pricing",
+        "tech package cost",
+        "pricing plans"
+      ],
+      "answer": "Our standard Tech Package for landing pages and web apps starts at \u20b918,000 (includes mobile/SEO responsiveness, AI chatbot widget, and CRM integration). Domain and hosting are billed separately."
+    },
+    {
+      "query_id": "KB-008",
+      "intent": "pricing_marketing_package",
+      "sample_utterances": [
+        "social media marketing cost",
+        "reels pricing",
+        "how much for 12 reels",
+        "content marketing plan"
+      ],
+      "answer": "Our monthly Content Marketing plan is \u20b926,400 / month, which includes 12 high-quality short-form reels (evaluated at \u20b92,200/reel), social strategy, platform management, and performance reporting."
+    },
+    {
+      "query_id": "KB-009",
+      "intent": "portfolio_request",
+      "sample_utterances": [
+        "show me your work",
+        "what projects have you completed",
+        "case studies",
+        "portfolio list"
+      ],
+      "answer": "Our built projects include TripSpark (+200% conversion), Appointment Automation Platform, AI Property Assistant, Evan Rios Projects (Sienna UI), LostSec (Growly UI), CCTS (Glidex UI), Aether Studio (DJ Kushal), and GITAM University (VaultX UI)."
+    },
+    {
+      "query_id": "KB-010",
+      "intent": "location_query",
+      "sample_utterances": [
+        "where are you located",
+        "are you in vizag",
+        "office location",
+        "where is webbheads based"
+      ],
+      "answer": "WebbHeads is based in Visakhapatnam (Vizag), India, serving regional businesses and global remote clients."
+    },
+    {
+      "query_id": "KB-011",
+      "intent": "vip_referral_code",
+      "sample_utterances": [
+        "vivek sent me",
+        "secret discount code",
+        "is there a referral discount"
+      ],
+      "answer": "\u26a1 VIP Priority Unlocked! Mention promo code VIVEK-WEB-2026 during your call for priority onboarding and consultation access."
+    },
+    {
+      "query_id": "KB-012",
+      "intent": "terminal_dev_mode",
+      "sample_utterances": [
+        "dev_mode",
+        "sudo developer info",
+        "dev_status"
+      ],
+      "answer": "[TERMINAL MODE: ACTIVE]\nDeveloper: Vivek Ram Sri\nRole: Lead AI & Web Engineer\nStack: Next.js, React, Tailwind CSS, Custom NLP, Leadcore DB\nStatus: ONLINE & OPERATIONAL"
+    }
+  ],
+  "state_machine_flows": [
+    {
+      "flow_id": "FLOW-01",
+      "flow_name": "Interactive Callback Acquisition Funnel",
+      "trigger_intents": [
+        "request_callback",
+        "book_phone_call",
+        "lead_capture"
+      ],
+      "states": [
+        {
+          "step": 1,
+          "parameter": "user_name",
+          "prompt": "I'd be happy to arrange a callback! May I have your full name so our team knows who to ask for?",
+          "validation_regex": "^[a-zA-Z\\s]{2,50}$",
+          "on_failure_interrogative": "I noticed that might be a question. Before I answer, could you please share your name?",
+          "skip_allowed": false
+        },
+        {
+          "step": 2,
+          "parameter": "user_phone",
+          "prompt": "Thanks {user_name}! What is the best 10-digit mobile or WhatsApp number to reach you at?",
+          "validation_regex": "^\\+?[0-9]{10,12}$",
+          "on_failure_short": "That number looks a bit short. Could you please provide a valid 10-digit phone or WhatsApp number?",
+          "on_failure_long": "That phone number seems a bit too long. Please share a valid 10-digit number.",
+          "skip_allowed": false
+        },
+        {
+          "step": 3,
+          "parameter": "user_email",
+          "prompt": "Got it! What is your email address so we can send a calendar invite? (Or type 'skip')",
+          "validation_regex": "^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$",
+          "on_failure": "Please enter a valid email address (e.g., name@domain.com) or type 'skip'.",
+          "skip_allowed": true
+        },
+        {
+          "step": 4,
+          "parameter": "project_purpose",
+          "prompt": "What specific project or service can we help you with? (e.g., Website, Mobile App, AI Automation, Branding)",
+          "validation_min_length": 3,
+          "on_failure_gibberish": "Could you share a few more details about what you need help with?",
+          "skip_allowed": false
+        },
+        {
+          "step": 5,
+          "parameter": "preferred_time_slot",
+          "prompt": "Is there a specific time or day that works best for the call? (Or type 'anytime')",
+          "skip_allowed": true
+        }
+      ],
+      "completion_action": {
+        "destination_db": "Leadcore DB",
+        "confirmation_message": "Awesome {user_name}! Your callback request regarding {project_purpose} has been registered in our Leadcore DB. Our team will reach out at {user_phone} shortly."
+      }
+    },
+    {
+      "flow_id": "FLOW-02",
+      "flow_name": "Custom Scope & Budget Scoping Discovery",
+      "trigger_intents": [
+        "custom_app_quote",
+        "enterprise_project",
+        "large_scope_inquiry"
+      ],
+      "states": [
+        {
+          "step": 1,
+          "parameter": "platform_type",
+          "prompt": "Are you looking to build a Web App, Mobile App (iOS/Android), or an end-to-end AI Ecosystem?",
+          "options": [
+            "Web App",
+            "Mobile App",
+            "AI Ecosystem",
+            "All of the above"
+          ]
+        },
+        {
+          "step": 2,
+          "parameter": "estimated_timeline",
+          "prompt": "What is your target timeline for launching this project? (e.g., Immediate, 2-4 weeks, 1-2 months)"
+        },
+        {
+          "step": 3,
+          "parameter": "budget_range",
+          "prompt": "Do you have a specific budget range allocated for this initiative?"
+        }
+      ],
+      "completion_action": {
+        "transition_to": "FLOW-01",
+        "message": "Got it! Custom ecosystems are tailored strictly to your goals. Let's capture your phone number so our lead engineer can discuss a detailed project roadmap with you."
+      }
+    }
+  ],
+  "interruption_and_recovery_rules": [
+    {
+      "rule_id": "REC-01",
+      "scenario": "User asks for company pricing mid-way through callback collection",
+      "behavior": "1. Pause active callback state machine.\n2. Answer pricing query directly (\u20b918,000 Tech / \u20b926,400 Marketing).\n3. Append transition prompt: 'Would you like to continue scheduling your callback now?'\n4. Resume callback state at the exact pending step if user says yes."
+    },
+    {
+      "rule_id": "REC-02",
+      "scenario": "User asks for company phone number during the Name step",
+      "behavior": "1. Do NOT save interrogative sentence as user's name.\n2. Output click-to-call link [\ud83d\udcde Call +91 9494259453](tel:+919494259453) and WhatsApp link.\n3. Re-prompt politely: 'May I have your name so our team knows who to ask for when reaching out?'"
+    },
+    {
+      "rule_id": "REC-03",
+      "scenario": "User sends greeting ('hi', 'hello') during the Phone step",
+      "behavior": "1. Respond to greeting naturally ('Hello!').\n2. Re-prompt for phone number: 'To schedule your callback, could you please share your 10-digit mobile number?'\n3. Do NOT flag greeting string as an invalid short phone number."
+    },
+    {
+      "rule_id": "REC-04",
+      "scenario": "User requests direct calendar booking instead of a callback",
+      "behavior": "1. Cancel active callback collection flow.\n2. Output direct booking link: [\ud83d\udcc5 Book Strategy Meeting](https://cal.com/webb-heads).\n3. Confirm session is open for any other inquiries."
+    }
+  ],
+  "intent_disambiguation_matrix": [
+    {
+      "ambiguous_phrase": "how do u work",
+      "primary_intent": "ai_system_architecture",
+      "correct_response": "This chatbot operates on custom NLP routing, state-machine lead management, and direct Leadcore DB integration, architected by Lead AI & Web Engineer Vivek Ram Sri.",
+      "incorrect_action": "Do NOT output client portfolio case studies (TripSpark, Appointment Automation)."
+    },
+    {
+      "ambiguous_phrase": "show me your work",
+      "primary_intent": "portfolio_case_studies",
+      "correct_response": "Displays key case studies: TripSpark, Appointment Automation, AI Property Assistant, Evan Rios Projects, LostSec, CCTS, Aether Studio, and GITAM University.",
+      "incorrect_action": "Do NOT explain internal AI technical mechanics."
+    },
+    {
+      "ambiguous_phrase": "who is vivek",
+      "primary_intent": "developer_identity",
+      "correct_response": "Vivek Ram Sri is the Lead AI & Web Engineer who designed, engineered, and fine-tuned the WebbHeads website, AI chatbot, and Leadcore DB pipeline."
+    },
+    {
+      "ambiguous_phrase": "who is dj",
+      "primary_intent": "founder_identity",
+      "correct_response": "DJ Kushal is the Founder & CEO of WebbHeads."
+    },
+    {
+      "ambiguous_phrase": "call me now",
+      "primary_intent": "urgent_callback",
+      "correct_response": "Collects 10-digit phone number, flags lead as high priority in Leadcore DB, and alerts the team for immediate contact."
+    },
+    {
+      "ambiguous_phrase": "give number to call",
+      "primary_intent": "direct_company_phone",
+      "correct_response": "Outputs direct click-to-call link: [\ud83d\udcde Call +91 9494259453](tel:+919494259453) and WhatsApp link [\ud83d\udcac WhatsApp Us](https://wa.me/919494259453)."
+    }
+  ],
+  "validation_guardrails_and_sanitization": {
+    "phone_validation": {
+      "regex_pattern": "^\\+?[0-9]{10,12}$",
+      "strip_characters": [
+        " ",
+        "-",
+        "(",
+        ")"
+      ],
+      "dummy_checks": [
+        "0000000000",
+        "1234567890",
+        "9999999999",
+        "1111111111"
+      ],
+      "rejection_message": "Please enter a valid, active 10-digit mobile or WhatsApp number."
+    },
+    "name_validation": {
+      "interrogative_words": [
+        "who",
+        "what",
+        "where",
+        "how",
+        "can",
+        "could",
+        "provide",
+        "give",
+        "tell",
+        "number",
+        "price"
+      ],
+      "min_length": 2,
+      "max_length": 50,
+      "rejection_message": "That sounds like a question or phrase! Could you please share just your name?"
+    },
+    "email_validation": {
+      "regex_pattern": "^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$",
+      "rejection_message": "Please share a valid email address format (e.g. name@domain.com) or type 'skip'."
+    },
+    "purpose_validation": {
+      "gibberish_patterns": [
+        "asdf",
+        "hhh",
+        "qwerty",
+        "xxx",
+        "123",
+        "???",
+        "..."
+      ],
+      "rejection_message": "Could you share a few brief details about what you need help with? (e.g., Website, Mobile App, or AI Automation)"
+    },
+    "security_containment": {
+      "sql_injection_sanitize": true,
+      "xss_html_escape": true,
+      "jailbreak_refusal_response": "I am an AI assistant designed exclusively to help with WebbHeads web engineering, app development, branding, and AI automation inquiries. How can I help with your project?"
+    }
+  },
+  "additional_operations_kb": [
+    {
+      "topic": "Source Code Ownership",
+      "query": "Do clients own the source code after development?",
+      "answer": "Yes, upon project completion and final deployment, 100% intellectual property and full GitHub source code repository ownership are transferred to the client."
+    },
+    {
+      "topic": "Revisions & Review Process",
+      "query": "What is your revision process during design and development?",
+      "answer": "We provide transparent, iterative review stages via Figma and Framer live staging preview links, incorporating client feedback before final launch."
+    },
+    {
+      "topic": "Domain & Hosting Setup",
+      "query": "Do you help connect custom domains and configure SSL?",
+      "answer": "Yes, we handle complete DNS routing, custom domain binding, SSL certificate setup, and Vercel/Framer cloud deployment."
+    },
+    {
+      "topic": "Post-Launch Support",
+      "query": "What support is provided post-launch?",
+      "answer": "All packages include post-launch support and performance checks to fix any initial deployment issues and ensure optimal loading speeds."
+    }
+  ],
+  "teluguish_test_suite": {
+    "test_suite": "WebbHeads Telugish / Tanglish AI Chatbot Master Suite",
+    "language": "Telugish / Tanglish (Telugu typed in Latin/English script)",
+    "total_cases": 5,
+    "test_cases": [
+      {
+        "id": "TEL-01",
+        "category": "Service Requirements & Timeline",
+        "user": "Naku simple website and mobile app design cheyadaniki entha time pattudhi?",
+        "ai": "WebbHeads lo standard website ki 7-10 days, mobile app ki 2-4 weeks pattudhi! Mee specific requirements ni batti exact timeline chepthanu. Callback arrange cheyammantara? \ud83d\ude0a"
+      },
+      {
+        "id": "TEL-02",
+        "category": "Direct Call Request",
+        "user": "Details severe ga discuss cheyali, instant ga call cheyandi.",
+        "ai": "Sure chesthamu! Mee Name, Phone Number, and talk avvaniki convenient time ikkada share cheyandi. WebbHeads team fast ga connect avthundhi \ud83d\udcde"
+      },
+      {
+        "id": "TEL-03",
+        "category": "AI & Automation Inquiries",
+        "user": "Ma business process automate cheyadaniki AI bots kavali, chesthara?",
+        "ai": "Avunu, pakka chesthamu! Custom AI workflows, customer service chatbots, and automated ecosystems build chestham. Meeru e process automatic ga maarchali anukuntunnaru?"
+      },
+      {
+        "id": "TEL-04",
+        "category": "Pricing & Budget Clarification",
+        "user": "Small business ki budget plans yenti? Cost entha undochu?",
+        "ai": "WebbHeads lo budget-friendly plans unnayi! Tech Services starting \u20b918,000, and Content Marketing \u20b926,400/month. Mee project details chepthe precise quotation istham!"
+      },
+      {
+        "id": "TEL-05",
+        "category": "Quick Greeting & Inquiry",
+        "user": "Namaste brother, mee company yey services provide chesthundhi?",
+        "ai": "Namaskaram! \ud83d\ude4f WebbHeads mainly website development, mobile apps, digital marketing, and AI automations services isthundhi. Mee requirement enti cheppandi?"
+      }
+    ]
+  }
+}

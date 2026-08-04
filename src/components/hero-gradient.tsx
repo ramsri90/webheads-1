@@ -24,9 +24,9 @@ export function WebbheadsHeroAnimated() {
   return (
     <section 
       onMouseMove={handleMouseMove}
-      className="relative isolate min-h-screen pt-28 pb-16 overflow-hidden bg-transparent text-white flex flex-col justify-between"
+      className="relative isolate min-h-screen pt-28 pb-16 overflow-hidden bg-transparent text-teal-950 flex flex-col justify-between"
     >
-      {/* Organic Twinkling Night Sky Starfield Background */}
+      {/* Organic Twinkling Teal Starfield Background */}
       <TwinklingStars count={80} />
 
       {/* Dynamic Interactive Mouse Spotlight Ambient Glow */}
@@ -34,7 +34,7 @@ export function WebbheadsHeroAnimated() {
         aria-hidden
         className="pointer-events-none absolute inset-0 -z-25 transition-opacity duration-500 opacity-60"
         style={{
-          background: `radial-gradient(600px circle at ${mousePos.x}% ${mousePos.y}%, rgba(244, 63, 94, 0.15), rgba(168, 85, 247, 0.08) 50%, transparent 80%)`,
+          background: `radial-gradient(600px circle at ${mousePos.x}% ${mousePos.y}%, rgba(13, 148, 136, 0.15), rgba(34, 211, 238, 0.10) 50%, transparent 80%)`,
         }}
       />
 
@@ -48,28 +48,28 @@ export function WebbheadsHeroAnimated() {
         className="absolute inset-0 -z-30 pointer-events-none"
         style={{
           backgroundImage: [
-            "radial-gradient(80% 55% at 50% 52%, rgba(252,166,154,0.55) 0%, rgba(214,76,82,0.52) 27%, rgba(88,52,70,0.42) 47%, rgba(55,54,95,0.48) 60%, rgba(20,20,32,0.4) 78%, rgba(0,0,0,0) 95%)",
-            "radial-gradient(85% 60% at 14% 0%, rgba(255,193,171,0.75) 0%, rgba(233,109,99,0.65) 30%, rgba(48,24,28,0.0) 64%)",
-            "radial-gradient(70% 50% at 86% 22%, rgba(120,140,255,0.50) 0%, rgba(16,18,28,0.0) 55%)",
-            "linear-gradient(to bottom, rgba(0,0,0,0.15), rgba(0,0,0,0) 50%)",
+            "radial-gradient(80% 55% at 50% 52%, rgba(255,255,255,0.9) 0%, rgba(240,253,250,0.85) 27%, rgba(204,251,241,0.6) 47%, rgba(204,251,241,0.4) 60%, rgba(255,255,255,0.3) 78%, rgba(255,255,255,0) 95%)",
+            "radial-gradient(85% 60% at 14% 0%, rgba(45,212,191,0.18) 0%, rgba(20,184,166,0.12) 30%, rgba(255,255,255,0) 64%)",
+            "radial-gradient(70% 50% at 86% 22%, rgba(34,211,238,0.16) 0%, rgba(255,255,255,0) 55%)",
+            "linear-gradient(to bottom, rgba(13,148,136,0.05), rgba(255,255,255,0) 50%)",
           ].join(","),
         }}
       />
 
       {/* Vignette corners */}
-      <div aria-hidden className="absolute inset-0 -z-20 bg-[radial-gradient(140%_120%_at_50%_0%,transparent_75%,rgba(0,0,0,0.1))]" />
+      <div aria-hidden className="absolute inset-0 -z-20 bg-[radial-gradient(140%_120%_at_50%_0%,transparent_75%,rgba(13,148,136,0.05))]" />
 
       {/* Grid overlay */}
       <div
         aria-hidden
-        className="pointer-events-none absolute inset-0 -z-10 mix-blend-screen opacity-30"
+        className="pointer-events-none absolute inset-0 -z-10 mix-blend-multiply opacity-25"
         style={{
           backgroundImage: [
-            "repeating-linear-gradient(90deg, rgba(255,255,255,0.09) 0 1px, transparent 1px 96px)",
-            "repeating-linear-gradient(90deg, rgba(255,255,255,0.05) 0 1px, transparent 1px 24px)",
-            "repeating-radial-gradient(80% 55% at 50% 52%, rgba(255,255,255,0.08) 0 1px, transparent 1px 120px)"
+            "repeating-linear-gradient(90deg, rgba(13,148,136,0.10) 0 1px, transparent 1px 96px)",
+            "repeating-linear-gradient(90deg, rgba(13,148,136,0.05) 0 1px, transparent 1px 24px)",
+            "repeating-radial-gradient(80% 55% at 50% 52%, rgba(13,148,136,0.06) 0 1px, transparent 1px 120px)"
           ].join(","),
-          backgroundBlendMode: "screen",
+          backgroundBlendMode: "multiply",
         }}
       />
 
@@ -77,25 +77,25 @@ export function WebbheadsHeroAnimated() {
       <div className="relative z-10 mx-auto grid w-full max-w-7xl place-items-center px-6 pt-12 pb-16 md:pt-24 lg:pt-28">
         <div className={`mx-auto text-center ${isMounted ? 'animate-fadeInUp' : 'opacity-0'}`}>
           {/* Top Badge */}
-          <div className="inline-flex items-center gap-2.5 rounded-full bg-white/10 px-5 py-2 text-xs font-semibold uppercase tracking-wider text-rose-300 ring-1 ring-white/20 backdrop-blur-md shadow-inner">
+          <div className="inline-flex items-center gap-2.5 rounded-full bg-teal-500/10 px-5 py-2 text-xs font-semibold uppercase tracking-wider text-teal-600 ring-1 ring-teal-500/30 backdrop-blur-md shadow-inner">
             <div className="relative flex items-center justify-center">
               <img 
-                src="/images/webbheads-logo.png" 
+                src="/images/webbheads-logo-black.png" 
                 alt="WebbHeads Logo" 
-                className="h-5 w-auto object-contain animate-pulse transition-transform duration-500 hover:scale-125 drop-shadow-[0_0_8px_rgba(244,63,94,0.6)]" 
+                className="h-5 w-auto object-contain animate-pulse transition-transform duration-500 hover:scale-125 drop-shadow-[0_0_8px_rgba(13,148,136,0.5)]" 
               />
-              <span className="absolute inset-0 rounded-full bg-rose-500/30 blur-sm animate-ping pointer-events-none" style={{ animationDuration: '3s' }} />
+              <span className="absolute inset-0 rounded-full bg-teal-500/30 blur-sm animate-ping pointer-events-none" style={{ animationDuration: '3s' }} />
             </div>
             <span>Web Design • Apps • AI Automation • SEO</span>
           </div>
 
-          {/* Headline - Dedicated Gradient (Purple & White Slide Slowly) */}
+          {/* Headline - Dedicated Gradient (Teal & Cyan Slide Slowly) */}
           <h1 style={{ animationDelay: '200ms' }} className={`mt-8 text-3xl font-extrabold tracking-tight sm:text-5xl md:text-6xl lg:text-[58px] max-w-6xl leading-[1.15] text-animated-purple-white ${isMounted ? 'animate-fadeInUp' : 'opacity-0'}`}>
             Premium Digital Ecosystems<br className="hidden sm:inline" /> for Vizag Businesses
           </h1>
 
           {/* Subtitle */}
-          <p style={{ animationDelay: '300ms' }} className={`mx-auto mt-8 max-w-3xl text-balance text-base text-white/95 sm:text-lg md:text-xl font-medium leading-relaxed ${isMounted ? 'animate-fadeInUp' : 'opacity-0'}`}>
+          <p style={{ animationDelay: '300ms' }} className={`mx-auto mt-8 max-w-3xl text-balance text-base text-teal-950/90 sm:text-lg md:text-xl font-medium leading-relaxed ${isMounted ? 'animate-fadeInUp' : 'opacity-0'}`}>
             Tech plus content, executed as a system: we align your website, apps, and social content so everything works together to grow your business in Vizag.
           </p>
 
@@ -105,27 +105,27 @@ export function WebbheadsHeroAnimated() {
               href="/Webbheads_company_profile.pdf" 
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex w-full sm:w-auto items-center justify-center gap-2 rounded-full bg-white px-8 py-3.5 text-xs font-bold text-black shadow-2xl transition-all duration-300 hover:bg-white/90 hover:scale-[1.03] active:scale-[0.98]"
+              className="inline-flex w-full sm:w-auto items-center justify-center gap-2 rounded-full bg-teal-600 px-8 py-3.5 text-xs font-bold text-white shadow-xl shadow-teal-600/25 transition-all duration-300 hover:bg-teal-500 hover:scale-[1.03] active:scale-[0.98]"
             >
               <span>Know More</span>
-              <ArrowRight className="h-4 w-4 text-black" />
+              <ArrowRight className="h-4 w-4 text-white" />
             </a>
             <a 
               href="#services" 
-              className="inline-flex w-full sm:w-auto items-center justify-center gap-2 rounded-full border border-white/10 bg-white/5 backdrop-blur-md px-8 py-4 text-xs font-semibold text-white/90 transition-all duration-300 hover:border-cyan-500/50 hover:bg-white/10 hover:scale-[1.03]"
+              className="inline-flex w-full sm:w-auto items-center justify-center gap-2 rounded-full border border-teal-500/40 bg-teal-500/5 backdrop-blur-md px-8 py-4 text-xs font-semibold text-teal-950 transition-all duration-300 hover:border-teal-500 hover:bg-teal-500/10 hover:scale-[1.03]"
             >
               <span>Explore Services</span>
             </a>
           </div>
 
           {/* Key Value Highlights */}
-          <div style={{ animationDelay: '500ms' }} className={`mt-10 flex flex-wrap items-center justify-center gap-6 text-xs text-white/70 ${isMounted ? 'animate-fadeInUp' : 'opacity-0'}`}>
+          <div style={{ animationDelay: '500ms' }} className={`mt-10 flex flex-wrap items-center justify-center gap-6 text-xs text-teal-950/70 ${isMounted ? 'animate-fadeInUp' : 'opacity-0'}`}>
             <div className="flex items-center gap-1.5">
-              <CheckCircle2 className="h-4 w-4 text-[#99F54E]" />
+              <CheckCircle2 className="h-4 w-4 text-teal-600" />
               <span>Proven 3-Step Process</span>
             </div>
             <div className="flex items-center gap-1.5">
-              <ShieldCheck className="h-4 w-4 text-rose-400" />
+              <ShieldCheck className="h-4 w-4 text-teal-600" />
               <span>Full Ecosystem Strategy</span>
             </div>
             <div className="flex items-center gap-1.5">
@@ -138,14 +138,14 @@ export function WebbheadsHeroAnimated() {
 
       {/* ================== CLIENT BRANDS ================== */}
       <div className="relative z-10 mx-auto w-full max-w-6xl px-6 pb-20">
-        <p className="text-center text-xs font-semibold uppercase tracking-widest text-white/40 mb-6 font-mono">
+        <p className="text-center text-xs font-semibold uppercase tracking-widest text-teal-950/50 mb-6 font-mono">
           Trusted By Vizag &amp; Global Organizations
         </p>
-        <div className="flex flex-wrap items-center justify-center gap-x-6 gap-y-4 text-xs font-mono uppercase tracking-wider text-white/70">
+        <div className="flex flex-wrap items-center justify-center gap-x-6 gap-y-4 text-xs font-mono uppercase tracking-wider text-teal-950/70">
           {["Sri Chess Academy", "Aum Free Yoga", "Thompson Luxury Homes", "TripSpark"].map((brand) => (
             <div 
               key={brand} 
-              className="rounded-full border border-white/10 bg-white/5 px-4 py-2 backdrop-blur-sm hover:border-purple-500/40 hover:text-white transition-all cursor-default"
+              className="rounded-full border border-teal-500/20 bg-white/70 px-4 py-2 backdrop-blur-sm hover:border-teal-500/50 hover:text-teal-600 hover:bg-teal-500/5 transition-all cursor-default"
             >
               {brand}
             </div>

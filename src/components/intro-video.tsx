@@ -35,12 +35,15 @@ export function IntroVideo() {
   useEffect(() => {
     if (isPlaying) {
       document.body.style.overflow = "hidden";
+      document.body.classList.add("intro-active");
     } else {
       document.body.style.overflow = "unset";
+      document.body.classList.remove("intro-active");
     }
 
     return () => {
       document.body.style.overflow = "unset";
+      document.body.classList.remove("intro-active");
     };
   }, [isPlaying]);
 
@@ -90,7 +93,7 @@ export function IntroVideo() {
           initial={{ opacity: 1 }}
           exit={{ opacity: 0 }}
           transition={{ duration: 0.6, ease: "easeInOut" }}
-          className="fixed inset-0 z-[100] flex items-center justify-center bg-black"
+          className="fixed inset-0 z-[9999] flex items-center justify-center bg-black"
         >
           <video
             ref={videoRef}
@@ -105,10 +108,10 @@ export function IntroVideo() {
 
           {/* Autoplay Fallback Overlay */}
           {isBlocked && (
-            <div className="absolute inset-0 z-[102] flex flex-col items-center justify-center bg-black/70 backdrop-blur-md">
+            <div className="absolute inset-0 z-[10001] flex flex-col items-center justify-center bg-black/70 backdrop-blur-md">
               <button
                 onClick={handleManualPlay}
-                className="flex items-center gap-3 px-8 py-4 bg-rose-600 hover:bg-rose-500 text-white rounded-full text-base font-bold shadow-lg shadow-rose-500/30 transition-all hover:scale-105"
+                className="flex items-center gap-3 px-8 py-4 bg-teal-600 hover:bg-teal-500 text-white rounded-full text-base font-bold shadow-lg shadow-teal-500/30 transition-all hover:scale-105"
               >
                 <Play className="w-5 h-5 fill-current" />
                 <span>Play Intro</span>
@@ -117,10 +120,10 @@ export function IntroVideo() {
           )}
 
           {/* Skip Intro Button with Circular Progress */}
-          <div className="absolute bottom-8 right-8 z-[101] flex items-center gap-3">
+          <div className="absolute bottom-8 right-8 z-[10000] flex items-center gap-3">
             <button
               onClick={handleVideoEnd}
-              className="relative group flex items-center gap-3 px-5 py-2.5 bg-black/40 hover:bg-black/60 backdrop-blur-md border border-white/20 hover:border-rose-500/50 text-white rounded-full text-xs font-semibold tracking-wider uppercase transition-all shadow-lg"
+              className="relative group flex items-center gap-3 px-5 py-2.5 bg-black/40 hover:bg-black/60 backdrop-blur-md border border-white/20 hover:border-teal-400/50 text-white rounded-full text-xs font-semibold tracking-wider uppercase transition-all shadow-lg"
             >
               <span>Skip Intro</span>
               <svg className="w-5 h-5 -rotate-90" viewBox="0 0 36 36">
@@ -132,7 +135,7 @@ export function IntroVideo() {
                   d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831"
                 />
                 <path
-                  className="text-rose-500 transition-all duration-150"
+                  className="text-teal-400 transition-all duration-150"
                   strokeDasharray="100, 100"
                   strokeDashoffset={strokeDashoffset}
                   strokeWidth="3"

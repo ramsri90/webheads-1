@@ -19,12 +19,12 @@ export const metadata: Metadata = {
   keywords: ["WebbHeads", "web design Vizag", "AI automation", "mobile app development", "SEO services Vizag", "Next.js agency"],
   icons: {
     icon: [
-      { url: "/icon.svg?v=10", type: "image/svg+xml" },
-      { url: "/icon.png?v=10", type: "image/png" }
+      { url: "/icon.svg?v=11", type: "image/svg+xml" },
+      { url: "/icon.png?v=11", type: "image/png" }
     ],
-    shortcut: ["/icon.svg?v=10"],
+    shortcut: ["/icon.svg?v=11"],
     apple: [
-      { url: "/icon.svg?v=10", type: "image/svg+xml" }
+      { url: "/icon.svg?v=11", type: "image/svg+xml" }
     ]
   }
 };
@@ -37,14 +37,14 @@ export default function RootLayout({
   return (
     <html
       lang="en"
-      className={`${geistSans.variable} ${geistMono.variable} h-full antialiased dark`}
+      className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}
     >
       <head>
-        <link rel="icon" href="/icon.svg?v=10" type="image/svg+xml" />
-        <link rel="shortcut icon" href="/icon.svg?v=10" type="image/svg+xml" />
-        <link rel="apple-touch-icon" href="/icon.svg?v=10" />
+        <link rel="icon" href="/icon.svg?v=11" type="image/svg+xml" />
+        <link rel="shortcut icon" href="/icon.svg?v=11" type="image/svg+xml" />
+        <link rel="apple-touch-icon" href="/icon.svg?v=11" />
       </head>
-      <body className="min-h-full flex flex-col bg-black text-white relative">
+      <body className="min-h-full flex flex-col bg-white text-teal-950 relative">
         <AnimatedBackground />
         <div className="relative z-10 flex flex-col min-h-full">
           {children}

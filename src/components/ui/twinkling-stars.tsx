@@ -35,7 +35,8 @@ export function TwinklingStars({ count = 80, className = "" }: TwinklingStarsPro
 
       // Vary glow strength based on size
       const glowSpread = (size * 1.5).toFixed(1);
-      const boxShadow = `0 0 ${glowSpread}px ${Math.max(0.5, size * 0.4).toFixed(1)}px rgba(255, 255, 255, 0.85)`;
+      const glowColor = i % 2 === 0 ? "rgba(13, 148, 136, 0.8)" : "rgba(34, 211, 238, 0.8)";
+      const boxShadow = `0 0 ${glowSpread}px ${Math.max(0.5, size * 0.4).toFixed(1)}px ${glowColor}`;
 
       return {
         id: i,
@@ -59,7 +60,7 @@ export function TwinklingStars({ count = 80, className = "" }: TwinklingStarsPro
       {stars.map((star) => (
         <div
           key={star.id}
-          className="absolute rounded-full bg-white transform-gpu"
+          className="absolute rounded-full bg-teal-500 transform-gpu"
           style={{
             top: `${star.top}%`,
             left: `${star.left}%`,

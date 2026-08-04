@@ -188,18 +188,18 @@ export function PortfolioSection() {
   return (
     <section id="cases" className="relative z-10 bg-transparent py-20 md:py-28 px-4 sm:px-6 md:px-8 overflow-hidden" style={{ perspective: "1200px" }}>
       {/* 3D Floating Glow Orbs */}
-      <div className="absolute top-1/3 left-[8%] -z-10 h-72 w-72 rounded-full bg-purple-500/5 blur-[120px] pointer-events-none animate-orbFloat" />
+      <div className="absolute top-1/3 left-[8%] -z-10 h-72 w-72 rounded-full bg-teal-500/5 blur-[120px] pointer-events-none animate-orbFloat" />
       <div className="absolute bottom-1/4 right-[8%] -z-10 h-80 w-80 rounded-full bg-cyan-500/5 blur-[120px] pointer-events-none animate-orbFloat" style={{ animationDelay: "6s" }} />
 
       <div ref={sectionRef} className="mx-auto max-w-7xl">
         {/* Header with Navigation Controls */}
         <div className="flex flex-col md:flex-row md:items-end justify-between mb-8 scroll-reveal gap-6">
           <div className="max-w-2xl">
-            <p className="text-purple-400 text-xs sm:text-sm font-semibold uppercase tracking-wider mb-2 font-mono">Our Work</p>
-            <h2 className="text-2xl sm:text-4xl md:text-5xl font-extrabold text-white leading-tight">
+            <p className="text-teal-600 text-xs sm:text-sm font-semibold uppercase tracking-wider mb-2 font-mono">Our Work</p>
+            <h2 className="text-2xl sm:text-4xl md:text-5xl font-extrabold text-teal-950 leading-tight">
               Real businesses. Real results.
             </h2>
-            <p className="mt-4 text-white/70 text-xs sm:text-sm">
+            <p className="mt-4 text-teal-950/70 text-xs sm:text-sm">
               Explore some of our recent custom platform builds. Swipe or click navigation buttons to browse Case studies.
             </p>
           </div>
@@ -208,14 +208,14 @@ export function PortfolioSection() {
           <div className="flex gap-3 shrink-0">
             <button
               onClick={handlePrev}
-              className="flex h-12 w-12 items-center justify-center rounded-full border border-white/10 bg-white/5 text-white hover:border-purple-500/50 hover:bg-purple-500/10 transition-all"
+              className="flex h-12 w-12 items-center justify-center rounded-full border border-teal-500/20 bg-teal-500/5 text-teal-950 hover:border-teal-500/50 hover:bg-teal-500/10 transition-all"
               aria-label="Previous slide"
             >
               <ChevronLeft className="h-5 w-5" />
             </button>
             <button
               onClick={handleNext}
-              className="flex h-12 w-12 items-center justify-center rounded-full border border-white/10 bg-white/5 text-white hover:border-purple-500/50 hover:bg-purple-500/10 transition-all"
+              className="flex h-12 w-12 items-center justify-center rounded-full border border-teal-500/20 bg-teal-500/5 text-teal-950 hover:border-teal-500/50 hover:bg-teal-500/10 transition-all"
               aria-label="Next slide"
             >
               <ChevronRight className="h-5 w-5" />
@@ -236,8 +236,8 @@ export function PortfolioSection() {
                 }}
                 className={`px-4 py-2 rounded-full text-xs font-semibold font-mono transition-all border ${
                   isActive
-                    ? "bg-purple-600 text-white border-purple-400 shadow-lg shadow-purple-500/25"
-                    : "bg-white/5 text-white/70 border-white/10 hover:border-white/20 hover:text-white"
+                    ? "bg-teal-600 text-white border-teal-400 shadow-lg shadow-teal-500/25"
+                    : "bg-teal-500/5 text-teal-950/70 border-teal-500/20 hover:border-teal-500/40 hover:text-teal-950"
                 }`}
               >
                 {cat}
@@ -258,7 +258,7 @@ export function PortfolioSection() {
                 onClick={() => setSelectedProject(proj)}
                 className="w-full shrink-0 px-2 sm:px-4 cursor-pointer"
               >
-                <div className="synapse-glass rounded-2xl overflow-hidden group border border-white/10 hover:border-purple-500/40 transition-all shadow-xl hover:shadow-purple-500/10">
+                <div className="synapse-glass rounded-2xl overflow-hidden group border border-teal-500/15 hover:border-teal-500/40 transition-all shadow-xl hover:shadow-teal-500/10">
                   <div className="grid grid-cols-1 md:grid-cols-12 items-stretch">
                     {/* Image visual */}
                     <div className="md:col-span-6 relative min-h-[240px] overflow-hidden">
@@ -267,8 +267,8 @@ export function PortfolioSection() {
                         alt={proj.title}
                         className="absolute inset-0 h-full w-full object-cover transition-transform duration-700 group-hover:scale-105"
                       />
-                      <div className="absolute inset-0 bg-gradient-to-t md:bg-gradient-to-r from-black/80 via-black/40 to-transparent" />
-                      <span className="absolute top-4 left-4 text-[10px] font-mono text-white/80 bg-black/60 backdrop-blur-md px-3 py-1 rounded-full border border-white/10">
+                      <div className="absolute inset-0 bg-gradient-to-t md:bg-gradient-to-r from-teal-950/80 via-teal-950/40 to-transparent" />
+                      <span className="absolute top-4 left-4 text-[12px] font-mono text-white bg-teal-950/70 backdrop-blur-md px-3 py-1 rounded-full border border-white/20">
                         {proj.category}
                       </span>
                     </div>
@@ -277,20 +277,20 @@ export function PortfolioSection() {
                     <div className="md:col-span-6 p-6 sm:p-8 flex flex-col justify-between space-y-6">
                       <div>
                         <div className="flex items-start justify-between mb-1">
-                          <h3 className="text-xl sm:text-2xl font-bold text-white group-hover:text-purple-300 transition-colors">
+                          <h3 className="text-xl sm:text-2xl font-bold text-teal-950 group-hover:text-teal-600 transition-colors">
                             {proj.title}
                           </h3>
-                          <ArrowUpRight className="h-5 w-5 text-white/40 group-hover:text-purple-400 transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5 mt-1 shrink-0" />
+                          <ArrowUpRight className="h-5 w-5 text-teal-500/50 group-hover:text-teal-600 transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5 mt-1 shrink-0" />
                         </div>
-                        <p className="text-xs text-white/40 mb-3 font-mono">{proj.subtitle}</p>
-                        <p className="text-xs sm:text-sm text-white/70 leading-relaxed line-clamp-3">
+                        <p className="text-xs text-teal-950/40 mb-3 font-mono">{proj.subtitle}</p>
+                        <p className="text-xs sm:text-sm text-teal-950/70 leading-relaxed line-clamp-3">
                           {proj.description}
                         </p>
                       </div>
 
-                      <div className="pt-4 border-t border-white/10 flex items-center justify-between">
-                        <span className="text-xs font-semibold text-purple-400 font-mono">{proj.impact}</span>
-                        <span className="text-xs text-white/60 group-hover:text-white transition-colors">View details →</span>
+                      <div className="pt-4 border-t border-teal-500/15 flex items-center justify-between">
+                        <span className="text-xs font-semibold text-teal-600 font-mono">{proj.impact}</span>
+                        <span className="text-xs text-teal-950/60 group-hover:text-teal-600 transition-colors">View details →</span>
                       </div>
                     </div>
                   </div>
@@ -307,7 +307,7 @@ export function PortfolioSection() {
               key={i}
               onClick={() => setCurrentIndex(i)}
               className={`h-2 rounded-full transition-all duration-300 ${
-                i === currentIndex ? "w-6 bg-purple-500" : "w-2 bg-white/20 hover:bg-white/40"
+                i === currentIndex ? "w-6 bg-teal-500" : "w-2 bg-teal-500/20 hover:bg-teal-500/40"
               }`}
               aria-label={`Go to slide ${i + 1}`}
             />
@@ -319,34 +319,34 @@ export function PortfolioSection() {
       {selectedProject && (
         <div
           onClick={() => setSelectedProject(null)}
-          className="fixed inset-0 z-[100] flex items-start justify-center p-4 sm:p-6 pt-24 pb-12 bg-black/40 backdrop-blur-sm overflow-y-auto"
+          className="fixed inset-0 z-[100] flex items-start justify-center p-4 sm:p-6 pt-24 pb-12 bg-teal-950/30 backdrop-blur-sm overflow-y-auto"
         >
           <div
             onClick={(e) => e.stopPropagation()}
-            className="relative w-full max-w-4xl rounded-3xl border border-white/20 bg-neutral-950 shadow-2xl overflow-hidden max-h-[82vh] flex flex-col animate-fadeInUp my-auto"
+            className="relative w-full max-w-4xl rounded-3xl border border-teal-500/20 bg-white shadow-2xl overflow-hidden max-h-[82vh] flex flex-col animate-fadeInUp my-auto"
           >
             {/* Floating Close Button */}
             <button
               onClick={() => setSelectedProject(null)}
-              className="absolute top-4 right-4 z-30 flex h-9 w-9 items-center justify-center rounded-full bg-white/20 text-white backdrop-blur-md hover:bg-white/30 transition-colors shadow-lg"
+              className="absolute top-4 right-4 z-30 flex h-9 w-9 items-center justify-center rounded-full bg-teal-500/10 text-teal-950 backdrop-blur-md hover:bg-teal-500/20 transition-colors shadow-lg"
               aria-label="Close"
             >
               <X className="h-5 w-5" />
             </button>
 
             {/* Modal Body Container */}
-            <div className="overflow-y-auto flex-1 p-6 sm:p-8 space-y-6 bg-neutral-950">
+            <div className="overflow-y-auto flex-1 p-6 sm:p-8 space-y-6 bg-white">
               {/* Header Title & Tag */}
-              <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-white/10 pb-5">
+              <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-teal-500/15 pb-5">
                 <div>
-                  <div className="inline-flex items-center gap-2 rounded-full border border-purple-500/40 bg-purple-500/10 px-3 py-1 text-xs font-semibold text-purple-400 font-mono mb-2">
-                    <span className="h-1.5 w-1.5 rounded-full bg-purple-400 animate-pulse" />
+                  <div className="inline-flex items-center gap-2 rounded-full border border-teal-500/40 bg-teal-500/10 px-3 py-1 text-xs font-semibold text-teal-600 font-mono mb-2">
+                    <span className="h-1.5 w-1.5 rounded-full bg-teal-500 animate-pulse" />
                     <span>{selectedProject.subtitle}</span>
                   </div>
-                  <h2 className="text-2xl sm:text-3xl font-extrabold text-white">
+                  <h2 className="text-2xl sm:text-3xl font-extrabold text-teal-950">
                     {selectedProject.title}
                   </h2>
-                  <p className="text-xs text-white/40 font-mono mt-1">{selectedProject.description}</p>
+                  <p className="text-xs text-teal-950/40 font-mono mt-1">{selectedProject.description}</p>
                 </div>
                 
                 {selectedProject.demoUrl && (
@@ -354,16 +354,16 @@ export function PortfolioSection() {
                     href={selectedProject.demoUrl}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="inline-flex items-center gap-2 rounded-full bg-white px-5 py-2.5 text-xs font-bold text-black shadow-xl hover:bg-neutral-100 transition-all shrink-0 self-start sm:self-center"
+                    className="inline-flex items-center gap-2 rounded-full bg-teal-600 px-5 py-2.5 text-xs font-bold text-white shadow-xl shadow-teal-600/20 hover:bg-teal-500 transition-all shrink-0 self-start sm:self-center"
                   >
                     <span>View Live Demo</span>
-                    <ExternalLink className="h-3.5 w-3.5 text-black" />
+                    <ExternalLink className="h-3.5 w-3.5 text-white" />
                   </a>
                 )}
               </div>
 
               {/* Main Image Banner */}
-              <div className="relative rounded-2xl overflow-hidden max-h-[320px] h-60 w-full border border-white/10">
+              <div className="relative rounded-2xl overflow-hidden max-h-[320px] h-60 w-full border border-teal-500/15">
                 <img
                   src={selectedProject.image}
                   alt={selectedProject.title}
@@ -375,11 +375,11 @@ export function PortfolioSection() {
               <div className="space-y-6">
                 {/* Overview */}
                 <div className="space-y-3">
-                  <h3 className="text-xs font-bold uppercase tracking-wider text-purple-400 flex items-center gap-2 font-mono">
-                    <Info className="h-4 w-4 text-purple-400" />
+                  <h3 className="text-xs font-bold uppercase tracking-wider text-teal-600 flex items-center gap-2 font-mono">
+                    <Info className="h-4 w-4 text-teal-600" />
                     <span>Overview</span>
                   </h3>
-                  <p className="text-xs sm:text-sm text-white/75 leading-relaxed font-light">
+                  <p className="text-xs sm:text-sm text-teal-950/75 leading-relaxed font-light">
                     {selectedProject.fullOverview}
                   </p>
                 </div>
@@ -387,14 +387,14 @@ export function PortfolioSection() {
                 {/* Key Features */}
                 {selectedProject.keyFeatures.length > 0 && (
                   <div className="space-y-4">
-                    <h3 className="text-xs font-bold uppercase tracking-wider text-purple-400 flex items-center gap-2 font-mono">
-                      <CheckSquare className="h-4 w-4 text-purple-400" />
+                    <h3 className="text-xs font-bold uppercase tracking-wider text-teal-600 flex items-center gap-2 font-mono">
+                      <CheckSquare className="h-4 w-4 text-teal-600" />
                       <span>Key Features</span>
                     </h3>
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-3.5">
                       {selectedProject.keyFeatures.map((feat, i) => (
-                        <div key={i} className="flex items-start gap-2.5 text-xs sm:text-sm text-white/80">
-                          <span className="h-2 w-2 rounded-full bg-purple-400 mt-1.5 shrink-0" />
+                        <div key={i} className="flex items-start gap-2.5 text-xs sm:text-sm text-teal-950/80">
+                          <span className="h-2 w-2 rounded-full bg-teal-500 mt-1.5 shrink-0" />
                           <span>{feat}</span>
                         </div>
                       ))}
@@ -405,11 +405,11 @@ export function PortfolioSection() {
                 {/* Tech Stack */}
                 {selectedProject.techStack.length > 0 && (
                   <div className="space-y-3">
-                    <h3 className="text-xs font-bold uppercase tracking-wider text-purple-400 flex items-center gap-2 font-mono">
-                      <Monitor className="h-4 w-4 text-purple-400" />
+                    <h3 className="text-xs font-bold uppercase tracking-wider text-teal-600 flex items-center gap-2 font-mono">
+                      <Monitor className="h-4 w-4 text-teal-600" />
                       <span>Tech Stack</span>
                     </h3>
-                    <div className="text-xs sm:text-sm text-white/75 font-mono leading-relaxed">
+                    <div className="text-xs sm:text-sm text-teal-950/75 font-mono leading-relaxed">
                       {selectedProject.techStack.join(" • ")}
                     </div>
                   </div>
@@ -418,14 +418,14 @@ export function PortfolioSection() {
                 {/* Results */}
                 {selectedProject.results.length > 0 && (
                   <div className="space-y-4">
-                    <h3 className="text-xs font-bold uppercase tracking-wider text-purple-400 flex items-center gap-2 font-mono">
-                      <TrendingUp className="h-4 w-4 text-purple-400" />
+                    <h3 className="text-xs font-bold uppercase tracking-wider text-teal-600 flex items-center gap-2 font-mono">
+                      <TrendingUp className="h-4 w-4 text-teal-600" />
                       <span>Results</span>
                     </h3>
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-3.5">
                       {selectedProject.results.map((res, i) => (
-                        <div key={i} className="flex items-start gap-2.5 text-xs sm:text-sm text-purple-300 font-medium">
-                          <span className="h-2 w-2 rounded-full bg-purple-400 mt-1.5 shrink-0" />
+                        <div key={i} className="flex items-start gap-2.5 text-xs sm:text-sm text-teal-600 font-medium">
+                          <span className="h-2 w-2 rounded-full bg-teal-500 mt-1.5 shrink-0" />
                           <span>{res}</span>
                         </div>
                       ))}
@@ -434,18 +434,18 @@ export function PortfolioSection() {
                 )}
 
                 {/* Modal Footer CTA */}
-                <div className="pt-6 border-t border-white/10 flex flex-col sm:flex-row items-center justify-between gap-4">
+                <div className="pt-6 border-t border-teal-500/15 flex flex-col sm:flex-row items-center justify-between gap-4">
                   <a
                     href="https://cal.com/webb-heads"
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="text-xs font-semibold text-purple-400 hover:text-purple-300 transition-colors"
+                    className="text-xs font-semibold text-teal-600 hover:text-teal-500 transition-colors"
                   >
                     Want a similar solution for your business? Book a call &rarr;
                   </a>
                   <button
                     onClick={() => setSelectedProject(null)}
-                    className="rounded-full bg-white/10 px-5 py-2 text-xs font-medium text-white hover:bg-white/20 transition-all"
+                    className="rounded-full bg-teal-500/10 px-5 py-2 text-xs font-medium text-teal-950 hover:bg-teal-500/20 transition-all"
                   >
                     Close
                   </button>
