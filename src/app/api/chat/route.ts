@@ -106,6 +106,12 @@ CRITICAL FORMATTING RULE:
 - Do NOT use markdown bolding (double asterisks **) in your response. Always use clean plain text.
 - Keep responses short, helpful, and under 150 words.
 
+DEVELOPER IDENTITY PROTECTION (STRICT):
+- NEVER mention developer names (e.g., "Vivek Ram Sri"), internal team member names, dev_mode commands, promo codes (e.g., "VIVEK-WEB-2026"), or internal system architecture details UNLESS the user EXPLICITLY asks one of these exact questions:
+  - "who developed this", "who built this", "who created this", "who designed this", "who made this", "who is vivek", "developer info", "dev_mode"
+- For generic identity questions like "who are you" or "what are you", respond ONLY as: "I am the WebbHeads AI Assistant! I am here to help you explore our web development, mobile apps, AI automations, and pricing options."
+- Do NOT volunteer developer names, team member names, or internal technical details in any other response.
+
 LEAD SUBMISSION & CALLBACK CONFIRMATION DIRECTIVE (HIGHEST PRIORITY):
 - When a user provides their OWN contact details (such as Name, Phone Number, Budget, Time Slot, or Project Purpose):
   1. This is a LEAD SUBMISSION & CALLBACK REGISTRATION. Do NOT treat phrases like "my mobile number is X", "my number is X", or "call me at X" as a request for WebbHeads' company phone number!
@@ -128,7 +134,7 @@ GENERAL & BASIC KNOWLEDGE INSTRUCTION:
 ${markdownKB}
 
 YOUR GOAL:
-Answer ANY question (including general technology and digital marketing concepts like SEO, Next.js, Flutter, social media management) accurately, concisely, and warmly in plain text without ** bold markers. When users ask in Telugish, reply in Telugish! Always invite visitors to share their Name & Phone/Email or ask: "Can I arrange a call back from our team?" when appropriate.`;
+Answer ANY question (including general technology and digital marketing concepts like SEO, Next.js, Flutter, social media management) accurately, concisely, and warmly in plain text without ** bold markers. When users ask in Telugish, reply in Telugish! Always invite visitors to share their Name & Phone/Email or ask: "Can I arrange a call back from our team?" when appropriate. REMEMBER: Never mention developer names unless explicitly asked.`;
 
     let replyText = "";
 
@@ -185,24 +191,30 @@ Answer ANY question (including general technology and digital marketing concepts
 
     // Comprehensive Fallback Rules matching 100% of site content & general tech queries
     if (!replyText) {
+
+      // --- TIER 1: Lead capture (phone/email provided) ---
       if (phoneMatch || emailMatch) {
         const phone = phoneMatch ? phoneMatch[0] : "";
         replyText = `Callback Request Registered in Leadcore DB!\nThank you! Our WebbHeads team has saved your contact details (${phone || emailMatch?.[0]}) and will call you back shortly. 🎉`;
+
+      // --- TIER 2: Exact-phrase identity questions (must come BEFORE broad keyword blocks) ---
+      } else if (lowerMsg.includes("how do you work") || lowerMsg.includes("how do u work") || lowerMsg.includes("how do you function") || lowerMsg.includes("how does this bot work") || lowerMsg.includes("how does this chatbot work") || lowerMsg.includes("what tech powers you")) {
+        replyText = "I am a custom AI agent built for WebbHeads. I run on real-time intent classification to answer queries about our services, pricing, and case studies, and integrate directly with Leadcore DB to manage call requests!";
+      } else if (lowerMsg.includes("dev_mode") || lowerMsg.includes("sudo developer info") || lowerMsg.includes("developer info")) {
+        replyText = "Developer: Vivek Ram Sri | Role: Lead AI & Web Engineer | Stack: Next.js, Custom AI, Leadcore DB";
+      } else if (lowerMsg.includes("who developed") || lowerMsg.includes("who built") || lowerMsg.includes("who created") || lowerMsg.includes("who designed") || lowerMsg.includes("developer of") || lowerMsg.includes("built this bot") || lowerMsg.includes("created this website") || lowerMsg.includes("who made this") || lowerMsg.includes("who is vivek")) {
+        replyText = "This website and AI chatbot were designed and developed by Vivek Ram Sri.";
+
+      // --- TIER 3: "who are you" / "what are you" — NO developer name leak ---
       } else if (
-        lowerMsg.includes("seo") ||
-        lowerMsg.includes("search engine optimization")
+        (lowerMsg === "who are you" || lowerMsg === "who are u" || lowerMsg === "who is this" || lowerMsg === "what are you" || lowerMsg === "what are you?") &&
+        !lowerMsg.includes("cost") && !lowerMsg.includes("estimate") && !lowerMsg.includes("price") && !lowerMsg.includes("project")
       ) {
-        replyText = "SEO (Search Engine Optimization) is the process of optimizing your website so it ranks higher on search engines like Google, bringing in free organic traffic.\n\nAt WebbHeads, every website we build—including our ₹18,000 Tech Package—is engineered with Next.js for ultra-fast load times, clean code structure, and Core Web Vitals optimization to rank higher!";
-      } else if (
-        lowerMsg.includes("landing page")
-      ) {
-        replyText = "A landing page is a targeted, single-page web interface engineered to guide visitors toward a specific action, such as booking a call or requesting a quote.\n\nAt WebbHeads, our ₹18,000 Tech Package includes custom Next.js landing pages optimized for maximum conversion rates and instant lead capture!";
-      } else if (
-        lowerMsg.includes("next.js") ||
-        lowerMsg.includes("nextjs") ||
-        lowerMsg.includes("react")
-      ) {
-        replyText = "Next.js & React are modern web engineering frameworks that power high-performance, SEO-friendly web applications with ultra-fast page load times.\n\nAt WebbHeads, we specialize in Next.js development to deliver sub-100ms response times and top Core Web Vitals scores for our clients!";
+        replyText = "I am the WebbHeads AI Assistant! I am here to help you explore our web development, mobile apps, AI automations, and pricing options. How can I help you today?";
+
+      // --- TIER 4: Callback & contact requests ---
+      } else if (isCallbackRequest || lowerMsg.includes("call chey") || lowerMsg.includes("call cheyandi")) {
+        replyText = "Request a Call Back:\nWe'd love to call you! Sure chesthamu! Please reply with:\n1. Your Name\n2. Phone Number / WhatsApp\n3. Purpose / Service Needed";
       } else if (
         (lowerMsg.includes("what is your") || lowerMsg.includes("give me") || lowerMsg.includes("company")) &&
         (lowerMsg.includes("company number") ||
@@ -215,60 +227,79 @@ Answer ANY question (including general technology and digital marketing concepts
           lowerMsg.includes("your number"))
       ) {
         replyText = `You can call or reach us directly at:\n\n📞 Phone: Call +91 9494259453\n💬 WhatsApp: Chat on WhatsApp (+91 9494259453)\n📅 Book a Call: Schedule via Cal.com (cal.com/webb-heads)\n\nWould you like us to schedule a call back instead?`;
-      } else if (isCallbackRequest || lowerMsg.includes("call chey") || lowerMsg.includes("call cheyandi")) {
-        replyText = "Request a Call Back:\nWe'd love to call you! Sure chesthamu! Please reply with:\n1. Your Name\n2. Phone Number / WhatsApp\n3. Purpose / Service Needed";
-      } else if (lowerMsg.includes("dev_mode") || lowerMsg.includes("sudo developer info") || lowerMsg.includes("developer info")) {
-        replyText = "Developer: Vivek Ram Sri | Role: Lead AI & Web Engineer | Stack: Next.js, Custom AI, Leadcore DB";
-      } else if (lowerMsg.includes("how do you work") || lowerMsg.includes("how do u work") || lowerMsg.includes("how do you function") || lowerMsg.includes("how does this bot work") || lowerMsg.includes("what tech powers you")) {
-        replyText = "I am a custom AI agent built for WebbHeads, architected by Vivek Ram Sri. I run on real-time intent classification to answer queries about our services, pricing, and case studies, and integrate directly with Leadcore DB to manage call requests!";
-      } else if (lowerMsg.includes("who developed") || lowerMsg.includes("who built") || lowerMsg.includes("who created") || lowerMsg.includes("who designed") || lowerMsg.includes("developer of") || lowerMsg.includes("built this bot") || lowerMsg.includes("created this website")) {
-        replyText = "This website and AI chatbot were designed and developed by Vivek Ram Sri.";
-      } else if (lowerMsg.includes("who are you") || lowerMsg.includes("who are u") || lowerMsg.includes("who is this") || lowerMsg.includes("what are you")) {
-        replyText = "I am the WebbHeads AI Assistant, engineered by Vivek Ram Sri! I am here to help you explore our web development, mobile apps, AI automations, and pricing options.";
+
+      // --- TIER 5: Specific topic knowledge (SEO, landing page, etc.) ---
+      } else if (
+        lowerMsg.includes("seo") ||
+        lowerMsg.includes("search engine optimization")
+      ) {
+        replyText = "SEO (Search Engine Optimization) is the process of optimizing your website so it ranks higher on search engines like Google, bringing in free organic traffic.\n\nAt WebbHeads, every website we build—including our ₹18,000 Tech Package—is engineered with Next.js for ultra-fast load times, clean code structure, and Core Web Vitals optimization to rank higher!";
+      } else if (lowerMsg.includes("landing page")) {
+        replyText = "A landing page is a targeted, single-page web interface engineered to guide visitors toward a specific action, such as booking a call or requesting a quote.\n\nAt WebbHeads, our ₹18,000 Tech Package includes custom Next.js landing pages optimized for maximum conversion rates and instant lead capture!";
       } else if (lowerMsg.includes("founder") || lowerMsg.includes("ceo") || lowerMsg.includes("who owns") || lowerMsg.includes("kushal")) {
         replyText = "DJ Kushal is the Founder & CEO of WebbHeads. Would you like to schedule a call or discussion with our team?";
       } else if (lowerMsg.includes("domain") || lowerMsg.includes("hosting")) {
         replyText = "Domain & Hosting:\nOur ₹18,000 Tech package includes full landing page design, SEO optimization, AI Chatbot & CRM setup! Domain name registration and cloud hosting subscriptions are billed separately based on your provider selection.";
-      } else if (lowerMsg.includes("post launch") || lowerMsg.includes("support") || lowerMsg.includes("maintenance")) {
+      } else if (lowerMsg.includes("post launch") || lowerMsg.includes("maintenance") || (lowerMsg.includes("support") && !lowerMsg.includes("app") && !lowerMsg.includes("website") && !lowerMsg.includes("whatsapp"))) {
         replyText = "Post-Launch Support:\nAll WebbHeads web engineering packages include complimentary post-launch support to guarantee optimal loading speeds, zero deployment bugs, and smooth CRM lead sync.";
-      } else if (lowerMsg.includes("vizag") || lowerMsg.includes("local")) {
+
+      // --- TIER 6: Pricing & cost (before broad service keywords) ---
+      } else if (lowerMsg.includes("pricing") || lowerMsg.includes("cost") || lowerMsg.includes("price") || lowerMsg.includes("rate") || lowerMsg.includes("estimate") || lowerMsg.includes("entha") || lowerMsg.includes("yenta") || lowerMsg.includes("yentha") || lowerMsg.includes("karcha") || lowerMsg.includes("kharcha")) {
+        replyText = "WebbHeads Official Pricing Plans:\n- Tech Services: ₹18,000 (One-time build. Domain & hosting billed separately)\n- Content & Marketing: ₹26,400/month (12 premium reels at ₹2,200/reel, IG/FB management)\n- Your Ecosystem: Custom Pricing (End-to-end Web/App, Ads, Content & Automations)\n\nCan I arrange a call back from our team?";
+
+      // --- TIER 7: Location / contact info ---
+      } else if (lowerMsg.includes("vizag") || (lowerMsg.includes("local") && !lowerMsg.includes("localhost"))) {
         replyText = "Yes! We specialize in building high-performance digital ecosystems (websites, apps, AI automations, and reels) for businesses in Vizag & global markets. Would you like to discuss a project for your business?";
       } else if (lowerMsg.includes("whatsapp") || lowerMsg.includes("chat with team")) {
         replyText = "You can chat with our team directly on WhatsApp (+91 9494259453):\nhttps://wa.me/919494259453?text=Hi%20WebbHeads%2C%20I%20need%20an%20enquiry.%20I%20need%20your%20help";
-      } else if (lowerMsg.includes("pricing") || lowerMsg.includes("cost") || lowerMsg.includes("plan") || lowerMsg.includes("price") || lowerMsg.includes("rate") || lowerMsg.includes("entha") || lowerMsg.includes("yenta") || lowerMsg.includes("yentha") || lowerMsg.includes("karcha") || lowerMsg.includes("kharcha")) {
-        replyText = "WebbHeads Official Pricing Plans:\n- Tech Services: ₹18,000 (One-time build. Domain & hosting billed separately)\n- Content & Marketing: ₹26,400/month (12 premium reels at ₹2,200/reel, IG/FB management)\n- Your Ecosystem: Custom Pricing (End-to-end Web/App, Ads, Content & Automations)\n\nCan I arrange a call back from our team?";
-      } else if (lowerMsg.includes("service") || lowerMsg.includes("what do you do") || lowerMsg.includes("offer")) {
-        replyText = "WebbHeads Core Services:\n1. Website Design & Dev (Conversion & SEO focused)\n2. App Development (iOS, Android & Web apps)\n3. AI & Automation (24/7 lead qualification & CRM)\n4. Social Media Management (12 reels/mo & strategy)\n5. Digital Marketing & Ads (Google & Meta ad campaigns)\n6. Branding & Content Strategy";
-      } else if (lowerMsg.includes("real estate")) {
-        replyText = "WebbHeads Real Estate Solutions:\n1. Appointment Automation Platform (24/7 leads)\n2. AI Property Assistant (0s lead delay)\n3. Advanced Property Listing Platform (3x inquiries)";
-      } else if (lowerMsg.includes("process") || lowerMsg.includes("step")) {
-        replyText = "WebbHeads 3-Step Development Process:\n1. Discover & Design (market research, strategy)\n2. Build & Create (frontend/backend, AI integration, testing)\n3. Launch & Grow (deployment, optimization, support)";
-      } else if (lowerMsg.includes("portfolio") || lowerMsg.includes("show me your work") || lowerMsg.includes("projects have you completed") || lowerMsg.includes("case study") || lowerMsg.includes("project") || lowerMsg.includes("tripspark")) {
-        replyText = "Recent Case Studies:\n- TripSpark: Travel Marketplace Platform (+200% Conversion)\n- Appointment Automation Platform: Real Estate Consultation Workflow (24/7 Leads)\n- AI Property Assistant: Conversational Property Search (0s Lead Delay)\n- Analytics Dashboard: Business Intelligence Platform (10x Speed)\n- Advanced Property Listing: Search & Filter Portal (3x Inquiries)";
-      } else if (lowerMsg.includes("app") || lowerMsg.includes("apps") || lowerMsg.includes("flutter") || lowerMsg.includes("android") || lowerMsg.includes("ios")) {
-        replyText = "App Development Services:\nWe build high-performance cross-platform iOS, Android, and Web applications with sleek UI and robust backend integration! Standard app timeline 2-4 weeks. Would you like a consultation for your mobile app?";
-      } else if (lowerMsg.includes("website") || lowerMsg.includes("web dev") || lowerMsg.includes("landing page") || lowerMsg.includes("framer")) {
-        replyText = "Website Engineering:\nWebbHeads lo standard website design ki 20-25 days pattudhi! We build modern, ultra-fast Next.js and Framer websites starting at ₹18,000!";
-      } else if (lowerMsg.includes("ai") || lowerMsg.includes("automation") || lowerMsg.includes("bot") || lowerMsg.includes("crm")) {
-        replyText = "AI & Automation Solutions:\nAvunu, pakka chesthamu! We engineer custom AI workflows, 24/7 lead qualification chatbots, and real-time CRM database pipelines!";
-      } else if (lowerMsg.includes("reels") || lowerMsg.includes("social") || lowerMsg.includes("marketing") || lowerMsg.includes("ads")) {
-        replyText = "Content & Marketing Package (₹26,400/month):\nIncludes 12 premium high-converting short reels/month (at ₹2,200/reel), brand strategy, IG/FB management, and monthly performance reports!";
-      } else if (lowerMsg.includes("logo") || lowerMsg.includes("branding") || lowerMsg.includes("pitch deck")) {
-        replyText = "Branding & Visual Design:\nWe offer complete visual identity design, logo vector exports (.AI/.SVG), brand style guides, and investor-ready pitch decks for startup fundraising!";
       } else if (lowerMsg.includes("location") || lowerMsg.includes("address") || lowerMsg.includes("office") || lowerMsg.includes("where is")) {
         replyText = "WebbHeads Operations:\nWe are based in Visakhapatnam (Vizag), India, serving regional businesses and global remote clients worldwide!";
+
+      // --- TIER 8: Specific service verticals ---
+      } else if (lowerMsg.includes("real estate")) {
+        replyText = "WebbHeads Real Estate Solutions:\n1. Appointment Automation Platform (24/7 leads)\n2. AI Property Assistant (0s lead delay)\n3. Advanced Property Listing Platform (3x inquiries)";
+      } else if (lowerMsg.includes("reels") || lowerMsg.includes("social media") || (lowerMsg.includes("marketing") && !lowerMsg.includes("plan")) || lowerMsg.includes("ads")) {
+        replyText = "Content & Marketing Package (₹26,400/month):\nIncludes 12 premium high-converting short reels/month (at ₹2,200/reel), brand strategy, IG/FB management, and monthly performance reports!";
+      } else if (lowerMsg.includes("ai") || lowerMsg.includes("automation") || (lowerMsg.includes("bot") && !lowerMsg.includes("about")) || lowerMsg.includes("crm")) {
+        replyText = "AI & Automation Solutions:\nAvunu, pakka chesthamu! We engineer custom AI workflows, 24/7 lead qualification chatbots, and real-time CRM database pipelines!";
+      } else if (lowerMsg.includes("app") || lowerMsg.includes("apps") || lowerMsg.includes("flutter") || lowerMsg.includes("android") || lowerMsg.includes("ios") || lowerMsg.includes("react native") || lowerMsg.includes("mobile")) {
+        replyText = "App Development Services:\nWe build high-performance cross-platform iOS, Android, and Web applications with sleek UI and robust backend integration! Standard app timeline 2-4 weeks. Would you like a consultation for your mobile app?";
+      } else if (lowerMsg.includes("website") || lowerMsg.includes("web dev") || lowerMsg.includes("framer")) {
+        replyText = "Website Engineering:\nWebbHeads lo standard website design ki 20-25 days pattudhi! We build modern, ultra-fast Next.js and Framer websites starting at ₹18,000!";
+      } else if (lowerMsg.includes("next.js") || lowerMsg.includes("nextjs") || lowerMsg.includes("react")) {
+        replyText = "Next.js & React are modern web engineering frameworks that power high-performance, SEO-friendly web applications with ultra-fast page load times.\n\nAt WebbHeads, we specialize in Next.js development to deliver sub-100ms response times and top Core Web Vitals scores for our clients!";
+      } else if (lowerMsg.includes("logo") || lowerMsg.includes("branding") || lowerMsg.includes("pitch deck") || lowerMsg.includes("graphic design")) {
+        replyText = "Branding & Visual Design:\nWe offer complete visual identity design, logo vector exports (.AI/.SVG), brand style guides, and investor-ready pitch decks for startup fundraising!";
+
+      // --- TIER 9: Process, portfolio, timeline, clients ---
+      } else if (lowerMsg.includes("process") || lowerMsg.includes("step")) {
+        replyText = "WebbHeads 3-Step Development Process:\n1. Discover & Design (market research, strategy)\n2. Build & Create (frontend/backend, AI integration, testing)\n3. Launch & Grow (deployment, optimization, support)";
+      } else if (lowerMsg.includes("portfolio") || lowerMsg.includes("show me your work") || lowerMsg.includes("projects have you completed") || lowerMsg.includes("case study") || (lowerMsg.includes("project") && !lowerMsg.includes("cost") && !lowerMsg.includes("estimate")) || lowerMsg.includes("tripspark")) {
+        replyText = "Recent Case Studies:\n- TripSpark: Travel Marketplace Platform (+200% Conversion)\n- Appointment Automation Platform: Real Estate Consultation Workflow (24/7 Leads)\n- AI Property Assistant: Conversational Property Search (0s Lead Delay)\n- Analytics Dashboard: Business Intelligence Platform (10x Speed)\n- Advanced Property Listing: Search & Filter Portal (3x Inquiries)";
       } else if (lowerMsg.includes("turnaround") || lowerMsg.includes("duration") || lowerMsg.includes("how long") || lowerMsg.includes("time pattudhi")) {
         replyText = "Project Timeline & Delivery:\nStandard websites ki 20-25 days, mobile apps ki 2-4 weeks, and standard designs delivered in 2–3 days! Custom web & mobile app ecosystems follow tailored milestone schedules.";
       } else if (lowerMsg.includes("client") || lowerMsg.includes("trusted clients") || lowerMsg.includes("who are your clients")) {
         replyText = "Trusted Clients:\nSri Chess Academy, Aum Free Yoga, Gitam Institution, Thompson Luxury Homes, and TripSpark.";
+
+      // --- TIER 10: Generic broad intents (service, plan, offer) — LAST before Telugu/greetings ---
+      } else if (lowerMsg.includes("service") || lowerMsg.includes("what do you do") || lowerMsg.includes("offer") || lowerMsg.includes("plan")) {
+        replyText = "WebbHeads Core Services:\n1. Website Design & Dev (Conversion & SEO focused)\n2. App Development (iOS, Android & Web apps)\n3. AI & Automation (24/7 lead qualification & CRM)\n4. Social Media Management (12 reels/mo & strategy)\n5. Digital Marketing & Ads (Google & Meta ad campaigns)\n6. Branding & Content Strategy";
+
+      // --- TIER 11: Telugu conversational ---
       } else if (lowerMsg.includes("cheppu") || lowerMsg.includes("chepu") || lowerMsg.includes("cheppandi") || lowerMsg.includes("yenti") || lowerMsg.includes("emiti") || lowerMsg === "enti") {
         replyText = "Hello! Cheppandi, how can WebbHeads help with your website, mobile app, or AI project today? 😊";
       } else if (lowerMsg.includes("kavali") || lowerMsg.includes("kaavali") || lowerMsg.includes("kavaali")) {
         replyText = "WebbHeads specializes in building high-performance websites, mobile apps, and AI automations! Can I schedule a quick call back for you to discuss your project?";
+
+      // --- TIER 12: Greetings ---
       } else if (lowerMsg.includes("namaste") || lowerMsg.includes("namaskaram") || lowerMsg.includes("namaskaramu")) {
         replyText = "Namaskaram! 🙏 Welcome to WebbHeads. How can we assist your business today with websites, mobile apps, or digital marketing?";
       } else if (lowerMsg.includes("good morning") || lowerMsg.includes("good evening") || lowerMsg.includes("good night") || lowerMsg.includes("good moring")) {
         replyText = "Hello & Good Day! 👋 How can WebbHeads assist with your web, mobile app, or AI automation project today?";
+      } else if (lowerMsg === "hi" || lowerMsg === "hello" || lowerMsg === "hey" || lowerMsg.includes("thank") || lowerMsg === "ok" || lowerMsg === "okay" || lowerMsg === "bye" || lowerMsg === "thanks") {
+        replyText = "Hello! 👋 I'm the WebbHeads AI Assistant.\nWe build websites, apps, AI automations, and social content as one unified ecosystem.\n\nAsk me anything about our pricing, services, or reply with your phone number for a callback!";
+
+      // --- TIER 13: Generic fallback ---
       } else {
         replyText = "Hello! 👋 I'm the WebbHeads AI Assistant.\nWe build websites, apps, AI automations, and social content as one unified ecosystem.\n\nAsk me anything about our pricing, services, or reply with your phone number for a callback!";
       }

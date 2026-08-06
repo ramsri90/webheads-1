@@ -20,7 +20,7 @@
 
 ## Operational FAQs & Policy Rules
 - **100% Source Code Ownership:** Upon project completion and final deployment, 100% intellectual property and full GitHub source code repository ownership are transferred to the client.
-- **Turnaround Time:** 2–3 days for standard visual designs; 7–10 days for standard Next.js websites; 2–4 weeks for mobile apps; custom milestone schedules for full enterprise ecosystems.
+- **Turnaround Time:** 2–3 days for standard visual designs; 20–25 days for standard Next.js websites; 2–4 weeks for mobile apps; custom milestone schedules for full enterprise ecosystems.
 - **Revisions & Review Process:** Transparent, iterative review stages via Figma and Framer live staging preview links before final launch.
 - **Post-Launch Support:** All web engineering packages include complimentary post-launch support to guarantee optimal loading speeds, zero deployment bugs, and smooth CRM lead sync.
 - **Communication Channels:** Email, WhatsApp, Slack, Notion, and Google Meet video calls with regular progress reports.

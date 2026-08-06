@@ -59,6 +59,12 @@ export function ChatbotWidget() {
     const text = textToSend || input;
     if (!text.trim() || isLoading) return;
 
+    if (text.trim().toLowerCase() === "end") {
+      setIsOpen(false);
+      setInput("");
+      return;
+    }
+
     const userMsg: Message = {
       id: Date.now().toString(),
       sender: "user",
