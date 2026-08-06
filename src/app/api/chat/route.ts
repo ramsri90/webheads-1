@@ -137,12 +137,12 @@ Answer ANY question (including general technology and digital marketing concepts
       : "";
 
     if (apiKey && apiKey !== "YOUR_GEMINI_API_KEY") {
-      // Model fallback priority chain
+      // Model fallback priority chain (Using valid, existing models to prevent slow failed retries)
       const candidateModels = [
-        "gemini-flash-latest",
-        "gemini-3.6-flash",
-        "gemini-3.5-flash",
+        "gemini-1.5-flash",
         "gemini-2.0-flash",
+        "gemini-1.5-pro",
+        "gemini-1.5-flash-8b",
       ];
 
       for (const model of candidateModels) {
@@ -248,7 +248,7 @@ Answer ANY question (including general technology and digital marketing concepts
       } else if (lowerMsg.includes("app") || lowerMsg.includes("apps") || lowerMsg.includes("flutter") || lowerMsg.includes("android") || lowerMsg.includes("ios")) {
         replyText = "App Development Services:\nWe build high-performance cross-platform iOS, Android, and Web applications with sleek UI and robust backend integration! Standard app timeline 2-4 weeks. Would you like a consultation for your mobile app?";
       } else if (lowerMsg.includes("website") || lowerMsg.includes("web dev") || lowerMsg.includes("landing page") || lowerMsg.includes("framer")) {
-        replyText = "Website Engineering:\nWebbHeads lo standard website design ki 7-10 days pattudhi! We build modern, ultra-fast Next.js and Framer websites starting at ₹18,000!";
+        replyText = "Website Engineering:\nWebbHeads lo standard website design ki 20-25 days pattudhi! We build modern, ultra-fast Next.js and Framer websites starting at ₹18,000!";
       } else if (lowerMsg.includes("ai") || lowerMsg.includes("automation") || lowerMsg.includes("bot") || lowerMsg.includes("crm")) {
         replyText = "AI & Automation Solutions:\nAvunu, pakka chesthamu! We engineer custom AI workflows, 24/7 lead qualification chatbots, and real-time CRM database pipelines!";
       } else if (lowerMsg.includes("reels") || lowerMsg.includes("social") || lowerMsg.includes("marketing") || lowerMsg.includes("ads")) {
@@ -258,7 +258,7 @@ Answer ANY question (including general technology and digital marketing concepts
       } else if (lowerMsg.includes("location") || lowerMsg.includes("address") || lowerMsg.includes("office") || lowerMsg.includes("where is")) {
         replyText = "WebbHeads Operations:\nWe are based in Visakhapatnam (Vizag), India, serving regional businesses and global remote clients worldwide!";
       } else if (lowerMsg.includes("turnaround") || lowerMsg.includes("duration") || lowerMsg.includes("how long") || lowerMsg.includes("time pattudhi")) {
-        replyText = "Project Timeline & Delivery:\nStandard websites ki 7-10 days, mobile apps ki 2-4 weeks, and standard designs delivered in 2–3 days! Custom web & mobile app ecosystems follow tailored milestone schedules.";
+        replyText = "Project Timeline & Delivery:\nStandard websites ki 20-25 days, mobile apps ki 2-4 weeks, and standard designs delivered in 2–3 days! Custom web & mobile app ecosystems follow tailored milestone schedules.";
       } else if (lowerMsg.includes("client") || lowerMsg.includes("trusted clients") || lowerMsg.includes("who are your clients")) {
         replyText = "Trusted Clients:\nSri Chess Academy, Aum Free Yoga, Gitam Institution, Thompson Luxury Homes, and TripSpark.";
       } else if (lowerMsg.includes("cheppu") || lowerMsg.includes("chepu") || lowerMsg.includes("cheppandi") || lowerMsg.includes("yenti") || lowerMsg.includes("emiti") || lowerMsg === "enti") {
