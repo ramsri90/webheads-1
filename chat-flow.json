@@ -843,6 +843,18 @@
         "category": "Quick Greeting & Inquiry",
         "user": "Namaste brother, mee company yey services provide chesthundhi?",
         "ai": "Namaskaram! \ud83d\ude4f WebbHeads mainly website development, mobile apps, digital marketing, and AI automations services isthundhi. Mee requirement enti cheppandi?"
+      },
+      {
+        "id": "TEL-06",
+        "category": "Compound Multi-Field Telugish Lead Submission",
+        "user": "na peru mukesh nak oka mobile application 2 months lo kavali na budget 45k so na mobile number 9492233981 , naku rep mng 10:30 ki call chestara",
+        "expected_behavior": "Extracts Name (Mukesh), Service (Mobile Application), Timeline (2 months), Budget (45k), Phone (9492233981), and Call Time (Tomorrow morning 10:30 AM). Confirms lead registration in warm Telugish without outputting company contact links."
+      },
+      {
+        "id": "TEL-07",
+        "category": "Compound Multi-Field English Lead Submission",
+        "user": "Good morning, I need a Next.js e-commerce website within 3 weeks. My budget is 35,000, call me at 9876543210 today at 4 PM, I'm Suresh.",
+        "expected_behavior": "Extracts Name (Suresh), Service (Next.js e-commerce website), Timeline (3 weeks), Budget (35,000), Phone (9876543210), and Call Time (Today at 4 PM). Confirms lead registration directly."
       }
     ]
   }

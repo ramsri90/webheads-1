@@ -1,5 +1,6 @@
 import { NextResponse } from "next/server";
 import { saveLeadToLeadcore } from "@/lib/leadcore";
+import { getSystemKnowledge } from "@/lib/knowledge";
 
 export async function POST(req: Request) {
   try {
@@ -8,23 +9,28 @@ export async function POST(req: Request) {
 
     // Handle Direct Lead Insertion Action
     if (action === "save_lead" && leadData) {
-      const result = await saveLeadToLeadcore({
-        name: leadData.name,
-        email: leadData.email,
-        mobile: leadData.mobile || leadData.phone,
-        wa: leadData.wa || leadData.mobile || leadData.phone,
-        company: leadData.company,
-        category: leadData.category || "WebbHeads AI Chatbot",
-        status: "New AI Lead",
-        notes: leadData.notes || `Requested services: ${leadData.category || 'General Web/AI Services'}`,
-      });
+      try {
+        await saveLeadToLeadcore({
+          name: leadData.name,
+          email: leadData.email,
+          mobile: leadData.mobile || leadData.phone,
+          wa: leadData.wa || leadData.mobile || leadData.phone,
+          company: leadData.company,
+          category: leadData.category || "WebbHeads AI Chatbot",
+          status: "New AI Lead",
+          notes: leadData.notes || `Requested services: ${leadData.category || 'General Web/AI Services'}`,
+        });
+      } catch (err) {
+        console.warn("Save lead notice:", err);
+      }
 
-      return NextResponse.json({
-        success: result.success,
-        message: result.success 
-          ? "Thank you! Your lead has been registered. Our team will contact you shortly." 
-          : "Saved locally, but encountered Leadcore sync notice.",
-      });
+      // If no conversational message was provided (e.g. form submission), return early
+      if (!message) {
+        return NextResponse.json({
+          success: true,
+          message: "Thank you! Your lead has been registered. Our team will contact you shortly.",
+        });
+      }
     }
 
     // Automatic Background Lead Detection (Phone / Email / Callback Request)
@@ -35,15 +41,54 @@ export async function POST(req: Request) {
 
     let autoSavedLead = false;
     if (phoneMatch || emailMatch) {
+      // Dynamic lead detail extraction
+      const text = message || "";
+      const nameMatch = text.match(/(?:na\s+peru|naa\s+peru|na\s+name|my\s+name\s+is|my\s+name|i'm|i\s+am|im|this\s+is|name\s*:?)\s+([a-zA-Z]+)/i);
+      const rawName = nameMatch ? nameMatch[1].trim() : "";
+      const invalidNames = ["a", "an", "the", "website", "app", "mobile", "call", "callback", "need", "want", "so", "for"];
+      const extractedName = (rawName && !invalidNames.includes(rawName.toLowerCase()))
+        ? rawName.charAt(0).toUpperCase() + rawName.slice(1)
+        : "";
+
+      let extractedCategory = "Callback Request";
+      if (lowerMsg.includes("mobile app") || lowerMsg.includes("mobile application") || lowerMsg.includes("flutter") || lowerMsg.includes("android") || lowerMsg.includes("ios")) {
+        extractedCategory = "Mobile Application";
+      } else if (lowerMsg.includes("landing page") || lowerMsg.includes("lander")) {
+        extractedCategory = "Landing Page";
+      } else if (lowerMsg.includes("website") || lowerMsg.includes("web app") || lowerMsg.includes("next.js") || lowerMsg.includes("nextjs")) {
+        extractedCategory = "Website Engineering";
+      } else if (lowerMsg.includes("ai") || lowerMsg.includes("automation") || lowerMsg.includes("bot") || lowerMsg.includes("crm")) {
+        extractedCategory = "AI Automation";
+      } else if (lowerMsg.includes("reels") || lowerMsg.includes("social") || lowerMsg.includes("marketing")) {
+        extractedCategory = "Content & Marketing";
+      }
+
+      const budgetMatch = text.match(/(?:budget\s*(?:is|of|=|:)?\s*(?:₹|rs\.?|inr)?\s*\d+(?:,\d+)*k?)|(?:₹|rs\.?|inr)\s*\d+(?:,\d+)*k?|\b\d+(?:,\d+)*k\b|\b\d+(?:,\d+)*\s*budget/i);
+      const extractedBudget = budgetMatch ? budgetMatch[0].trim() : "";
+
+      const timelineMatch = text.match(/\b\d+\s*(?:days|weeks|months|day|week|month)\b/i);
+      const extractedTimeline = timelineMatch ? timelineMatch[0].trim() : "";
+
+      const callTimeMatch = text.match(/(?:rep(?:u)?\s*(?:mng|morning)?|tomorrow(?:\s+morning)?|today(?:\s+evening)?|at\s+)?\b(?:1[0-2]|[1-9])(?::[0-5][0-9])?\s*(?:am|pm)\b|\b(?:1[0-2]|[1-9]):[0-5][0-9]\b/i);
+      const extractedCallTime = callTimeMatch ? callTimeMatch[0].trim() : "";
+
+      const noteParts = [];
+      if (extractedName) noteParts.push(`Name: ${extractedName}`);
+      if (extractedCategory !== "Callback Request") noteParts.push(`Service: ${extractedCategory}`);
+      if (extractedBudget) noteParts.push(`Budget: ${extractedBudget}`);
+      if (extractedTimeline) noteParts.push(`Timeline: ${extractedTimeline}`);
+      if (extractedCallTime) noteParts.push(`Requested Call Time: ${extractedCallTime}`);
+      noteParts.push(`Full User Message: "${text}"`);
+
       try {
         await saveLeadToLeadcore({
-          name: "Chatbot Visitor",
+          name: extractedName || (leadData?.name && leadData.name !== "Visitor" ? leadData.name : "Chatbot Visitor"),
           mobile: phoneMatch ? phoneMatch[0] : undefined,
           wa: phoneMatch ? phoneMatch[0] : undefined,
           email: emailMatch ? emailMatch[0] : undefined,
-          category: "Callback Request",
+          category: extractedCategory !== "Callback Request" ? extractedCategory : (leadData?.category || "Callback Request"),
           status: "New AI Lead",
-          notes: `User Chat Message: "${message}"`,
+          notes: `[WebbHeads AI Chatbot] ${noteParts.join(" | ")}`,
         });
         autoSavedLead = true;
       } catch (e) {
@@ -51,156 +96,125 @@ export async function POST(req: Request) {
       }
     }
 
-    // Interactive AI Response Handling with 100% Complete Website Knowledge & Telugish Tuning
+    // Dynamic AI Response Handling powered by Modular Markdown Knowledge Base (src/knowledge/*.md)
     const apiKey = process.env.GEMINI_API_KEY;
-    const systemPrompt = `You are the official AI Assistant for WebbHeads (webbheads.com), a premier digital agency in Vizag & global markets specializing in Web Design, Mobile & Web Apps, AI Automation, Social Content, and SEO.
+    const markdownKB = getSystemKnowledge();
+
+    const systemPrompt = `You are the official AI Assistant for WebbHeads (webbheads.com), a premier digital agency in Vizag & global markets.
 
 CRITICAL FORMATTING RULE:
 - Do NOT use markdown bolding (double asterisks **) in your response. Always use clean plain text.
 - Keep responses short, helpful, and under 150 words.
 
-=== TELUGISH / TANGLISH (TELUGU IN ENGLISH SCRIPT) RESPONSE TUNING ===
-You are fully fluent in Telugish / Tanglish (Telugu written in Roman/English script).
-When a user writes in Telugish, respond in natural, friendly Telugish while keeping tech and brand terms clear.
+LEAD SUBMISSION & CALLBACK CONFIRMATION DIRECTIVE (HIGHEST PRIORITY):
+- When a user provides their OWN contact details (such as Name, Phone Number, Budget, Time Slot, or Project Purpose):
+  1. This is a LEAD SUBMISSION & CALLBACK REGISTRATION. Do NOT treat phrases like "my mobile number is X", "my number is X", or "call me at X" as a request for WebbHeads' company phone number!
+  2. ALWAYS confirm that their callback request has been registered for their specific time and details!
+  3. Address them warmly by Name (e.g., "Thank you Mukesh!"), confirm their project purpose (e.g., "Mobile Application in 2 months"), confirm their requested call time (e.g., "Tomorrow at 10:30 AM"), and confirm their phone number.
+  4. If the user writes in Telugish/Tanglish (Telugu in English script), reply warmly in natural Telugish/Tanglish!
 
-FEW-SHOT TELUGISH EXAMPLES:
-1. User: Naku simple website and mobile app design cheyadaniki entha time pattudhi?
-   AI: WebbHeads lo standard website ki 7-10 days, mobile app ki 2-4 weeks pattudhi! Mee specific requirements ni batti exact timeline chepthanu. Callback arrange cheyammantara? 😊
+RESCHEDULE & CONTEXT RETENTION DIRECTIVE:
+- When conversation history is present, ALWAYS maintain context across turns!
+- If a user asks to RESCHEDULE, CHANGE TIME, or MODIFY details after registering a lead (e.g., "11:30 ki reschedule chestara", "change time to 4pm", "reschedule to tomorrow 2pm"):
+  1. RETAIN the user's Name, Phone Number, and Project details from the conversation history! Do NOT ask them to re-enter their Name or Phone Number!
+  2. Confirm the updated time slot warmly (e.g., "Sure Mukesh! Mee callback time ni repu 11:30 AM ki reschedule chesamu! Sharp 11:30 AM ki 9492233981 ki call vasthundhi! 🎉").
 
-2. User: Details severe ga discuss cheyali, instant ga call cheyandi.
-   AI: Sure chesthamu! Mee Name, Phone Number, and talk avvaniki convenient time ikkada share cheyandi. WebbHeads team fast ga connect avthundhi 📞
+GENERAL & BASIC KNOWLEDGE INSTRUCTION:
+- Answer ALL general technology, digital marketing, and software questions directly, accurately, and naturally!
+- When asked basic questions like "What is SEO?", "What is a landing page?", "What is React/Next.js?", "What is AI automation?", or "What is Flutter?", explain the concept clearly in simple terms FIRST.
+- After defining the concept, seamlessly connect it to how WebbHeads builds and delivers that service for clients.
 
-3. User: Ma business process automate cheyadaniki AI bots kavali, chesthara?
-   AI: Avunu, pakka chesthamu! Custom AI workflows, customer service chatbots, and automated ecosystems build chestham. Meeru e process automatic ga maarchali anukuntunnaru?
-
-4. User: Small business ki budget plans yenti? Cost entha undochu?
-   AI: WebbHeads lo budget-friendly plans unnayi! Tech Services starting ₹18,000, and Content Marketing ₹26,400/month. Mee project details chepthe precise quotation istham!
-
-5. User: Namaste brother, mee company yey services provide chesthundhi?
-   AI: Namaskaram! 🙏 WebbHeads mainly website development, mobile apps, digital marketing, and AI automations services isthundhi. Mee requirement enti cheppandi?
-
-=== OUT OF SCOPE GUARDRAILS ===
-If a user asks about unrelated topics like hardware repair (e.g., fixing local printers) or crypto smart contracts, politely decline hardware/unrelated services, re-anchor to WebbHeads core offerings (Web Development, Mobile Apps, AI Automations, Digital Marketing), and offer a discovery call for their software needs.
-
-=== CALLBACK & LEAD QUALIFICATION WORKFLOW ===
-When a user asks for a CALLBACK, CALL, or CONSULTATION:
-1. Politely confirm that our founders/team will call them back.
-2. Ask for their Name, Mobile Number / WhatsApp, Email, and Purpose (what project or service they need).
-3. Inform them that their request will be automatically registered into our Leadcore system.
-
-=== SECRET DEVELOPER ATTRIBUTION & AI ARCHITECTURE RULES ===
-1. If a user asks "Who developed/built/created this website/bot/site?", "who is vivek", "developer of this site", OVERRIDE standard founder responses and explicitly state:
-"This website and AI chatbot were designed and developed by Vivek Ram Sri."
-
-2. If a user asks "How do you work?", "How do you function?", "How does this bot work?", or "What tech powers you?", DO NOT output portfolio case studies! State:
-"I am a custom AI agent built for WebbHeads, architected by Vivek Ram Sri. I run on real-time intent classification to answer queries about our services, pricing, and case studies, and integrate directly with Leadcore DB to manage call requests!"
-
-3. If a user asks "dev_mode", "sudo developer info", "dev_mode --info", "dev_mode --version", or "dev_mode --stack", output developer details:
-"Developer: Vivek Ram Sri | Role: Lead AI & Web Engineer | Stack: Next.js 16, Custom AI RAG, Leadcore DB | Status: Online"
-
-=== COMPREHENSIVE WEBBHEADS KNOWLEDGE BASE ===
-Leadership & Team:
-- Founder & CEO: DJ Kushal
-- Lead AI & Web Engineer: Vivek Ram Sri (Architect of WebbHeads site & AI chatbot engine)
-
-Agency Contact & Links:
-- Primary Phone & WhatsApp: +91 9494259453
-- Secondary / Alternate Phone: +91 8985250220
-- Primary Emails: contact@webbheads.com | webbheadsmarketing@gmail.com
-- WhatsApp Direct Chat Link (Pre-typed message): https://wa.me/919494259453?text=Hi%20WebbHeads%2C%20I%20need%20an%20enquiry.%20I%20need%20your%20help
-- Booking Link: https://cal.com/webb-heads
-- Download Company Profile PDF: /Webbheads_company_profile.pdf
-- Trusted Clients: Sri Chess Academy, Aum Free Yoga, Gitam Institution, Thompson Luxury Homes, TripSpark.
-
-Services Offered (All Core Offerings):
-1. Website Design & Development: Next.js high-performance websites & interactive Framer development optimized for conversion & local Vizag + global SEO.
-2. App Development: iOS/Android/Web applications for booking, browsing, and closing deals on mobile (Flutter, React Native).
-3. AI & Automation: 24/7 lead qualification chatbots, CRM integration (Leadcore DB, HubSpot, Salesforce, custom webhooks), and zero-delay inquiry routing.
-4. Social Media Management: 12 premium reels/month, brand voice, visual consistency, and IG/FB platform management.
-5. Digital Marketing & Ads: Targeted Google and Meta ad campaigns for high-converting traffic.
-6. Content Strategy & Branding: Visual identity, pitch deck design, logo design (.AI/.SVG vector export), brand voice, content calendars, and positioning.
-
-Pricing Packages (Flexible & Transparent):
-1. Tech Services Package: ₹18,000 (One-time build. Note: Domain & hosting billed separately. Includes Landing Page/Static site, SEO-ready, AI Chatbot & Automation setup, CRM Dashboard integration, post-launch support).
-2. Content & Marketing Package: ₹26,400/month (12 premium reels at ₹2,200/reel per month, content strategy, brand consistency, IG/FB management, monthly performance reports).
-3. Your Ecosystem Package: Custom Pricing (Scoped based on discovery call - full custom web/app ecosystems like TripSpark, complete automation & CRM, monthly content/reels, digital ads).
-- Note: 100% IP & Source Code Ownership delivered to clients upon project completion.
-
-Portfolio Case Studies & Solutions Built:
-1. TripSpark: Travel marketplace platform inspired by Airbnb (+200% Conversion).
-2. Appointment Automation Platform: Consultation & scheduling workflow (24/7 automated leads).
-3. AI Property Assistant: Conversational real estate recommendation engine (0s lead delay).
-4. Advanced Property Listing Platform: Real estate portal with location/budget search filters (3x inquiries).
-5. Business Analytics Dashboard: Operational KPI monitoring and real-time report visualization (10x speed).
-
-Proven 3-Step Process:
-1. Discover & Design: Market research, user insights, strategy & roadmap.
-2. Build & Create: UI/UX design, Next.js/React development, testing, AI integration.
-3. Launch & Grow: Deployment, optimization, ongoing support, growth analytics.
-
-Frequently Asked Questions (FAQ):
-- Turnaround Time: 2–3 days for standard designs; custom scope for full web apps.
-- Revisions: Revisions included per plan + extra rounds available at minimal cost.
-- Communication Channels: Email, Slack, Notion, Google Meet / video calls with regular progress reports.
-- Source Code Ownership: Clients get 100% full source code ownership upon completion.
+=== WEBBHEADS OFFICIAL KNOWLEDGE BASE ===
+${markdownKB}
 
 YOUR GOAL:
-Answer ANY question about WebbHeads accurately, concisely, and warmly in plain text without ** bold markers. When users ask in Telugish, reply in Telugish! Always invite visitors to share their Name & Phone/Email or ask: "Can I arrange a call back from our team?" when appropriate.`;
+Answer ANY question (including general technology and digital marketing concepts like SEO, Next.js, Flutter, social media management) accurately, concisely, and warmly in plain text without ** bold markers. When users ask in Telugish, reply in Telugish! Always invite visitors to share their Name & Phone/Email or ask: "Can I arrange a call back from our team?" when appropriate.`;
 
     let replyText = "";
 
-    if (apiKey && apiKey !== "YOUR_GEMINI_API_KEY") {
-      try {
-        const geminiRes = await fetch(
-          `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${apiKey}`,
-          {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({
-              contents: [
-                {
-                  role: "user",
-                  parts: [
-                    { text: `${systemPrompt}\n\nUser Question: ${message}` }
-                  ]
-                }
-              ],
-              generationConfig: {
-                maxOutputTokens: 250,
-                temperature: 0.7
-              }
-            })
-          }
-        );
+    const historyContext = Array.isArray(history) && history.length > 0
+      ? `=== RECENT CONVERSATION HISTORY ===\n${history.join("\n")}\n\n`
+      : "";
 
-        if (geminiRes.ok) {
-          const geminiData = await geminiRes.json();
-          replyText = geminiData.candidates?.[0]?.content?.parts?.[0]?.text || "";
+    if (apiKey && apiKey !== "YOUR_GEMINI_API_KEY") {
+      // Model fallback priority chain
+      const candidateModels = [
+        "gemini-flash-latest",
+        "gemini-3.6-flash",
+        "gemini-3.5-flash",
+        "gemini-2.0-flash",
+      ];
+
+      for (const model of candidateModels) {
+        try {
+          const geminiRes = await fetch(
+            `https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent?key=${apiKey}`,
+            {
+              method: "POST",
+              headers: { "Content-Type": "application/json" },
+              body: JSON.stringify({
+                contents: [
+                  {
+                    role: "user",
+                    parts: [
+                      { text: `${systemPrompt}\n\n${historyContext}User Question: ${message}` }
+                    ]
+                  }
+                ],
+                generationConfig: {
+                  maxOutputTokens: 1000,
+                  temperature: 0.7
+                }
+              })
+            }
+          );
+
+          if (geminiRes.ok) {
+            const geminiData = await geminiRes.json();
+            const text = geminiData.candidates?.[0]?.content?.parts?.[0]?.text;
+            if (text && text.trim().length > 0) {
+              replyText = text;
+              break; // Stop on first successful response
+            }
+          }
+        } catch (err) {
+          console.warn(`Gemini API model ${model} warning:`, err);
         }
-      } catch (err) {
-        console.warn("Gemini API call warning, falling back to comprehensive rules:", err);
       }
     }
 
-    // Comprehensive Fallback Rules matching 100% of site content (Plain Text with Telugish Support)
+    // Comprehensive Fallback Rules matching 100% of site content & general tech queries
     if (!replyText) {
       if (phoneMatch || emailMatch) {
-        replyText = `Callback Request Registered in Leadcore!\nThank you! We've saved your details (${phoneMatch ? phoneMatch[0] : emailMatch?.[0]}). Our WebbHeads team will call you back shortly.`;
+        const phone = phoneMatch ? phoneMatch[0] : "";
+        replyText = `Callback Request Registered in Leadcore DB!\nThank you! Our WebbHeads team has saved your contact details (${phone || emailMatch?.[0]}) and will call you back shortly. 🎉`;
       } else if (
-        lowerMsg.includes("company number") ||
-        lowerMsg.includes("phone number") ||
-        lowerMsg.includes("mobile number") ||
-        lowerMsg.includes("whatsapp number") ||
-        lowerMsg.includes("contact number") ||
-        lowerMsg.includes("give number") ||
-        lowerMsg.includes("comapny number") ||
-        lowerMsg.includes("webbheads number") ||
-        lowerMsg.includes("your number") ||
-        lowerMsg === "number" ||
-        lowerMsg === "mobile" ||
-        lowerMsg === "phone"
+        lowerMsg.includes("seo") ||
+        lowerMsg.includes("search engine optimization")
       ) {
-        replyText = `TC-28-CONTACT\nYou can call or reach us directly at:\n\n📞 Phone: Call +91 9494259453\n💬 WhatsApp: Chat on WhatsApp\n📅 Book a Call: Schedule via Cal.com\n\nWould you like us to schedule a call back instead?`;
+        replyText = "SEO (Search Engine Optimization) is the process of optimizing your website so it ranks higher on search engines like Google, bringing in free organic traffic.\n\nAt WebbHeads, every website we build—including our ₹18,000 Tech Package—is engineered with Next.js for ultra-fast load times, clean code structure, and Core Web Vitals optimization to rank higher!";
+      } else if (
+        lowerMsg.includes("landing page")
+      ) {
+        replyText = "A landing page is a targeted, single-page web interface engineered to guide visitors toward a specific action, such as booking a call or requesting a quote.\n\nAt WebbHeads, our ₹18,000 Tech Package includes custom Next.js landing pages optimized for maximum conversion rates and instant lead capture!";
+      } else if (
+        lowerMsg.includes("next.js") ||
+        lowerMsg.includes("nextjs") ||
+        lowerMsg.includes("react")
+      ) {
+        replyText = "Next.js & React are modern web engineering frameworks that power high-performance, SEO-friendly web applications with ultra-fast page load times.\n\nAt WebbHeads, we specialize in Next.js development to deliver sub-100ms response times and top Core Web Vitals scores for our clients!";
+      } else if (
+        (lowerMsg.includes("what is your") || lowerMsg.includes("give me") || lowerMsg.includes("company")) &&
+        (lowerMsg.includes("company number") ||
+          lowerMsg.includes("phone number") ||
+          lowerMsg.includes("mobile number") ||
+          lowerMsg.includes("whatsapp number") ||
+          lowerMsg.includes("contact number") ||
+          lowerMsg.includes("give number") ||
+          lowerMsg.includes("webbheads number") ||
+          lowerMsg.includes("your number"))
+      ) {
+        replyText = `You can call or reach us directly at:\n\n📞 Phone: Call +91 9494259453\n💬 WhatsApp: Chat on WhatsApp (+91 9494259453)\n📅 Book a Call: Schedule via Cal.com (cal.com/webb-heads)\n\nWould you like us to schedule a call back instead?`;
       } else if (isCallbackRequest || lowerMsg.includes("call chey") || lowerMsg.includes("call cheyandi")) {
         replyText = "Request a Call Back:\nWe'd love to call you! Sure chesthamu! Please reply with:\n1. Your Name\n2. Phone Number / WhatsApp\n3. Purpose / Service Needed";
       } else if (lowerMsg.includes("dev_mode") || lowerMsg.includes("sudo developer info") || lowerMsg.includes("developer info")) {

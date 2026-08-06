@@ -84,35 +84,38 @@ export function ChatbotWidget() {
     const hasPhone = Boolean(phoneMatch);
     const extractedPhone = phoneMatch ? phoneMatch[0] : "";
 
-    // Smart regex extraction for name (e.g., "my name is vivek", "na name vivek", "naa peru vivek", "name vivek")
+    // Smart regex extraction for name (e.g., "my name is vivek", "na name vivek", "naa peru vivek", "na peru mukesh", "name vivek")
     const nameMatch = text.match(/(?:my name is|my name|i am|i'm|this is|name\s+is|na\s+name|naa\s+peru|na\s+peru|peru|name\s*:?)\s+([a-zA-Z]+)/i);
-    const extractedName = nameMatch ? nameMatch[1] : "";
+    const rawExtractedName = nameMatch ? nameMatch[1].trim() : "";
+    const invalidNames = ["a", "an", "the", "website", "app", "mobile", "call", "callback", "need", "want", "so", "for"];
+    const extractedName = (rawExtractedName && !invalidNames.includes(rawExtractedName.toLowerCase()))
+      ? rawExtractedName.charAt(0).toUpperCase() + rawExtractedName.slice(1)
+      : "";
 
     // Smart regex extraction for purpose/project (e.g., "build a Flutter app", "Next.js rebuild")
     const purposeMatch = text.match(/(?:want to build|regarding|for|need)\s+(?:a\s+)?([^,.!?]+)/i);
     const extractedPurpose = purposeMatch ? purposeMatch[1].trim() : "";
 
     // --- TC-28: Direct Click-to-Call / Phone Request Handler ---
-    const isAskingCompanyContact = lowerText.includes("company number") || 
+    const isAskingCompanyContact = !hasPhone && (
+      lowerText.includes("company number") || 
       lowerText.includes("webbheads number") || 
-      lowerText.includes("give number") || 
+      lowerText.includes("give company number") || 
       lowerText.includes("im asking company number") || 
       lowerText.includes("asking company number") ||
       lowerText.includes("company phone") || 
       lowerText.includes("how to call") || 
-      lowerText.includes("contact details") ||
-      lowerText.includes("phone number") ||
-      lowerText.includes("mobile number") ||
-      lowerText.includes("whatsapp number") ||
-      lowerText.includes("contact number") ||
-      lowerText.includes("comapny number") ||
-      lowerText.includes("your number") ||
+      lowerText.includes("what is your number") ||
+      lowerText.includes("your phone number") ||
+      lowerText.includes("your mobile number") ||
+      lowerText.includes("your contact number") ||
       lowerText === "number" ||
       lowerText === "nuber" ||
       lowerText === "numbe" ||
       lowerText === "numb" ||
       lowerText === "mobile" ||
-      lowerText === "phone";
+      lowerText === "phone"
+    );
 
     if (isAskingCompanyContact) {
       setMessages((prev) => [
@@ -120,7 +123,7 @@ export function ChatbotWidget() {
         {
           id: (Date.now() + 1).toString(),
           sender: "bot",
-          text: `TC-28-CONTACT\nYou can call or reach us directly at:\n\n📞 Phone: Call +91 9494259453\n💬 WhatsApp: Chat on WhatsApp\n📅 Book a Call: Schedule via Cal.com\n\nWould you like us to schedule a call back instead?`,
+          text: `You can call or reach us directly at:\n\n📞 Phone: Call +91 9494259453\n💬 WhatsApp: Chat on WhatsApp (+91 9494259453)\n📅 Book a Call: Schedule via Cal.com (cal.com/webb-heads)\n\nWould you like us to schedule a call back instead?`,
           timestamp: new Date().toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" }),
         },
       ]);
@@ -173,27 +176,39 @@ export function ChatbotWidget() {
 
       setIsLoading(true);
       try {
-        await fetch("/api/chat", {
+        const res = await fetch("/api/chat", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({
+            message: text,
             action: "save_lead",
             leadData: finalData,
           }),
         });
 
-        const timeNotice = extractedTime ? ` for ${extractedTime}` : "";
+        const data = await res.json();
+        const responseText = data.reply || `Thank you ${leadName}! Our WebbHeads team has registered your call request and will contact you shortly at "${extractedPhone}" 🎉`;
+
         setMessages((prev) => [
           ...prev,
           {
             id: (Date.now() + 1).toString(),
             sender: "bot",
-            text: `Thank you ${leadName} ! Our WebbHeads team has registered your call request${timeNotice} and will contact you shortly at this number "${extractedPhone}" 🎉`,
+            text: responseText,
             timestamp: new Date().toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" }),
           },
         ]);
       } catch (err) {
         console.error("Direct lead save error:", err);
+        setMessages((prev) => [
+          ...prev,
+          {
+            id: (Date.now() + 1).toString(),
+            sender: "bot",
+            text: `Thank you ${leadName}! Your request has been saved. Our team will contact you at ${extractedPhone}!`,
+            timestamp: new Date().toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" }),
+          },
+        ]);
       } finally {
         setIsLoading(false);
       }
@@ -526,10 +541,11 @@ export function ChatbotWidget() {
     // Normal Chat AI API call
     setIsLoading(true);
     try {
+      const chatHistory = messages.slice(-6).map((m) => `${m.sender === "user" ? "User" : "AI"}: ${m.text}`);
       const res = await fetch("/api/chat", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ message: text }),
+        body: JSON.stringify({ message: text, history: chatHistory }),
       });
 
       const data = await res.json();

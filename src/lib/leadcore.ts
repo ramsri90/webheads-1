@@ -67,7 +67,7 @@ export async function saveLeadToLeadcore(data: LeadData) {
         },
         body: JSON.stringify({
           lead_id: insertedLead.id,
-          text: `[WebbHeads AI Chatbot] ${data.notes}`,
+          text: data.notes.startsWith("[WebbHeads AI Chatbot]") ? data.notes : `[WebbHeads AI Chatbot] ${data.notes}`,
         }),
       });
     }
