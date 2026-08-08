@@ -1,5 +1,3 @@
-"use client";
-
 import { Navbar } from "@/components/navbar";
 import { WebbheadsHeroAnimated } from "@/components/hero-gradient";
 import { ServicesSection } from "@/components/services";
@@ -11,7 +9,6 @@ import { PricingSection } from "@/components/pricing";
 import { TestimonialsAndStats } from "@/components/testimonials-stats";
 import { FAQSection } from "@/components/faq";
 import { Footer } from "@/components/footer";
-import { FloatingCTA } from "@/components/floating-cta";
 import { IntroVideo } from "@/components/intro-video";
 import { ChatbotWidget } from "@/components/chatbot";
 

@@ -186,7 +186,7 @@ export function PortfolioSection() {
   };
 
   return (
-    <section id="cases" className="relative z-10 bg-transparent py-20 md:py-28 px-4 sm:px-6 md:px-8 overflow-hidden" style={{ perspective: "1200px" }}>
+    <section id="cases" className="relative z-10 bg-transparent py-20 md:py-28 px-4 sm:px-6 md:px-8 overflow-hidden">
       {/* Soft Ambient Glow */}
       <div className="absolute top-1/3 left-[8%] -z-10 h-64 w-64 rounded-full bg-teal-500/5 blur-3xl pointer-events-none" />
       <div className="absolute bottom-1/4 right-[8%] -z-10 h-72 w-72 rounded-full bg-cyan-500/5 blur-3xl pointer-events-none" />

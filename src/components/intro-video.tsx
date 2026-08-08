@@ -12,24 +12,17 @@ export function IntroVideo() {
   const videoRef = useRef<HTMLVideoElement>(null);
 
   useEffect(() => {
-    // Check if user already completed or skipped the intro in this session
+    // Automatically skip intro on mobile / touch devices for maximum speed
+    const isMobileDevice = window.innerWidth < 768 || ("ontouchstart" in window) || (navigator.maxTouchPoints > 0);
     const hasSeen = sessionStorage.getItem("webbheads_intro_seen");
-    if (hasSeen === "true") {
+
+    if (hasSeen === "true" || isMobileDevice) {
       setIsPlaying(false);
       return;
     }
 
     setIsPlaying(true);
-
-    const handleResize = () => {
-      if (window.innerWidth < 768) {
-        setVideoSrc("/video/reel ratio.mp4");
-      } else {
-        setVideoSrc("/video/landscape.mp4");
-      }
-    };
-
-    handleResize();
+    setVideoSrc("/video/landscape.mp4");
   }, []);
 
   useEffect(() => {
@@ -56,8 +49,7 @@ export function IntroVideo() {
           .then(() => {
             setIsBlocked(false);
           })
-          .catch((error) => {
-            console.warn("Autoplay blocked by browser:", error);
+          .catch(() => {
             setIsBlocked(true);
           });
       }
@@ -92,7 +84,7 @@ export function IntroVideo() {
         <motion.div
           initial={{ opacity: 1 }}
           exit={{ opacity: 0 }}
-          transition={{ duration: 0.6, ease: "easeInOut" }}
+          transition={{ duration: 0.3, ease: "easeInOut" }}
           className="fixed inset-0 z-[9999] flex items-center justify-center bg-black"
         >
           <video
@@ -119,7 +111,7 @@ export function IntroVideo() {
             </div>
           )}
 
-          {/* Skip Intro Button with Circular Progress */}
+          {/* Skip Intro Button */}
           <div className="absolute bottom-8 right-8 z-[10000] flex items-center gap-3">
             <button
               onClick={handleVideoEnd}
@@ -152,4 +144,3 @@ export function IntroVideo() {
     </AnimatePresence>
   );
 }
-

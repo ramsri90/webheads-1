@@ -32,7 +32,7 @@ export function ProcessSection() {
   const sectionRef = useMultiScrollReveal();
 
   return (
-    <section id="process" className="relative z-10 bg-transparent py-20 md:py-28 px-4 sm:px-6 md:px-8 overflow-hidden" style={{ perspective: "1200px" }}>
+    <section id="process" className="relative z-10 bg-transparent py-20 md:py-28 px-4 sm:px-6 md:px-8 overflow-hidden">
       {/* 3D Floating Glow Orbs */}
       <div className="absolute top-1/4 right-[5%] -z-10 h-72 w-72 rounded-full bg-teal-500/10 blur-[120px] pointer-events-none animate-orbFloat" />
       <div className="absolute bottom-1/4 left-[5%] -z-10 h-80 w-80 rounded-full bg-cyan-500/10 blur-[120px] pointer-events-none animate-orbFloat" style={{ animationDelay: "7s" }} />

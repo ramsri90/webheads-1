@@ -32,7 +32,7 @@ export function FAQSection() {
   const sectionRef = useMultiScrollReveal();
 
   return (
-    <section id="faq" className="relative z-10 bg-transparent py-20 md:py-28 px-4 sm:px-6 md:px-8 border-t border-teal-500/15 overflow-hidden" style={{ perspective: "1200px" }}>
+    <section id="faq" className="relative z-10 bg-transparent py-20 md:py-28 px-4 sm:px-6 md:px-8 border-t border-teal-500/15 overflow-hidden">
       {/* 3D Floating Glow Orb */}
       <div className="absolute top-1/3 right-[10%] -z-10 h-72 w-72 rounded-full bg-cyan-500/10 blur-[120px] pointer-events-none animate-orbFloat" />
 
