@@ -8,7 +8,6 @@ export function Hero3DLogoScene() {
   const [isMobile, setIsMobile] = useState(false);
 
   useEffect(() => {
-    // Detect mobile / touch screens to skip WebGL rendering for max performance
     const checkMobile = () => {
       const mobileWidth = window.innerWidth < 768;
       const isTouch = "ontouchstart" in window || navigator.maxTouchPoints > 0;
@@ -56,7 +55,7 @@ export function Hero3DLogoScene() {
     const logoMesh = new THREE.Mesh(logoGeometry, logoMaterial);
     scene.add(logoMesh);
 
-    // 3. Orbiting 3D Particle Starfield (Reduced to 80 particles for efficiency)
+    // 3. Orbiting 3D Particle Starfield
     const particleCount = 80;
     const particleGeometry = new THREE.BufferGeometry();
     const positions = new Float32Array(particleCount * 3);
@@ -101,50 +100,37 @@ export function Hero3DLogoScene() {
     const ambientLight = new THREE.AmbientLight(0xffffff, 1.2);
     scene.add(ambientLight);
 
-    // Visibility-driven animation pause (IntersectionObserver)
     let isVisible = true;
+    let animationFrameId: number | null = null;
+    const clock = new THREE.Clock();
+
+    const animate = () => {
+      if (!isVisible) {
+        animationFrameId = null;
+        return;
+      }
+
+      const elapsedTime = clock.getElapsedTime();
+      logoMesh.position.y = Math.sin(elapsedTime * 2.2) * 0.28;
+      particlePoints.rotation.y += 0.0015;
+
+      renderer.render(scene, camera);
+      animationFrameId = requestAnimationFrame(animate);
+    };
+
     const observer = new IntersectionObserver(
       (entries) => {
         entries.forEach((entry) => {
+          const wasVisible = isVisible;
           isVisible = entry.isIntersecting;
+          if (isVisible && !wasVisible && animationFrameId === null) {
+            animate();
+          }
         });
       },
       { threshold: 0.05 }
     );
     observer.observe(container);
-
-    // Mouse Pointer Interaction
-    let mouseX = 0;
-    let mouseY = 0;
-
-    const handleMouseMove = (e: MouseEvent) => {
-      if (!isVisible) return;
-      const windowHalfX = window.innerWidth / 2;
-      const windowHalfY = window.innerHeight / 2;
-      mouseX = (e.clientX - windowHalfX) * 0.0008;
-      mouseY = (e.clientY - windowHalfY) * 0.0008;
-    };
-
-    window.addEventListener("mousemove", handleMouseMove, { passive: true });
-
-    // Animation Loop with scroll pause logic
-    let animationFrameId: number;
-    const clock = new THREE.Clock();
-
-    const animate = () => {
-      animationFrameId = requestAnimationFrame(animate);
-
-      // Skip GPU rendering completely if scrolled out of viewport
-      if (!isVisible) return;
-
-      const elapsedTime = clock.getElapsedTime();
-
-      // Gentle Bouncing Animation
-      logoMesh.position.y = Math.sin(elapsedTime * 2.2) * 0.28;
-      particlePoints.rotation.y += 0.0015;
-
-      renderer.render(scene, camera);
-    };
 
     animate();
 
@@ -161,11 +147,11 @@ export function Hero3DLogoScene() {
 
     return () => {
       observer.disconnect();
-      window.removeEventListener("mousemove", handleMouseMove);
       window.removeEventListener("resize", handleResize);
-      cancelAnimationFrame(animationFrameId);
+      if (animationFrameId !== null) {
+        cancelAnimationFrame(animationFrameId);
+      }
 
-      // WebGL Complete Resource Cleanup
       logoGeometry.dispose();
       logoMaterial.dispose();
       logoTexture.dispose();
@@ -179,7 +165,6 @@ export function Hero3DLogoScene() {
     };
   }, [isMobile]);
 
-  // Mobile Lightweight Fallback
   if (isMobile) {
     return (
       <div className="relative w-full h-[280px] flex items-center justify-center pointer-events-none" aria-hidden="true">

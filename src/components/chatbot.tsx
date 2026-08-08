@@ -624,12 +624,7 @@ export function ChatbotWidget() {
   const [isIntroActive, setIsIntroActive] = useState(false);
 
   useEffect(() => {
-    const checkIntro = () => {
-      setIsIntroActive(document.body.classList.contains("intro-active"));
-    };
-    checkIntro();
-    const interval = setInterval(checkIntro, 300);
-    return () => clearInterval(interval);
+    setIsIntroActive(document.body.classList.contains("intro-active"));
   }, []);
 
   if (isIntroActive) return null;

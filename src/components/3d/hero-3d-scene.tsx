@@ -23,11 +23,9 @@ export function Hero3DScene() {
     const container = containerRef.current;
     if (!container) return;
 
-    // Dimensions
     const width = container.clientWidth;
     const height = container.clientHeight;
 
-    // Scene, Camera, Renderer
     const scene = new THREE.Scene();
     const camera = new THREE.PerspectiveCamera(45, width / height, 0.1, 1000);
     camera.position.z = 8;
@@ -37,7 +35,6 @@ export function Hero3DScene() {
     renderer.setPixelRatio(Math.min(window.devicePixelRatio, 1.25));
     container.appendChild(renderer.domElement);
 
-    // 1. Core 3D Geometry: TorusKnot Wireframe (Simplified segments for performance)
     const torusGeometry = new THREE.TorusKnotGeometry(1.6, 0.45, 64, 16);
     const torusMaterial = new THREE.MeshStandardMaterial({
       color: 0xf43f5e,
@@ -49,7 +46,6 @@ export function Hero3DScene() {
     const torusMesh = new THREE.Mesh(torusGeometry, torusMaterial);
     scene.add(torusMesh);
 
-    // 2. Inner Core Icosahedron
     const coreGeometry = new THREE.IcosahedronGeometry(0.9, 1);
     const coreMaterial = new THREE.MeshPhongMaterial({
       color: 0xfca69a,
@@ -60,7 +56,6 @@ export function Hero3DScene() {
     const coreMesh = new THREE.Mesh(coreGeometry, coreMaterial);
     scene.add(coreMesh);
 
-    // 3. Orbiting Particle Ring (Capped at 80 for efficiency)
     const particleCount = 80;
     const particleGeometry = new THREE.BufferGeometry();
     const positions = new Float32Array(particleCount * 3);
@@ -96,7 +91,6 @@ export function Hero3DScene() {
     const particlePoints = new THREE.Points(particleGeometry, particleMaterial);
     scene.add(particlePoints);
 
-    // 4. Lighting
     const ambientLight = new THREE.AmbientLight(0xffffff, 0.7);
     scene.add(ambientLight);
 
@@ -104,42 +98,14 @@ export function Hero3DScene() {
     pointLight.position.set(5, 5, 5);
     scene.add(pointLight);
 
-    // Visibility-driven animation pause
     let isVisible = true;
-    const observer = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          isVisible = entry.isIntersecting;
-        });
-      },
-      { threshold: 0.05 }
-    );
-    observer.observe(container);
-
-    let mouseX = 0;
-    let mouseY = 0;
-    let targetX = 0;
-    let targetY = 0;
-
-    const handleMouseMove = (e: MouseEvent) => {
-      if (!isVisible) return;
-      const windowHalfX = window.innerWidth / 2;
-      const windowHalfY = window.innerHeight / 2;
-      mouseX = (e.clientX - windowHalfX) * 0.001;
-      mouseY = (e.clientY - windowHalfY) * 0.001;
-    };
-
-    window.addEventListener("mousemove", handleMouseMove, { passive: true });
-
-    let animationFrameId: number;
+    let animationFrameId: number | null = null;
 
     const animate = () => {
-      animationFrameId = requestAnimationFrame(animate);
-
-      if (!isVisible) return;
-
-      targetX += (mouseX - targetX) * 0.05;
-      targetY += (mouseY - targetY) * 0.05;
+      if (!isVisible) {
+        animationFrameId = null;
+        return;
+      }
 
       torusMesh.rotation.x += 0.006;
       torusMesh.rotation.y += 0.008;
@@ -150,7 +116,22 @@ export function Hero3DScene() {
       particlePoints.rotation.y += 0.002;
 
       renderer.render(scene, camera);
+      animationFrameId = requestAnimationFrame(animate);
     };
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          const wasVisible = isVisible;
+          isVisible = entry.isIntersecting;
+          if (isVisible && !wasVisible && animationFrameId === null) {
+            animate();
+          }
+        });
+      },
+      { threshold: 0.05 }
+    );
+    observer.observe(container);
 
     animate();
 
@@ -167,9 +148,10 @@ export function Hero3DScene() {
 
     return () => {
       observer.disconnect();
-      window.removeEventListener("mousemove", handleMouseMove);
       window.removeEventListener("resize", handleResize);
-      cancelAnimationFrame(animationFrameId);
+      if (animationFrameId !== null) {
+        cancelAnimationFrame(animationFrameId);
+      }
 
       torusGeometry.dispose();
       torusMaterial.dispose();
