@@ -58,7 +58,7 @@ Unlike traditional chatbots that rely on heavy Python backends or static fine-tu
 - **HTTP Method:** `POST`
 - **Handled Payload Actions:**
   - **Conversational Action:** `{ "message": "What is your pricing?" }` → Executes Gemini LLM + RAG + Fallback Rules + Auto-Lead Detection.
-  - **Lead Save Action:** `{ "action": "save_lead", "leadData": { "name": "Vivek", "mobile": "6307089085", ... } }` → Invokes `saveLeadToLeadcore()` to persist lead into Supabase.
+  - **Lead Save Action:** `{ "action": "save_lead", "leadData": { "name": "Vivek", "mobile": "6304050076", ... } }` → Invokes `saveLeadToLeadcore()` to persist lead into Supabase.
 
 ---
 
