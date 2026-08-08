@@ -43,9 +43,9 @@ export function Benefits3DSection() {
 
   return (
     <section id="benefits" className="relative z-10 bg-transparent py-20 md:py-28 px-4 sm:px-6 md:px-8 overflow-hidden" style={{ perspective: "1200px" }}>
-      {/* 3D Floating Glow Orbs */}
-      <div className="absolute top-1/3 left-1/4 -z-10 h-72 w-72 rounded-full bg-teal-500/10 blur-[120px] pointer-events-none animate-orbFloat" />
-      <div className="absolute bottom-1/4 right-1/4 -z-10 h-80 w-80 rounded-full bg-cyan-500/10 blur-[120px] pointer-events-none animate-orbFloat" style={{ animationDelay: "5s" }} />
+      {/* 3D Soft Ambient Glow */}
+      <div className="absolute top-1/3 left-1/4 -z-10 h-64 w-64 rounded-full bg-teal-500/10 blur-3xl pointer-events-none" />
+      <div className="absolute bottom-1/4 right-1/4 -z-10 h-72 w-72 rounded-full bg-cyan-500/10 blur-3xl pointer-events-none" />
 
       <div ref={sectionRef} className="mx-auto max-w-7xl">
         <div className="text-center max-w-2xl mx-auto mb-14 md:mb-20 scroll-reveal">

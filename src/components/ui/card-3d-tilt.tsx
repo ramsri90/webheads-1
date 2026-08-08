@@ -1,12 +1,12 @@
 "use client";
 
-import React, { useRef, useState } from "react";
+import React, { useRef, useState, useEffect } from "react";
 
 interface Card3DTiltProps {
   children: React.ReactNode;
   className?: string;
   style?: React.CSSProperties;
-  maxTilt?: number; // max tilt angle in degrees
+  maxTilt?: number;
   glareOpacity?: number;
 }
 
@@ -14,15 +14,26 @@ export function Card3DTilt({
   children,
   className = "",
   style = {},
-  maxTilt = 12,
-  glareOpacity = 0.15,
+  maxTilt = 10,
+  glareOpacity = 0.12,
 }: Card3DTiltProps) {
   const cardRef = useRef<HTMLDivElement>(null);
   const [tilt, setTilt] = useState({ x: 0, y: 0 });
   const [glare, setGlare] = useState({ x: 50, y: 50, opacity: 0 });
+  const [isHoverable, setIsHoverable] = useState(true);
+
+  useEffect(() => {
+    // Only enable tilt calculation on devices with fine pointer (mouse) capability
+    const media = window.matchMedia("(hover: hover) and (pointer: fine)");
+    setIsHoverable(media.matches);
+
+    const handler = (e: MediaQueryListEvent) => setIsHoverable(e.matches);
+    media.addEventListener("change", handler);
+    return () => media.removeEventListener("change", handler);
+  }, []);
 
   const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
-    if (!cardRef.current) return;
+    if (!isHoverable || !cardRef.current) return;
     const rect = cardRef.current.getBoundingClientRect();
     const width = rect.width;
     const height = rect.height;
@@ -30,13 +41,10 @@ export function Card3DTilt({
     const mouseX = e.clientX - rect.left;
     const mouseY = e.clientY - rect.top;
 
-    const xPct = (mouseX / width - 0.5) * 2; // -1 to 1
-    const yPct = (mouseY / height - 0.5) * 2; // -1 to 1
+    const xPct = (mouseX / width - 0.5) * 2;
+    const yPct = (mouseY / height - 0.5) * 2;
 
-    const tiltX = -yPct * maxTilt;
-    const tiltY = xPct * maxTilt;
-
-    setTilt({ x: tiltX, y: tiltY });
+    setTilt({ x: -yPct * maxTilt, y: xPct * maxTilt });
     setGlare({
       x: (mouseX / width) * 100,
       y: (mouseY / height) * 100,
@@ -45,9 +53,14 @@ export function Card3DTilt({
   };
 
   const handleMouseLeave = () => {
+    if (!isHoverable) return;
     setTilt({ x: 0, y: 0 });
     setGlare((prev) => ({ ...prev, opacity: 0 }));
   };
+
+  if (!isHoverable) {
+    return <div className={className} style={style}>{children}</div>;
+  }
 
   return (
     <div
@@ -58,11 +71,10 @@ export function Card3DTilt({
       style={{
         perspective: "1000px",
         transformStyle: "preserve-3d",
-        transform: `perspective(1000px) rotateX(${tilt.x}deg) rotateY(${tilt.y}deg) translateZ(12px)`,
+        transform: `perspective(1000px) rotateX(${tilt.x}deg) rotateY(${tilt.y}deg) translateZ(8px)`,
         ...style,
       }}
     >
-      {/* 3D Specular Light Glare Overlay */}
       <div
         className="pointer-events-none absolute inset-0 rounded-[inherit] transition-opacity duration-300 z-30"
         style={{

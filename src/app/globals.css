@@ -54,7 +54,15 @@ body {
 }
 
 .animate-orbFloat {
-  animation: orbFloat 14s ease-in-out infinite;
+  animation: orbFloat 24s ease-in-out infinite;
+  will-change: transform;
+}
+
+@media (prefers-reduced-motion: reduce), (max-width: 640px) {
+  .animate-orbFloat,
+  .animate-logoFloat3D {
+    animation: none !important;
+  }
 }
 
 /* ========== 3D SCROLL REVEAL ========== */

@@ -1,24 +1,26 @@
 "use client";
 
-import React, { useState, useEffect } from "react";
-import { ArrowRight, Sparkles, CheckCircle2, ShieldCheck, Star } from "lucide-react";
+import React, { useState, useEffect, useRef } from "react";
+import { ArrowRight, CheckCircle2, ShieldCheck, Star } from "lucide-react";
 import { Hero3DLogoScene } from "@/components/3d/hero-3d-logo-scene";
 import { TwinklingStars } from "@/components/ui/twinkling-stars";
 
 export function WebbheadsHeroAnimated() {
   const [isMounted, setIsMounted] = useState(false);
-  const [mousePos, setMousePos] = useState({ x: 50, y: 50 });
+  const spotlightRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    const timer = setTimeout(() => setIsMounted(true), 100);
+    const timer = setTimeout(() => setIsMounted(true), 50);
     return () => clearTimeout(timer);
   }, []);
 
+  // Direct DOM manipulation on mouse move — eliminates React state re-render loop
   const handleMouseMove = (e: React.MouseEvent<HTMLElement>) => {
+    if (!spotlightRef.current) return;
     const rect = e.currentTarget.getBoundingClientRect();
     const x = ((e.clientX - rect.left) / rect.width) * 100;
     const y = ((e.clientY - rect.top) / rect.height) * 100;
-    setMousePos({ x, y });
+    spotlightRef.current.style.background = `radial-gradient(500px circle at ${x.toFixed(1)}% ${y.toFixed(1)}%, rgba(13, 148, 136, 0.12), rgba(34, 211, 238, 0.08) 50%, transparent 80%)`;
   };
 
   return (
@@ -27,14 +29,15 @@ export function WebbheadsHeroAnimated() {
       className="relative isolate min-h-screen pt-28 pb-16 overflow-hidden bg-transparent text-teal-950 flex flex-col justify-between"
     >
       {/* Organic Twinkling Teal Starfield Background */}
-      <TwinklingStars count={80} />
+      <TwinklingStars count={35} />
 
-      {/* Dynamic Interactive Mouse Spotlight Ambient Glow */}
+      {/* Dynamic Interactive Mouse Spotlight Ambient Glow (DOM updated directly) */}
       <div 
+        ref={spotlightRef}
         aria-hidden
-        className="pointer-events-none absolute inset-0 -z-25 transition-opacity duration-500 opacity-60"
+        className="pointer-events-none absolute inset-0 -z-25 transition-opacity duration-300 opacity-60"
         style={{
-          background: `radial-gradient(600px circle at ${mousePos.x}% ${mousePos.y}%, rgba(13, 148, 136, 0.15), rgba(34, 211, 238, 0.10) 50%, transparent 80%)`,
+          background: "radial-gradient(500px circle at 50% 50%, rgba(13, 148, 136, 0.12), rgba(34, 211, 238, 0.08) 50%, transparent 80%)",
         }}
       />
 
@@ -42,7 +45,8 @@ export function WebbheadsHeroAnimated() {
       <div className="absolute inset-0 z-0 flex items-center justify-center pointer-events-none opacity-85">
         <Hero3DLogoScene />
       </div>
-      {/* ================== BACKGROUND GRADIENT ================== */}
+
+      {/* Background Gradient */}
       <div
         aria-hidden
         className="absolute inset-0 -z-30 pointer-events-none"
@@ -73,7 +77,7 @@ export function WebbheadsHeroAnimated() {
         }}
       />
 
-      {/* ================== HERO CONTENT ================== */}
+      {/* Hero Content */}
       <div className="relative z-10 mx-auto grid w-full max-w-7xl place-items-center px-6 pt-12 pb-16 md:pt-24 lg:pt-28">
         <div className={`mx-auto text-center ${isMounted ? 'animate-fadeInUp' : 'opacity-0'}`}>
           {/* Top Badge */}
@@ -82,14 +86,13 @@ export function WebbheadsHeroAnimated() {
               <img 
                 src="/images/webbheads-logo-black.png" 
                 alt="WebbHeads Logo" 
-                className="h-5 w-auto object-contain animate-pulse transition-transform duration-500 hover:scale-125 drop-shadow-[0_0_8px_rgba(13,148,136,0.5)]" 
+                className="h-5 w-auto object-contain transition-transform duration-500 hover:scale-125 drop-shadow-[0_0_8px_rgba(13,148,136,0.5)]" 
               />
-              <span className="absolute inset-0 rounded-full bg-teal-500/30 blur-sm animate-ping pointer-events-none" style={{ animationDuration: '3s' }} />
             </div>
             <span>Web Design • Apps • AI Automation • SEO</span>
           </div>
 
-          {/* Headline - Dedicated Gradient (Teal & Cyan Slide Slowly) */}
+          {/* Headline */}
           <h1 style={{ animationDelay: '200ms' }} className={`mt-8 text-3xl font-extrabold tracking-tight sm:text-5xl md:text-6xl lg:text-[58px] max-w-6xl leading-[1.15] text-animated-purple-white ${isMounted ? 'animate-fadeInUp' : 'opacity-0'}`}>
             Premium Digital Ecosystems<br className="hidden sm:inline" /> for Vizag Businesses
           </h1>
@@ -99,7 +102,7 @@ export function WebbheadsHeroAnimated() {
             Tech plus content, executed as a system: we align your website, apps, and social content so everything works together to grow your business in Vizag.
           </p>
 
-          {/* Action CTAs: Know More (PDF) & Explore Services */}
+          {/* Action CTAs */}
           <div style={{ animationDelay: '400ms' }} className={`mt-10 flex flex-col items-center justify-center gap-4 sm:flex-row ${isMounted ? 'animate-fadeInUp' : 'opacity-0'}`}>
             <a 
               href="/Webbheads_company_profile.pdf" 
@@ -136,7 +139,7 @@ export function WebbheadsHeroAnimated() {
         </div>
       </div>
 
-      {/* ================== CLIENT BRANDS ================== */}
+      {/* Client Brands */}
       <div className="relative z-10 mx-auto w-full max-w-6xl px-6 pb-20">
         <p className="text-center text-xs font-semibold uppercase tracking-widest text-teal-950/50 mb-6 font-mono">
           Trusted By Vizag &amp; Global Organizations
@@ -152,7 +155,6 @@ export function WebbheadsHeroAnimated() {
           ))}
         </div>
       </div>
-
     </section>
   );
 }

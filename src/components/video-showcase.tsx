@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useEffect, useRef } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { Film } from "lucide-react";
 import { useMultiScrollReveal } from "@/hooks/use-scroll-reveal";
 
@@ -28,23 +28,24 @@ const videoClips = [
   }
 ];
 
-const reels = [...videoClips, ...videoClips];
+function ReelFrame({ clip, isMobile }: { clip: (typeof videoClips)[number]; isMobile: boolean }) {
+  const videoRef = useRef<HTMLVideoElement>(null);
 
-function ReelFrame({ clip }: { clip: (typeof videoClips)[number] }) {
   return (
     <div className="flex flex-col items-center gap-3 shrink-0">
       {/* Phone Mock Reel */}
-      <div className="relative w-[230px] sm:w-[260px] aspect-[9/16] rounded-[36px] border-[6px] border-neutral-800 bg-black shadow-2xl overflow-hidden ring-1 ring-white/15">
+      <div className="relative w-[220px] sm:w-[260px] aspect-[9/16] rounded-[32px] sm:rounded-[36px] border-[5px] sm:border-[6px] border-neutral-800 bg-black shadow-2xl overflow-hidden ring-1 ring-white/15">
         {/* Speaker / Camera Pill */}
-        <div className="absolute top-3 left-1/2 -translate-x-1/2 w-24 h-3.5 rounded-full bg-neutral-900 z-30 flex items-center justify-center">
+        <div className="absolute top-3 left-1/2 -translate-x-1/2 w-20 sm:w-24 h-3 sm:h-3.5 rounded-full bg-neutral-900 z-30 flex items-center justify-center">
           <span className="h-1 w-1 rounded-full bg-neutral-800 mr-1.5" />
-          <span className="h-0.5 w-10 rounded-full bg-neutral-800" />
+          <span className="h-0.5 w-8 sm:w-10 rounded-full bg-neutral-800" />
         </div>
 
         {/* Autoplaying Reel Video */}
         <video
+          ref={videoRef}
           src={clip.src}
-          autoPlay
+          autoPlay={!isMobile}
           muted
           loop
           playsInline
@@ -70,17 +71,44 @@ function ReelFrame({ clip }: { clip: (typeof videoClips)[number] }) {
 export function VideoShowcase() {
   const sectionRef = useMultiScrollReveal();
   const trackRef = useRef<HTMLDivElement>(null);
+  const [isMobile, setIsMobile] = useState(false);
 
   useEffect(() => {
-    const videos = trackRef.current?.querySelectorAll("video") ?? [];
-    videos.forEach((video) => video.play().catch(() => {}));
+    setIsMobile(window.innerWidth < 640);
   }, []);
+
+  // IntersectionObserver to auto-pause videos when scrolled off-screen
+  useEffect(() => {
+    const track = trackRef.current;
+    if (!track) return;
+
+    const videos = track.querySelectorAll("video");
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            videos.forEach((v) => v.play().catch(() => {}));
+          } else {
+            videos.forEach((v) => v.pause());
+          }
+        });
+      },
+      { threshold: 0.1 }
+    );
+
+    observer.observe(track);
+    return () => observer.disconnect();
+  }, []);
+
+  // Use 1 loop for mobile (3 videos) and 2 for desktop (6 videos)
+  const displayClips = isMobile ? videoClips : [...videoClips, ...videoClips];
 
   return (
     <section ref={sectionRef} id="showcase" className="relative z-10 bg-transparent py-20 md:py-28 px-4 sm:px-6 md:px-8 overflow-hidden" style={{ perspective: "1200px" }}>
-      {/* Glow Orbs */}
-      <div className="absolute top-1/4 left-[8%] -z-10 h-72 w-72 rounded-full bg-teal-500/10 blur-[120px] pointer-events-none animate-orbFloat" />
-      <div className="absolute bottom-1/4 right-[8%] -z-10 h-80 w-80 rounded-full bg-cyan-500/10 blur-[120px] pointer-events-none animate-orbFloat" style={{ animationDelay: "4s" }} />
+      {/* Soft Ambient Glow */}
+      <div className="absolute top-1/4 left-[8%] -z-10 h-64 w-64 rounded-full bg-teal-500/10 blur-3xl pointer-events-none" />
+      <div className="absolute bottom-1/4 right-[8%] -z-10 h-72 w-72 rounded-full bg-cyan-500/10 blur-3xl pointer-events-none" />
 
       <div className="mx-auto max-w-7xl">
         {/* Header */}
@@ -96,9 +124,9 @@ export function VideoShowcase() {
 
         {/* Auto-sliding Reel Marquee */}
         <div className="relative overflow-hidden [mask-image:linear-gradient(to_right,transparent,black_6%,black_94%,transparent)]">
-          <div ref={trackRef} className="reel-marquee flex w-max gap-6">
-            {reels.map((clip, i) => (
-              <ReelFrame key={`${clip.id}-${i}`} clip={clip} />
+          <div ref={trackRef} className={`${isMobile ? "flex justify-center flex-wrap" : "reel-marquee flex w-max"} gap-6`}>
+            {displayClips.map((clip, i) => (
+              <ReelFrame key={`${clip.id}-${i}`} clip={clip} isMobile={isMobile} />
             ))}
           </div>
         </div>

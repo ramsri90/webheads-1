@@ -1,12 +1,25 @@
 "use client";
 
-import React, { useEffect, useRef } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import * as THREE from "three";
 
 export function Hero3DScene() {
   const containerRef = useRef<HTMLDivElement>(null);
+  const [isMobile, setIsMobile] = useState(false);
 
   useEffect(() => {
+    const checkMobile = () => {
+      const mobileWidth = window.innerWidth < 768;
+      const isTouch = "ontouchstart" in window || navigator.maxTouchPoints > 0;
+      setIsMobile(mobileWidth && isTouch);
+    };
+
+    checkMobile();
+  }, []);
+
+  useEffect(() => {
+    if (isMobile) return;
+
     const container = containerRef.current;
     if (!container) return;
 
@@ -19,15 +32,15 @@ export function Hero3DScene() {
     const camera = new THREE.PerspectiveCamera(45, width / height, 0.1, 1000);
     camera.position.z = 8;
 
-    const renderer = new THREE.WebGLRenderer({ alpha: true, antialias: true });
+    const renderer = new THREE.WebGLRenderer({ alpha: true, antialias: true, powerPreference: "low-power" });
     renderer.setSize(width, height);
-    renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+    renderer.setPixelRatio(Math.min(window.devicePixelRatio, 1.25));
     container.appendChild(renderer.domElement);
 
-    // 1. Core 3D Geometry: TorusKnot Wireframe
-    const torusGeometry = new THREE.TorusKnotGeometry(1.6, 0.45, 128, 32);
+    // 1. Core 3D Geometry: TorusKnot Wireframe (Simplified segments for performance)
+    const torusGeometry = new THREE.TorusKnotGeometry(1.6, 0.45, 64, 16);
     const torusMaterial = new THREE.MeshStandardMaterial({
-      color: 0xf43f5e, // rose-500
+      color: 0xf43f5e,
       wireframe: true,
       emissive: 0x9f1239,
       roughness: 0.2,
@@ -36,26 +49,25 @@ export function Hero3DScene() {
     const torusMesh = new THREE.Mesh(torusGeometry, torusMaterial);
     scene.add(torusMesh);
 
-    // 2. Inner Glowing Core Icosahedron
-    const coreGeometry = new THREE.IcosahedronGeometry(0.9, 2);
+    // 2. Inner Core Icosahedron
+    const coreGeometry = new THREE.IcosahedronGeometry(0.9, 1);
     const coreMaterial = new THREE.MeshPhongMaterial({
-      color: 0xfca69a, // coral-300
+      color: 0xfca69a,
       emissive: 0xe11d48,
-      shininess: 100,
+      shininess: 80,
       wireframe: false,
     });
     const coreMesh = new THREE.Mesh(coreGeometry, coreMaterial);
     scene.add(coreMesh);
 
-    // 3. Orbiting 3D Particle Starfield Ring
-    const particleCount = 280;
+    // 3. Orbiting Particle Ring (Capped at 80 for efficiency)
+    const particleCount = 80;
     const particleGeometry = new THREE.BufferGeometry();
     const positions = new Float32Array(particleCount * 3);
     const colors = new Float32Array(particleCount * 3);
 
-    const color1 = new THREE.Color(0xf43f5e); // rose
-    const color2 = new THREE.Color(0x6366f1); // indigo
-    const color3 = new THREE.Color(0x99f54e); // electric lime
+    const color1 = new THREE.Color(0xf43f5e);
+    const color2 = new THREE.Color(0x6366f1);
 
     for (let i = 0; i < particleCount; i++) {
       const radius = 2.8 + Math.random() * 2.2;
@@ -66,7 +78,7 @@ export function Hero3DScene() {
       positions[i * 3 + 1] = radius * Math.sin(phi);
       positions[i * 3 + 2] = radius * Math.sin(theta) * Math.cos(phi);
 
-      const mixedColor = i % 3 === 0 ? color1 : i % 3 === 1 ? color2 : color3;
+      const mixedColor = i % 2 === 0 ? color1 : color2;
       colors[i * 3] = mixedColor.r;
       colors[i * 3 + 1] = mixedColor.g;
       colors[i * 3 + 2] = mixedColor.b;
@@ -79,7 +91,7 @@ export function Hero3DScene() {
       size: 0.05,
       vertexColors: true,
       transparent: true,
-      opacity: 0.85,
+      opacity: 0.8,
     });
     const particlePoints = new THREE.Points(particleGeometry, particleMaterial);
     scene.add(particlePoints);
@@ -88,57 +100,60 @@ export function Hero3DScene() {
     const ambientLight = new THREE.AmbientLight(0xffffff, 0.7);
     scene.add(ambientLight);
 
-    const pointLight1 = new THREE.PointLight(0xf43f5e, 2, 20);
-    pointLight1.position.set(5, 5, 5);
-    scene.add(pointLight1);
+    const pointLight = new THREE.PointLight(0xf43f5e, 2, 20);
+    pointLight.position.set(5, 5, 5);
+    scene.add(pointLight);
 
-    const pointLight2 = new THREE.PointLight(0x6366f1, 2, 20);
-    pointLight2.position.set(-5, -5, 5);
-    scene.add(pointLight2);
+    // Visibility-driven animation pause
+    let isVisible = true;
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          isVisible = entry.isIntersecting;
+        });
+      },
+      { threshold: 0.05 }
+    );
+    observer.observe(container);
 
-    // Mouse Interaction
     let mouseX = 0;
     let mouseY = 0;
     let targetX = 0;
     let targetY = 0;
 
     const handleMouseMove = (e: MouseEvent) => {
+      if (!isVisible) return;
       const windowHalfX = window.innerWidth / 2;
       const windowHalfY = window.innerHeight / 2;
       mouseX = (e.clientX - windowHalfX) * 0.001;
       mouseY = (e.clientY - windowHalfY) * 0.001;
     };
 
-    window.addEventListener("mousemove", handleMouseMove);
+    window.addEventListener("mousemove", handleMouseMove, { passive: true });
 
-    // Animation Loop
     let animationFrameId: number;
 
     const animate = () => {
       animationFrameId = requestAnimationFrame(animate);
 
-      // Smooth mouse follow interpolation
+      if (!isVisible) return;
+
       targetX += (mouseX - targetX) * 0.05;
       targetY += (mouseY - targetY) * 0.05;
 
-      // 3D Rotations
       torusMesh.rotation.x += 0.006;
       torusMesh.rotation.y += 0.008;
-      torusMesh.rotation.x += targetY * 0.5;
-      torusMesh.rotation.y += targetX * 0.5;
 
       coreMesh.rotation.x -= 0.004;
       coreMesh.rotation.y -= 0.006;
 
       particlePoints.rotation.y += 0.002;
-      particlePoints.rotation.x += 0.001;
 
       renderer.render(scene, camera);
     };
 
     animate();
 
-    // Resize Handler
     const handleResize = () => {
       if (!container) return;
       const w = container.clientWidth;
@@ -148,18 +163,33 @@ export function Hero3DScene() {
       renderer.setSize(w, h);
     };
 
-    window.addEventListener("resize", handleResize);
+    window.addEventListener("resize", handleResize, { passive: true });
 
     return () => {
+      observer.disconnect();
       window.removeEventListener("mousemove", handleMouseMove);
       window.removeEventListener("resize", handleResize);
       cancelAnimationFrame(animationFrameId);
+
+      torusGeometry.dispose();
+      torusMaterial.dispose();
+      coreGeometry.dispose();
+      coreMaterial.dispose();
+      particleGeometry.dispose();
+      particleMaterial.dispose();
+      renderer.dispose();
+
       if (container.contains(renderer.domElement)) {
         container.removeChild(renderer.domElement);
       }
-      renderer.dispose();
     };
-  }, []);
+  }, [isMobile]);
+
+  if (isMobile) {
+    return (
+      <div className="relative w-full h-[280px] flex items-center justify-center pointer-events-none" aria-hidden="true" />
+    );
+  }
 
   return (
     <div

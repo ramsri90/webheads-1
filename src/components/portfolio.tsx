@@ -187,9 +187,9 @@ export function PortfolioSection() {
 
   return (
     <section id="cases" className="relative z-10 bg-transparent py-20 md:py-28 px-4 sm:px-6 md:px-8 overflow-hidden" style={{ perspective: "1200px" }}>
-      {/* 3D Floating Glow Orbs */}
-      <div className="absolute top-1/3 left-[8%] -z-10 h-72 w-72 rounded-full bg-teal-500/5 blur-[120px] pointer-events-none animate-orbFloat" />
-      <div className="absolute bottom-1/4 right-[8%] -z-10 h-80 w-80 rounded-full bg-cyan-500/5 blur-[120px] pointer-events-none animate-orbFloat" style={{ animationDelay: "6s" }} />
+      {/* Soft Ambient Glow */}
+      <div className="absolute top-1/3 left-[8%] -z-10 h-64 w-64 rounded-full bg-teal-500/5 blur-3xl pointer-events-none" />
+      <div className="absolute bottom-1/4 right-[8%] -z-10 h-72 w-72 rounded-full bg-cyan-500/5 blur-3xl pointer-events-none" />
 
       <div ref={sectionRef} className="mx-auto max-w-7xl">
         {/* Header with Navigation Controls */}
