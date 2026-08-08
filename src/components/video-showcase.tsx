@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useEffect, useRef, useState } from "react";
-import { Film } from "lucide-react";
+import { Film, Play } from "lucide-react";
 import { useMultiScrollReveal } from "@/hooks/use-scroll-reveal";
 
 const videoClips = [
@@ -30,40 +30,56 @@ const videoClips = [
 
 function ReelFrame({ clip, isVisible }: { clip: (typeof videoClips)[number]; isVisible: boolean }) {
   const videoRef = useRef<HTMLVideoElement>(null);
+  const [isLoaded, setIsLoaded] = useState(false);
 
   useEffect(() => {
-    if (!videoRef.current) return;
+    const video = videoRef.current;
+    if (!video) return;
+
     if (isVisible) {
-      videoRef.current.play().catch(() => {});
+      const playPromise = video.play();
+      if (playPromise !== undefined) {
+        playPromise.then(() => setIsLoaded(true)).catch(() => {});
+      }
     } else {
-      videoRef.current.pause();
+      video.pause();
     }
   }, [isVisible]);
 
   return (
     <div className="flex flex-col items-center gap-3 shrink-0">
-      {/* Phone Mock Reel */}
-      <div className="relative w-[220px] sm:w-[260px] aspect-[9/16] rounded-[32px] sm:rounded-[36px] border-[5px] sm:border-[6px] border-neutral-800 bg-neutral-950 shadow-2xl overflow-hidden ring-1 ring-white/15">
+      {/* Phone Mock Reel Frame */}
+      <div className="relative w-[220px] sm:w-[260px] aspect-[9/16] rounded-[32px] sm:rounded-[36px] border-[5px] sm:border-[6px] border-neutral-800 bg-gradient-to-br from-teal-950/80 via-neutral-900 to-black shadow-2xl overflow-hidden ring-1 ring-white/15">
         {/* Speaker / Camera Pill */}
         <div className="absolute top-3 left-1/2 -translate-x-1/2 w-20 sm:w-24 h-3 sm:h-3.5 rounded-full bg-neutral-900 z-30 flex items-center justify-center">
           <span className="h-1 w-1 rounded-full bg-neutral-800 mr-1.5" />
           <span className="h-0.5 w-8 sm:w-10 rounded-full bg-neutral-800" />
         </div>
 
-        {/* Lazy Loaded Reel Video — Zero network load until section is in view */}
+        {/* Video Element — Preloads metadata so frame 1 renders instantly without black screens */}
         <video
           ref={videoRef}
-          src={isVisible ? clip.src : undefined}
+          src={clip.src}
           muted
           loop
           playsInline
-          preload="none"
-          className="absolute inset-0 h-full w-full object-cover"
+          preload="metadata"
+          onLoadedData={() => setIsLoaded(true)}
+          className={`absolute inset-0 h-full w-full object-cover transition-opacity duration-500 ${isLoaded ? 'opacity-100' : 'opacity-80'}`}
         />
 
+        {/* Poster / Play Overlay Indicator while buffering */}
+        {!isLoaded && (
+          <div className="absolute inset-0 z-10 flex flex-col items-center justify-center bg-teal-950/40 backdrop-blur-xs">
+            <div className="flex h-10 w-10 items-center justify-center rounded-full bg-teal-500/20 border border-teal-500/40 text-teal-400 animate-pulse">
+              <Play className="h-4 w-4 fill-current ml-0.5" />
+            </div>
+          </div>
+        )}
+
         {/* Bottom Tag Overlay */}
-        <div className="absolute bottom-0 inset-x-0 z-20 bg-gradient-to-t from-black/70 to-transparent px-3 pb-2.5 pt-8">
-          <p className="text-[12px] font-mono font-semibold text-white/85 tracking-wide">{clip.tag}</p>
+        <div className="absolute bottom-0 inset-x-0 z-20 bg-gradient-to-t from-black/80 via-black/40 to-transparent px-3 pb-2.5 pt-8">
+          <p className="text-[12px] font-mono font-semibold text-white/90 tracking-wide">{clip.tag}</p>
         </div>
       </div>
 
@@ -86,7 +102,7 @@ export function VideoShowcase() {
     setIsMobile(window.innerWidth < 640);
   }, []);
 
-  // Lazy load videos only when scrolled near viewport to prevent tab spinner buffering
+  // IntersectionObserver to control playback when visible
   useEffect(() => {
     const track = trackRef.current;
     if (!track) return;
@@ -97,7 +113,7 @@ export function VideoShowcase() {
           setIsInView(entry.isIntersecting);
         });
       },
-      { threshold: 0.05, rootMargin: "100px" }
+      { threshold: 0.05, rootMargin: "150px" }
     );
 
     observer.observe(track);
