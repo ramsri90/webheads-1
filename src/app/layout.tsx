@@ -6,11 +6,13 @@ import { AnimatedBackground } from "@/components/animated-bg";
 const geistSans = Geist({
   variable: "--font-geist-sans",
   subsets: ["latin"],
+  display: "swap",
 });
 
 const geistMono = Geist_Mono({
   variable: "--font-geist-mono",
   subsets: ["latin"],
+  display: "swap",
 });
 
 export const metadata: Metadata = {
@@ -39,11 +41,6 @@ export default function RootLayout({
       lang="en"
       className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}
     >
-      <head>
-        <link rel="icon" href="/icon.svg?v=11" type="image/svg+xml" />
-        <link rel="shortcut icon" href="/icon.svg?v=11" type="image/svg+xml" />
-        <link rel="apple-touch-icon" href="/icon.svg?v=11" />
-      </head>
       <body className="min-h-full flex flex-col bg-white text-teal-950 relative">
         <AnimatedBackground />
         <div className="relative z-10 flex flex-col min-h-full">

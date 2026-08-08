@@ -93,6 +93,7 @@ export function IntroVideo() {
             autoPlay={true}
             muted={true}
             playsInline={true}
+            preload="none"
             onTimeUpdate={handleTimeUpdate}
             onEnded={handleVideoEnd}
             className="w-full h-full object-cover"

@@ -28,28 +28,36 @@ const videoClips = [
   }
 ];
 
-function ReelFrame({ clip, isMobile }: { clip: (typeof videoClips)[number]; isMobile: boolean }) {
+function ReelFrame({ clip, isVisible }: { clip: (typeof videoClips)[number]; isVisible: boolean }) {
   const videoRef = useRef<HTMLVideoElement>(null);
+
+  useEffect(() => {
+    if (!videoRef.current) return;
+    if (isVisible) {
+      videoRef.current.play().catch(() => {});
+    } else {
+      videoRef.current.pause();
+    }
+  }, [isVisible]);
 
   return (
     <div className="flex flex-col items-center gap-3 shrink-0">
       {/* Phone Mock Reel */}
-      <div className="relative w-[220px] sm:w-[260px] aspect-[9/16] rounded-[32px] sm:rounded-[36px] border-[5px] sm:border-[6px] border-neutral-800 bg-black shadow-2xl overflow-hidden ring-1 ring-white/15">
+      <div className="relative w-[220px] sm:w-[260px] aspect-[9/16] rounded-[32px] sm:rounded-[36px] border-[5px] sm:border-[6px] border-neutral-800 bg-neutral-950 shadow-2xl overflow-hidden ring-1 ring-white/15">
         {/* Speaker / Camera Pill */}
         <div className="absolute top-3 left-1/2 -translate-x-1/2 w-20 sm:w-24 h-3 sm:h-3.5 rounded-full bg-neutral-900 z-30 flex items-center justify-center">
           <span className="h-1 w-1 rounded-full bg-neutral-800 mr-1.5" />
           <span className="h-0.5 w-8 sm:w-10 rounded-full bg-neutral-800" />
         </div>
 
-        {/* Autoplaying Reel Video */}
+        {/* Lazy Loaded Reel Video — Zero network load until section is in view */}
         <video
           ref={videoRef}
-          src={clip.src}
-          autoPlay={!isMobile}
+          src={isVisible ? clip.src : undefined}
           muted
           loop
           playsInline
-          preload="metadata"
+          preload="none"
           className="absolute inset-0 h-full w-full object-cover"
         />
 
@@ -72,36 +80,30 @@ export function VideoShowcase() {
   const sectionRef = useMultiScrollReveal();
   const trackRef = useRef<HTMLDivElement>(null);
   const [isMobile, setIsMobile] = useState(false);
+  const [isInView, setIsInView] = useState(false);
 
   useEffect(() => {
     setIsMobile(window.innerWidth < 640);
   }, []);
 
-  // IntersectionObserver to auto-pause videos when scrolled off-screen
+  // Lazy load videos only when scrolled near viewport to prevent tab spinner buffering
   useEffect(() => {
     const track = trackRef.current;
     if (!track) return;
 
-    const videos = track.querySelectorAll("video");
-
     const observer = new IntersectionObserver(
       (entries) => {
         entries.forEach((entry) => {
-          if (entry.isIntersecting) {
-            videos.forEach((v) => v.play().catch(() => {}));
-          } else {
-            videos.forEach((v) => v.pause());
-          }
+          setIsInView(entry.isIntersecting);
         });
       },
-      { threshold: 0.1 }
+      { threshold: 0.05, rootMargin: "100px" }
     );
 
     observer.observe(track);
     return () => observer.disconnect();
   }, []);
 
-  // Use 1 loop for mobile (3 videos) and 2 for desktop (6 videos)
   const displayClips = isMobile ? videoClips : [...videoClips, ...videoClips];
 
   return (
@@ -126,7 +128,7 @@ export function VideoShowcase() {
         <div className="relative overflow-hidden [mask-image:linear-gradient(to_right,transparent,black_6%,black_94%,transparent)]">
           <div ref={trackRef} className={`${isMobile ? "flex justify-center flex-wrap" : "reel-marquee flex w-max"} gap-6`}>
             {displayClips.map((clip, i) => (
-              <ReelFrame key={`${clip.id}-${i}`} clip={clip} isMobile={isMobile} />
+              <ReelFrame key={`${clip.id}-${i}`} clip={clip} isVisible={isInView} />
             ))}
           </div>
         </div>
