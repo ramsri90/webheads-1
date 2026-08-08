@@ -28,6 +28,9 @@ const videoClips = [
   }
 ];
 
+// Continuous 6-item loop for seamless sliding marquee on desktop & mobile
+const reels = [...videoClips, ...videoClips];
+
 function ReelFrame({ clip, isVisible }: { clip: (typeof videoClips)[number]; isVisible: boolean }) {
   const videoRef = useRef<HTMLVideoElement>(null);
   const [isLoaded, setIsLoaded] = useState(false);
@@ -56,7 +59,7 @@ function ReelFrame({ clip, isVisible }: { clip: (typeof videoClips)[number]; isV
           <span className="h-0.5 w-8 sm:w-10 rounded-full bg-neutral-800" />
         </div>
 
-        {/* Video Element — Preloads metadata so frame 1 renders instantly without black screens */}
+        {/* Video Element — Preloads metadata so frame 1 renders instantly */}
         <video
           ref={videoRef}
           src={clip.src}
@@ -65,10 +68,10 @@ function ReelFrame({ clip, isVisible }: { clip: (typeof videoClips)[number]; isV
           playsInline
           preload="metadata"
           onLoadedData={() => setIsLoaded(true)}
-          className={`absolute inset-0 h-full w-full object-cover transition-opacity duration-500 ${isLoaded ? 'opacity-100' : 'opacity-80'}`}
+          className={`absolute inset-0 h-full w-full object-cover transition-opacity duration-500 ${isLoaded ? 'opacity-100' : 'opacity-85'}`}
         />
 
-        {/* Poster / Play Overlay Indicator while buffering */}
+        {/* Indicator overlay while buffering */}
         {!isLoaded && (
           <div className="absolute inset-0 z-10 flex flex-col items-center justify-center bg-teal-950/40 backdrop-blur-xs">
             <div className="flex h-10 w-10 items-center justify-center rounded-full bg-teal-500/20 border border-teal-500/40 text-teal-400 animate-pulse">
@@ -95,12 +98,7 @@ function ReelFrame({ clip, isVisible }: { clip: (typeof videoClips)[number]; isV
 export function VideoShowcase() {
   const sectionRef = useMultiScrollReveal();
   const trackRef = useRef<HTMLDivElement>(null);
-  const [isMobile, setIsMobile] = useState(false);
   const [isInView, setIsInView] = useState(false);
-
-  useEffect(() => {
-    setIsMobile(window.innerWidth < 640);
-  }, []);
 
   // IntersectionObserver to control playback when visible
   useEffect(() => {
@@ -120,8 +118,6 @@ export function VideoShowcase() {
     return () => observer.disconnect();
   }, []);
 
-  const displayClips = isMobile ? videoClips : [...videoClips, ...videoClips];
-
   return (
     <section ref={sectionRef} id="showcase" className="relative z-10 bg-transparent py-20 md:py-28 px-4 sm:px-6 md:px-8 overflow-hidden">
       {/* Soft Ambient Glow */}
@@ -140,10 +136,10 @@ export function VideoShowcase() {
           <p className="mt-3 text-sm text-teal-950/60">Reels auto-play and glide by — hover to pause.</p>
         </div>
 
-        {/* Auto-sliding Reel Marquee */}
-        <div className="relative overflow-hidden [mask-image:linear-gradient(to_right,transparent,black_6%,black_94%,transparent)]">
-          <div ref={trackRef} className={`${isMobile ? "flex justify-center flex-wrap" : "reel-marquee flex w-max"} gap-6`}>
-            {displayClips.map((clip, i) => (
+        {/* Sliding Reel Marquee (Identical SSR + Client DOM structure for 100% stable hydration & smooth sliding on all devices) */}
+        <div className="relative overflow-hidden [mask-image:linear-gradient(to_right,transparent,black_4%,black_96%,transparent)]">
+          <div ref={trackRef} className="reel-marquee flex w-max gap-6">
+            {reels.map((clip, i) => (
               <ReelFrame key={`${clip.id}-${i}`} clip={clip} isVisible={isInView} />
             ))}
           </div>
