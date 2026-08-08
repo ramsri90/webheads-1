@@ -319,11 +319,11 @@ export function PortfolioSection() {
       {selectedProject && (
         <div
           onClick={() => setSelectedProject(null)}
-          className="fixed inset-0 z-[100] flex items-start justify-center p-4 sm:p-6 pt-24 pb-12 bg-teal-950/30 backdrop-blur-sm overflow-y-auto"
+          className="fixed inset-0 z-[100] flex items-center justify-center p-3 sm:p-6 bg-teal-950/40 backdrop-blur-sm overflow-y-auto"
         >
           <div
             onClick={(e) => e.stopPropagation()}
-            className="relative w-full max-w-4xl rounded-3xl border border-teal-500/20 bg-white shadow-2xl overflow-hidden max-h-[82vh] flex flex-col animate-fadeInUp my-auto"
+            className="relative w-full max-w-4xl rounded-2xl sm:rounded-3xl border border-teal-500/20 bg-white shadow-2xl overflow-hidden max-h-[88vh] flex flex-col animate-fadeInUp my-auto"
           >
             {/* Floating Close Button */}
             <button
