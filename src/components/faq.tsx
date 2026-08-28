@@ -6,24 +6,24 @@ import { useMultiScrollReveal } from "@/hooks/use-scroll-reveal";
 
 const exactFaqs = [
   {
-    q: "How long does it take to complete a request?",
-    a: "Turnaround time depends on the complexity of the request. Standard designs take 2–3 days, while more detailed projects may require additional time depending on the scope of the project."
+    q: "What is WebbHeads and why is it the best digital agency in Vizag?",
+    a: "WebbHeads is the premier full-stack digital agency based in Visakhapatnam (Vizag). We integrate Next.js web application development, mobile app engineering, 24/7 AI lead qualification chatbots, and high-converting video reels into one unified digital ecosystem starting at ₹18,000."
   },
   {
-    q: "What if I need more revisions?",
-    a: "We're here to make sure you love the final result. Depending on your plan, we offer a set number of revisions — but if you need more, we can always add extra rounds at a minimal cost."
+    q: "How much does web development and AI automation cost in Vizag?",
+    a: "Our standard Tech Package starts at ₹18,000 (one-time build). This includes high-converting Next.js website engineering, responsive UI, SEO optimization, and 24/7 AI Chatbot lead integration into Leadcore DB."
   },
   {
-    q: "How do we communicate throughout the project?",
-    a: "We use your preferred communication channel — email, Slack, Notion, or video calls and Google Meets — to keep everything transparent. You'll also get regular progress updates so there are no surprises."
+    q: "What is included in the ₹26,400/month Content & Reels package?",
+    a: "The Content Marketing plan includes 12 premium short-form reels per month (evaluated at ₹2,200/reel), brand strategy, professional video editing, IG/FB account management, and monthly performance reports."
+  },
+  {
+    q: "How long does it take to complete a web or mobile app request?",
+    a: "Standard website design and engineering takes 20-25 days. Mobile app development typically takes 2 to 4 weeks, while standard graphic design assets are delivered in 2 to 3 business days."
   },
   {
     q: "Do you offer end-to-end product development?",
-    a: "Absolutely. From idea validation and UI/UX design to frontend/backend development and launch, we handle full product builds — whether it's a web platform or mobile app."
-  },
-  {
-    q: "How can you assure a proper workflow?",
-    a: "By keeping it clear, organized, and transparent. We set timelines, share updates, and review every stage to ensure everything runs smoothly and meets your expectations."
+    a: "Yes! From idea validation and UI/UX design to Next.js frontend/backend development, AI chatbot automation, and cloud launch, we handle full end-to-end product builds for web platforms and mobile apps."
   }
 ];
 
@@ -60,19 +60,20 @@ export function FAQSection() {
               >
                 <button
                   onClick={() => setOpenIndex(isOpen ? null : idx)}
+                  aria-expanded={isOpen}
                   className="w-full flex items-center justify-between p-5 sm:p-6 text-left transition-colors hover:bg-teal-500/5 group"
                 >
-                  <span className="text-sm sm:text-base font-bold text-teal-950 pr-4 group-hover:text-teal-600 transition-colors">{faq.q}</span>
+                  <h3 className="text-sm sm:text-base font-bold text-teal-950 pr-4 group-hover:text-teal-600 transition-colors flex items-center gap-2">
+                    <span>{faq.q}</span>
+                  </h3>
                   <div className={`flex h-8 w-8 items-center justify-center rounded-full ${isOpen ? "bg-teal-500/20" : "bg-teal-500/10"} transition-colors shrink-0`}>
                     <ChevronDown className={`h-4 w-4 text-teal-600 shrink-0 transition-transform duration-300 ${isOpen ? "rotate-180" : ""}`} />
                   </div>
                 </button>
 
-                {isOpen && (
-                  <div className="px-5 sm:px-6 pb-6 text-xs sm:text-sm text-teal-950/80 leading-relaxed border-t border-teal-500/15 pt-4 font-medium">
-                    {faq.a}
-                  </div>
-                )}
+                <div className={`transition-all duration-300 ease-in-out px-5 sm:px-6 text-xs sm:text-sm text-teal-950/80 leading-relaxed font-medium ${isOpen ? "max-h-96 pb-6 pt-4 border-t border-teal-500/15 opacity-100" : "max-h-0 pb-0 pt-0 opacity-0 overflow-hidden"}`}>
+                  <p>{faq.a}</p>
+                </div>
               </div>
             );
           })}

@@ -125,16 +125,17 @@ RESCHEDULE & CONTEXT RETENTION DIRECTIVE:
   1. RETAIN the user's Name, Phone Number, and Project details from the conversation history! Do NOT ask them to re-enter their Name or Phone Number!
   2. Confirm the updated time slot warmly (e.g., "Sure Mukesh! Mee callback time ni repu 11:30 AM ki reschedule chesamu! Sharp 11:30 AM ki 9492233981 ki call vasthundhi! 🎉").
 
-GENERAL & BASIC KNOWLEDGE INSTRUCTION:
-- Answer ALL general technology, digital marketing, and software questions directly, accurately, and naturally!
-- When asked basic questions like "What is SEO?", "What is a landing page?", "What is React/Next.js?", "What is AI automation?", or "What is Flutter?", explain the concept clearly in simple terms FIRST.
-- After defining the concept, seamlessly connect it to how WebbHeads builds and delivers that service for clients.
+GENERAL & OUT-OF-THE-BOX KNOWLEDGE INSTRUCTION:
+- Answer ANY question directly, accurately, and naturally out-of-the-box!
+- Whether the user asks about general technology, digital marketing, coding/programming, science, general knowledge, business advice, math, or general topics (e.g. "What is Python?", "Write a binary search algorithm", "How does gravity work?", "What is SEO?", "Tell me a joke"), provide a clear, helpful, and insightful response directly.
+- You are an intelligent, versatile AI assistant. Do NOT decline general knowledge or technical questions. You have full capability to answer out-of-the-box queries!
+- If the question is relevant to digital/tech services, you may naturally mention how WebbHeads can assist, but do NOT force unnecessary sales pitches on unrelated general topics.
 
 === WEBBHEADS OFFICIAL KNOWLEDGE BASE ===
 ${markdownKB}
 
 YOUR GOAL:
-Answer ANY question (including general technology and digital marketing concepts like SEO, Next.js, Flutter, social media management) accurately, concisely, and warmly in plain text without ** bold markers. When users ask in Telugish, reply in Telugish! Always invite visitors to share their Name & Phone/Email or ask: "Can I arrange a call back from our team?" when appropriate. REMEMBER: Never mention developer names unless explicitly asked.`;
+Answer ANY question (including general knowledge, coding, technology, marketing, science, and business concepts) accurately, concisely, and warmly out of the box in plain text without ** bold markers. When users ask in Telugish, reply in Telugish! Always invite visitors to share their Name & Phone/Email or ask: "Can I arrange a call back from our team?" when appropriate. REMEMBER: Never mention developer names unless explicitly asked.`;
 
     let replyText = "";
 
@@ -145,10 +146,11 @@ Answer ANY question (including general technology and digital marketing concepts
     if (apiKey && apiKey !== "YOUR_GEMINI_API_KEY") {
       // Model fallback priority chain (Using valid, existing models to prevent slow failed retries)
       const candidateModels = [
-        "gemini-1.5-flash",
-        "gemini-2.0-flash",
-        "gemini-1.5-pro",
-        "gemini-1.5-flash-8b",
+        "gemini-3.6-flash",
+        "gemini-3.5-flash",
+        "gemini-3.7-flash",
+        "gemini-flash-latest",
+        "gemini-pro-latest",
       ];
 
       for (const model of candidateModels) {

@@ -26,36 +26,40 @@ export function AnimatedBackground() {
         }}
       />
 
-      {/* Subtle Static Decorative Glow Orbs (No high blur recalculations) */}
+      {/* Morphing Cloud Blob 1 (Top Left) */}
       <div
-        className="absolute top-[12%] -left-[10%] w-[50vw] h-[50vw] max-w-[600px] max-h-[600px] rounded-full blur-[80px] opacity-40 pointer-events-none"
+        className="absolute top-[5%] -left-[10%] w-[60vw] h-[60vw] max-w-[700px] max-h-[700px] bg-teal-500/10 rounded-full blur-[90px] opacity-60 pointer-events-none animate-cloudMorph1"
         style={{
-          background: "radial-gradient(circle at center, rgba(13,148,136,0.25) 0%, transparent 70%)",
-        }}
-      />
-      <div
-        className="absolute top-[55%] -right-[10%] w-[50vw] h-[50vw] max-w-[600px] max-h-[600px] rounded-full blur-[80px] opacity-35 pointer-events-none"
-        style={{
-          background: "radial-gradient(circle at center, rgba(34,211,238,0.22) 0%, transparent 70%)",
+          backgroundImage: "radial-gradient(circle at center, rgba(13,148,136,0.22) 0%, rgba(34,211,238,0.05) 50%, transparent 80%)",
         }}
       />
 
-      {/* Lightweight WebbHeads Logo Watermarks (Clean PNG rendering without continuous filter repaints) */}
-      <div className="absolute top-[32%] right-[6%] w-40 h-40 sm:w-56 sm:h-56 pointer-events-none opacity-[0.12]">
-        <img 
-          src="/images/webbheads-logo-black.png" 
-          alt="" 
-          className="w-full h-full object-contain"
-        />
-      </div>
+      {/* Morphing Cloud Blob 2 (Middle Right) */}
+      <div
+        className="absolute top-[40%] -right-[15%] w-[65vw] h-[65vw] max-w-[800px] max-h-[800px] bg-cyan-400/10 rounded-full blur-[100px] opacity-50 pointer-events-none animate-cloudMorph2"
+        style={{
+          backgroundImage: "radial-gradient(circle at center, rgba(34,211,238,0.18) 0%, rgba(13,148,136,0.04) 55%, transparent 80%)",
+        }}
+      />
 
-      <div className="absolute top-[68%] left-[4%] w-44 h-44 sm:w-60 sm:h-60 pointer-events-none opacity-[0.10]">
-        <img 
-          src="/images/webbheads-logo-black.png" 
-          alt="" 
-          className="w-full h-full object-contain"
-        />
-      </div>
+      {/* Morphing Cloud Blob 3 (Bottom Left - Mist White) */}
+      <div
+        className="absolute bottom-[-10%] left-[-10%] w-[55vw] h-[55vw] max-w-[650px] max-h-[650px] bg-white rounded-full blur-[80px] opacity-75 pointer-events-none animate-cloudMorph3"
+        style={{
+          backgroundImage: "radial-gradient(circle at center, rgba(255,255,255,0.8) 0%, rgba(224,242,241,0.3) 50%, transparent 80%)",
+        }}
+      />
+
+      {/* Misty Fog Overlap Layer (adds depth and realistic light dispersion) */}
+      <div className="absolute inset-0 bg-white/10 backdrop-blur-[3px] pointer-events-none mix-blend-overlay" />
+
+      {/* SVG Fine Fog Noise Texture Overlay (gives physical presence to the fog) */}
+      <div
+        className="absolute inset-0 opacity-[0.03] mix-blend-overlay pointer-events-none"
+        style={{
+          backgroundImage: `url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E")`,
+        }}
+      />
 
       {/* Subtle Grid Pattern Overlay */}
       <div

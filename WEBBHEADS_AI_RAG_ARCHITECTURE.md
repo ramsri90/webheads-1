@@ -15,8 +15,8 @@ Unlike traditional chatbots that rely on heavy Python backends or static fine-tu
 
 ## 🌐 Complete API Inventory (All APIs Used in the Project)
 
-### 1. 🤖 Google Gemini 1.5 Flash Generative AI API (External LLM API)
-- **Endpoint:** `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${GEMINI_API_KEY}`
+### 1. 🤖 Google Gemini 3.6 / 3.5 Flash Generative AI API (External LLM API)
+- **Endpoint:** `https://generativelanguage.googleapis.com/v1beta/models/gemini-3.6-flash:generateContent?key=${GEMINI_API_KEY}`
 - **HTTP Method:** `POST`
 - **Headers:** `Content-Type: application/json`
 - **Request Payload:**

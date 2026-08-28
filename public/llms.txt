@@ -1,0 +1,26 @@
+# WebbHeads — Best Digital Agency in Vizag
+
+> WebbHeads is the premier full-stack digital agency based in Visakhapatnam (Vizag), India. We build high-converting Next.js web applications, cross-platform mobile apps, 24/7 AI lead qualification chatbots, and short-form reel video content ecosystems for local businesses and global clients.
+
+## Core Information
+- **Name:** WebbHeads
+- **Location:** Visakhapatnam (Vizag), Andhra Pradesh, India (Geo: 17.6868, 83.2185)
+- **Website:** https://webbheads.com
+- **Phone / WhatsApp:** +91 9494259453
+- **Founder & CEO:** DJ Kushal
+- **Lead AI & Web Engineer:** Vivek Ram Sri
+
+## Pricing & Packages
+- **Tech Services:** ₹18,000 (One-time build. Next.js Web App, SEO, AI Chatbot integration, Leadcore DB sync).
+- **Content & Marketing:** ₹26,400/month (12 premium short-form reels/month at ₹2,200/reel, video editing, IG/FB management, monthly growth reports).
+- **Custom Ecosystems:** Scoped on a discovery call for complex enterprise platforms, mobile apps, and ad campaigns.
+
+## Key Clients & Case Studies
+- **TripSpark:** Travel marketplace platform (+200% conversion).
+- **Appointment Automation Platform:** Real estate consultation workflow (24/7 lead capture).
+- **AI Property Assistant:** Conversational real estate search portal (0s lead delay).
+- **Sri Chess Academy, Aum Free Yoga, Thompson Luxury Homes.**
+
+## Detailed Documentation
+- [Full LLM Context Specifications](https://webbheads.com/llms-full.txt)
+- [Book a Call via Cal.com](https://cal.com/webb-heads)

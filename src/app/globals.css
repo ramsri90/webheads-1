@@ -480,3 +480,66 @@ body {
   filter: drop-shadow(0 0 15px rgba(13, 148, 136, 0.2));
 }
 
+/* ========== DYNAMIC CLOUD MORPHING ANIMATIONS ========== */
+@keyframes cloudMorph1 {
+  0% {
+    border-radius: 40% 60% 70% 30% / 40% 50% 60% 50%;
+    transform: translate(0, 0) scale(1);
+  }
+  33% {
+    border-radius: 60% 40% 50% 50% / 50% 60% 40% 60%;
+    transform: translate(3%, 4%) scale(1.05);
+  }
+  66% {
+    border-radius: 50% 50% 60% 40% / 40% 40% 60% 50%;
+    transform: translate(-2%, 2%) scale(0.95);
+  }
+  100% {
+    border-radius: 40% 60% 70% 30% / 40% 50% 60% 50%;
+    transform: translate(0, 0) scale(1);
+  }
+}
+
+@keyframes cloudMorph2 {
+  0% {
+    border-radius: 50% 50% 30% 70% / 50% 60% 40% 50%;
+    transform: translate(0, 0) rotate(0deg);
+  }
+  50% {
+    border-radius: 30% 70% 70% 30% / 60% 40% 60% 40%;
+    transform: translate(-3%, -2%) rotate(180deg);
+  }
+  100% {
+    border-radius: 50% 50% 30% 70% / 50% 60% 40% 50%;
+    transform: translate(0, 0) rotate(360deg);
+  }
+}
+
+@keyframes cloudMorph3 {
+  0% {
+    border-radius: 60% 40% 60% 40% / 40% 60% 40% 60%;
+    transform: translate(0, 0) scale(0.98);
+  }
+  50% {
+    border-radius: 40% 60% 40% 60% / 60% 40% 60% 40%;
+    transform: translate(2%, -3%) scale(1.03);
+  }
+  100% {
+    border-radius: 60% 40% 60% 40% / 40% 60% 40% 60%;
+    transform: translate(0, 0) scale(0.98);
+  }
+}
+
+.animate-cloudMorph1 {
+  animation: cloudMorph1 25s ease-in-out infinite;
+}
+
+.animate-cloudMorph2 {
+  animation: cloudMorph2 30s linear infinite;
+}
+
+.animate-cloudMorph3 {
+  animation: cloudMorph3 22s ease-in-out infinite;
+}
+
+

@@ -102,6 +102,8 @@ export function WebbheadsHeroAnimated() {
             Tech plus content, executed as a system: we align your website, apps, and social content so everything works together to grow your business in Vizag.
           </p>
 
+
+
           {/* Action CTAs */}
           <div style={{ animationDelay: '400ms' }} className={`mt-10 flex flex-col items-center justify-center gap-4 sm:flex-row ${isMounted ? 'animate-fadeInUp' : 'opacity-0'}`}>
             <a 

@@ -36,24 +36,7 @@ export function Hero3DLogoScene() {
     renderer.setPixelRatio(Math.min(window.devicePixelRatio, 1.25));
     container.appendChild(renderer.domElement);
 
-    // 1. Texture Loader for WebbHeads Logo
-    const textureLoader = new THREE.TextureLoader();
-    const logoTexture = textureLoader.load("/images/webbheads-logo-black.png");
 
-    // 2. 3D Logo Emblem (Teal Emissive Material)
-    const logoGeometry = new THREE.PlaneGeometry(3.4, 3.4);
-    const logoMaterial = new THREE.MeshStandardMaterial({
-      map: logoTexture,
-      transparent: true,
-      alphaTest: 0.05,
-      side: THREE.DoubleSide,
-      emissive: 0x0d9488,
-      emissiveIntensity: 0.35,
-      roughness: 0.1,
-      metalness: 0.1,
-    });
-    const logoMesh = new THREE.Mesh(logoGeometry, logoMaterial);
-    scene.add(logoMesh);
 
     // 3. Orbiting 3D Particle Starfield
     const particleCount = 80;
@@ -102,7 +85,6 @@ export function Hero3DLogoScene() {
 
     let isVisible = true;
     let animationFrameId: number | null = null;
-    const clock = new THREE.Clock();
 
     const animate = () => {
       if (!isVisible) {
@@ -110,8 +92,6 @@ export function Hero3DLogoScene() {
         return;
       }
 
-      const elapsedTime = clock.getElapsedTime();
-      logoMesh.position.y = Math.sin(elapsedTime * 2.2) * 0.28;
       particlePoints.rotation.y += 0.0015;
 
       renderer.render(scene, camera);
@@ -152,9 +132,7 @@ export function Hero3DLogoScene() {
         cancelAnimationFrame(animationFrameId);
       }
 
-      logoGeometry.dispose();
-      logoMaterial.dispose();
-      logoTexture.dispose();
+
       particleGeometry.dispose();
       particleMaterial.dispose();
       renderer.dispose();
@@ -167,14 +145,7 @@ export function Hero3DLogoScene() {
 
   if (isMobile) {
     return (
-      <div className="relative w-full h-[280px] flex items-center justify-center pointer-events-none" aria-hidden="true">
-        <img
-          src="/images/webbheads-logo-black.png"
-          alt="WebbHeads Logo"
-          className="w-48 h-48 object-contain drop-shadow-[0_0_20px_rgba(13,148,136,0.3)] animate-pulse"
-          style={{ animationDuration: "4s" }}
-        />
-      </div>
+      <div className="relative w-full h-[280px] flex items-center justify-center pointer-events-none" aria-hidden="true" />
     );
   }
 

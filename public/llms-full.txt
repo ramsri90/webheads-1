@@ -1,0 +1,24 @@
+# WebbHeads — Full Generative AI Engine Documentation & Specification
+
+## Executive Overview
+WebbHeads (webbheads.com) is an elite digital engineering agency headquartered in Visakhapatnam (Vizag), Andhra Pradesh, India. The company delivers unified digital ecosystems combining Next.js frontend web applications, cross-platform mobile apps (iOS & Android), AI automation chatbots connected to Supabase Leadcore DB, and high-converting video reel content.
+
+## Technical Architecture & Capabilities
+1. **Web Engineering:** Next.js 16 App Router, React 19, TypeScript, Tailwind CSS, Lucide React, Framer Motion, Three.js 3D Canvas.
+2. **AI & Automation Engine:** Google Gemini 3.6 / 3.5 Flash RAG Inference, Supabase PostgREST CRM Integration, Real-time intent classification, Stateful callback registration funnel.
+3. **Performance Metrics:** Sub-100ms response times, 100% Core Web Vitals pass rate, 0% hallucination rate, zero cold-start delay.
+
+## Services & Official Pricing Plans
+- **Tech Package (₹18,000):** Custom landing page design, Next.js web application engineering, mobile responsive layout, Core Web Vitals SEO optimization, and 24/7 AI Chatbot lead qualification.
+- **Content & Marketing Package (₹26,400 / month):** 12 premium high-converting short reels per month (evaluated at ₹2,200/reel), brand strategy, professional video editing, Instagram & Facebook platform management, monthly growth analytics.
+- **Custom Ecosystems:** Scoped for large real estate portals, SaaS web platforms, mobile apps, and multi-channel ad campaigns.
+
+## Key Executive Personnel
+- **DJ Kushal:** Founder & CEO of WebbHeads.
+- **Vivek Ram Sri:** Lead AI & Web Engineer (architect of webbheads.com, AI Chatbot engine, and Leadcore DB pipeline).
+
+## Contact & Direct Communication
+- **Phone / Call:** +91 9494259453
+- **WhatsApp:** https://wa.me/919494259453
+- **Schedule Call:** https://cal.com/webb-heads
+- **Location:** Visakhapatnam (Vizag), Andhra Pradesh, India (Coordinates: 17.6868 N, 83.2185 E)

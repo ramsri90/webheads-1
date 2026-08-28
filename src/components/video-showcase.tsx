@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useEffect, useRef, useState } from "react";
-import { Film, Play } from "lucide-react";
+import { Film, Play, Volume2, VolumeX } from "lucide-react";
 import { useMultiScrollReveal } from "@/hooks/use-scroll-reveal";
 
 const videoClips = [
@@ -31,9 +31,22 @@ const videoClips = [
 // Continuous 6-item loop for seamless sliding marquee on desktop & mobile
 const reels = [...videoClips, ...videoClips];
 
-function ReelFrame({ clip, isVisible }: { clip: (typeof videoClips)[number]; isVisible: boolean }) {
+function ReelFrame({
+  clip,
+  isVisible,
+  instanceKey,
+  activeAudioKey,
+  onToggleAudio,
+}: {
+  clip: (typeof videoClips)[number];
+  isVisible: boolean;
+  instanceKey: string;
+  activeAudioKey: string | null;
+  onToggleAudio: (key: string | null) => void;
+}) {
   const videoRef = useRef<HTMLVideoElement>(null);
   const [isLoaded, setIsLoaded] = useState(false);
+  const isMuted = activeAudioKey !== instanceKey;
 
   useEffect(() => {
     const video = videoRef.current;
@@ -49,21 +62,75 @@ function ReelFrame({ clip, isVisible }: { clip: (typeof videoClips)[number]; isV
     }
   }, [isVisible]);
 
+  useEffect(() => {
+    const video = videoRef.current;
+    if (!video) return;
+    video.muted = isMuted;
+  }, [isMuted]);
+
+  const handleAudioToggle = (e: React.MouseEvent) => {
+    e.stopPropagation();
+    const video = videoRef.current;
+    if (!video) return;
+
+    if (isMuted) {
+      // Restart video from beginning and unmute
+      video.currentTime = 0;
+      video.muted = false;
+      const playPromise = video.play();
+      if (playPromise !== undefined) {
+        playPromise.catch(() => {});
+      }
+      onToggleAudio(instanceKey);
+    } else {
+      // Mute video
+      video.muted = true;
+      onToggleAudio(null);
+    }
+  };
+
   return (
     <div className="flex flex-col items-center gap-3 shrink-0">
       {/* Phone Mock Reel Frame */}
       <div className="relative w-[220px] sm:w-[260px] aspect-[9/16] rounded-[32px] sm:rounded-[36px] border-[5px] sm:border-[6px] border-neutral-800 bg-gradient-to-br from-teal-950/80 via-neutral-900 to-black shadow-2xl overflow-hidden ring-1 ring-white/15">
         {/* Speaker / Camera Pill */}
-        <div className="absolute top-3 left-1/2 -translate-x-1/2 w-20 sm:w-24 h-3 sm:h-3.5 rounded-full bg-neutral-900 z-30 flex items-center justify-center">
+        <div className="absolute top-3 left-1/2 -translate-x-1/2 w-20 sm:w-24 h-3 sm:h-3.5 rounded-full bg-neutral-900 z-30 flex items-center justify-center pointer-events-none">
           <span className="h-1 w-1 rounded-full bg-neutral-800 mr-1.5" />
           <span className="h-0.5 w-8 sm:w-10 rounded-full bg-neutral-800" />
         </div>
+
+        {/* Audio Toggle Button — Top Right */}
+        <button
+          onClick={handleAudioToggle}
+          type="button"
+          aria-label={isMuted ? "Unmute and play from beginning" : "Mute audio"}
+          title={isMuted ? "Click to play audio from beginning" : "Click to mute"}
+          className="absolute top-4 right-3 z-30 flex items-center justify-center h-8 w-8 sm:h-9 sm:w-9 rounded-full bg-black/60 hover:bg-teal-600 text-white backdrop-blur-md border border-white/20 shadow-lg transition-all duration-300 hover:scale-110 active:scale-95 group/audio"
+        >
+          {isMuted ? (
+            <VolumeX className="h-4 w-4 text-white/80 group-hover/audio:text-white" />
+          ) : (
+            <Volume2 className="h-4 w-4 text-teal-300 animate-pulse group-hover/audio:text-white" />
+          )}
+        </button>
+
+        {/* Audio Playing Soundwave Badge */}
+        {!isMuted && (
+          <div className="absolute top-4 left-3 z-30 flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-teal-600/90 text-white text-[10px] font-mono font-semibold backdrop-blur-md shadow-md animate-fade-in">
+            <span className="flex items-center gap-0.5">
+              <span className="h-2 w-0.5 rounded-full bg-white animate-pulse" />
+              <span className="h-3 w-0.5 rounded-full bg-white animate-pulse delay-75" />
+              <span className="h-1.5 w-0.5 rounded-full bg-white animate-pulse delay-150" />
+            </span>
+            <span>Audio On</span>
+          </div>
+        )}
 
         {/* Video Element — Preloads metadata so frame 1 renders instantly */}
         <video
           ref={videoRef}
           src={clip.src}
-          muted
+          muted={isMuted}
           loop
           playsInline
           preload="metadata"
@@ -81,7 +148,7 @@ function ReelFrame({ clip, isVisible }: { clip: (typeof videoClips)[number]; isV
         )}
 
         {/* Bottom Tag Overlay */}
-        <div className="absolute bottom-0 inset-x-0 z-20 bg-gradient-to-t from-black/80 via-black/40 to-transparent px-3 pb-2.5 pt-8">
+        <div className="absolute bottom-0 inset-x-0 z-20 bg-gradient-to-t from-black/80 via-black/40 to-transparent px-3 pb-2.5 pt-8 pointer-events-none">
           <p className="text-[12px] font-mono font-semibold text-white/90 tracking-wide">{clip.tag}</p>
         </div>
       </div>
@@ -99,6 +166,7 @@ export function VideoShowcase() {
   const sectionRef = useMultiScrollReveal();
   const trackRef = useRef<HTMLDivElement>(null);
   const [isInView, setIsInView] = useState(false);
+  const [activeAudioKey, setActiveAudioKey] = useState<string | null>(null);
 
   // IntersectionObserver to control playback when visible
   useEffect(() => {
@@ -109,6 +177,9 @@ export function VideoShowcase() {
       (entries) => {
         entries.forEach((entry) => {
           setIsInView(entry.isIntersecting);
+          if (!entry.isIntersecting) {
+            setActiveAudioKey(null);
+          }
         });
       },
       { threshold: 0.05, rootMargin: "150px" }
@@ -133,18 +204,29 @@ export function VideoShowcase() {
           <h2 className="text-2xl sm:text-4xl md:text-5xl font-extrabold text-teal-950 leading-tight">
             See the content in action
           </h2>
-          <p className="mt-3 text-sm text-teal-950/60">Reels auto-play and glide by — hover to pause.</p>
+          <p className="mt-3 text-sm text-teal-950/60">Reels auto-play and glide by — click the sound button to play audio from the start.</p>
         </div>
 
         {/* Sliding Reel Marquee (Identical SSR + Client DOM structure for 100% stable hydration & smooth sliding on all devices) */}
         <div className="relative overflow-hidden [mask-image:linear-gradient(to_right,transparent,black_4%,black_96%,transparent)]">
           <div ref={trackRef} className="reel-marquee flex w-max gap-6">
-            {reels.map((clip, i) => (
-              <ReelFrame key={`${clip.id}-${i}`} clip={clip} isVisible={isInView} />
-            ))}
+            {reels.map((clip, i) => {
+              const instanceKey = `${clip.id}-${i}`;
+              return (
+                <ReelFrame
+                  key={instanceKey}
+                  clip={clip}
+                  isVisible={isInView}
+                  instanceKey={instanceKey}
+                  activeAudioKey={activeAudioKey}
+                  onToggleAudio={setActiveAudioKey}
+                />
+              );
+            })}
           </div>
         </div>
       </div>
     </section>
   );
 }
+
