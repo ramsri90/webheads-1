@@ -39,11 +39,13 @@ export function ChatbotWidget() {
   });
   const [leadStatus, setLeadStatus] = useState<"idle" | "submitting" | "success" | "error">("idle");
 
-  const messagesEndRef = useRef<HTMLDivElement>(null);
+  const chatContainerRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
-  }, [messages, showLeadForm]);
+    if (chatContainerRef.current) {
+      chatContainerRef.current.scrollTop = chatContainerRef.current.scrollHeight;
+    }
+  }, [messages, isLoading, showLeadForm]);
 
   // Stateful Callback Step-by-Step Flow
   const [callbackStep, setCallbackStep] = useState<"IDLE" | "AWAITING_NAME" | "AWAITING_PHONE" | "AWAITING_EMAIL" | "AWAITING_PURPOSE">("IDLE");
@@ -649,14 +651,15 @@ export function ChatbotWidget() {
       <AnimatePresence>
         {isOpen && (
           <motion.div
+            data-lenis-prevent
             initial={{ opacity: 0, y: 20, scale: 0.95 }}
             animate={{ opacity: 1, y: 0, scale: 1 }}
             exit={{ opacity: 0, y: 20, scale: 0.95 }}
             transition={{ duration: 0.25, ease: "easeOut" }}
-            className="absolute bottom-16 right-0 w-[calc(100vw-2rem)] sm:w-[380px] h-[520px] max-h-[80vh] rounded-3xl border border-teal-500/20 bg-white/95 backdrop-blur-2xl shadow-2xl flex flex-col overflow-hidden"
+            className="absolute bottom-16 right-0 w-[calc(100vw-2rem)] sm:w-[380px] h-[520px] max-h-[80vh] rounded-3xl border border-teal-500/20 bg-white/95 backdrop-blur-2xl shadow-2xl flex flex-col overflow-hidden text-teal-950 pointer-events-auto z-[95]"
           >
             {/* Header */}
-            <div className="flex items-center justify-between px-5 py-4 border-b border-teal-500/15 bg-teal-500/5">
+            <div className="flex items-center justify-between px-5 py-4 border-b border-teal-500/15 bg-teal-500/5 shrink-0">
               <div className="flex items-center gap-3">
                 <div className="relative flex h-9 w-9 items-center justify-center rounded-full bg-teal-500/15 border border-teal-500/30">
                   <img src="/images/webbheads-logo-black.png" alt="Logo" className="h-5 w-auto object-contain" />
@@ -690,7 +693,7 @@ export function ChatbotWidget() {
 
             {/* Main Content Area */}
             {showLeadForm ? (
-              <div className="flex-1 p-5 overflow-y-auto bg-white">
+              <div data-lenis-prevent className="flex-1 p-5 overflow-y-auto overscroll-contain bg-white touch-pan-y pointer-events-auto">
                 <div className="mb-4">
                   <h4 className="text-sm font-bold text-teal-950 mb-1">Direct Project Inquiry</h4>
                   <p className="text-xs text-teal-950/60">Submit your details to automatically log your lead in Leadcore.</p>
@@ -787,7 +790,7 @@ export function ChatbotWidget() {
                 </form>
               </div>
             ) : (
-              <div className="flex-1 p-4 overflow-y-auto space-y-3 bg-white">
+              <div ref={chatContainerRef} data-lenis-prevent className="flex-1 p-4 overflow-y-auto overscroll-contain space-y-3 bg-white touch-pan-y pointer-events-auto">
                 {messages.map((msg) => (
                   <div
                     key={msg.id}
@@ -887,13 +890,12 @@ export function ChatbotWidget() {
                     <span>WebbHeads AI is thinking...</span>
                   </div>
                 )}
-                <div ref={messagesEndRef} />
               </div>
             )}
 
             {/* Quick Action Chips */}
             {!showLeadForm && (
-              <div className="px-3 py-2 border-t border-teal-500/15 bg-teal-500/5 flex gap-1.5 overflow-x-auto scrollbar-none text-[12px]">
+              <div data-lenis-prevent className="px-3 py-2 border-t border-teal-500/15 bg-teal-500/5 flex gap-1.5 overflow-x-auto scrollbar-none text-[12px] touch-pan-x pointer-events-auto shrink-0">
                 {callbackStep === "AWAITING_EMAIL" && (
                   <button
                     onClick={() => handleSendMessage("skip")}

@@ -14,6 +14,9 @@ export function SmoothScrollProvider({ children }: { children: React.ReactNode }
       wheelMultiplier: 1.0,
       touchMultiplier: 1.8,
       infinite: false,
+      prevent: (node: HTMLElement) =>
+        node.hasAttribute("data-lenis-prevent") ||
+        Boolean(node.closest("[data-lenis-prevent]")),
     });
 
     let rafId: number;
