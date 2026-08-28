@@ -662,9 +662,8 @@ export function ChatbotWidget() {
                   <img src="/images/webbheads-logo-black.png" alt="Logo" className="h-5 w-auto object-contain" />
                 </div>
                 <div>
-                  <h3 className="text-sm font-bold text-teal-950 flex items-center gap-1.5">
-                    <span>WebbHeads AI</span>
-                    <Sparkles className="h-3.5 w-3.5 text-teal-600" />
+                  <h3 className="text-sm font-bold text-teal-950">
+                    WebbHeads AI
                   </h3>
                   <p className="text-[12px] text-emerald-400 font-mono flex items-center gap-1">
                     <span className="h-1.5 w-1.5 rounded-full bg-emerald-400" />
