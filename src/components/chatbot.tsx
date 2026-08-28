@@ -621,14 +621,6 @@ export function ChatbotWidget() {
     }
   };
 
-  const [isIntroActive, setIsIntroActive] = useState(false);
-
-  useEffect(() => {
-    setIsIntroActive(document.body.classList.contains("intro-active"));
-  }, []);
-
-  if (isIntroActive) return null;
-
   return (
     <div className="fixed bottom-6 right-6 z-[90] font-sans">
       {/* Chat Floating Capsule Trigger Button */}

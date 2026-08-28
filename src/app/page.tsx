@@ -9,15 +9,13 @@ import { PricingSection } from "@/components/pricing";
 import { TestimonialsAndStats } from "@/components/testimonials-stats";
 import { FAQSection } from "@/components/faq";
 import { Footer } from "@/components/footer";
-import { IntroVideo } from "@/components/intro-video";
 import { ChatbotWidget } from "@/components/chatbot";
 import { JsonLdSchema } from "@/components/json-ld-schema";
 
 export default function Home() {
   return (
-    <main className="min-h-screen bg-transparent text-teal-950 selection:bg-teal-500 selection:text-white">
+    <main className="min-h-screen bg-transparent text-teal-950 selection:bg-teal-500 selection:text-white overflow-x-hidden">
       <JsonLdSchema />
-      <IntroVideo />
       <Navbar />
       <WebbheadsHeroAnimated />
       <ServicesSection />

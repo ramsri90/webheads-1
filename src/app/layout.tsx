@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import { AnimatedBackground } from "@/components/animated-bg";
+import { SmoothScrollProvider } from "@/components/smooth-scroll";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -99,11 +100,13 @@ export default function RootLayout({
       lang="en"
       className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}
     >
-      <body className="min-h-full flex flex-col bg-white text-teal-950 relative">
-        <AnimatedBackground />
-        <div className="relative z-10 flex flex-col min-h-full">
-          {children}
-        </div>
+      <body className="min-h-full flex flex-col bg-white text-teal-950 relative overflow-x-hidden">
+        <SmoothScrollProvider>
+          <AnimatedBackground />
+          <div className="relative z-10 flex flex-col min-h-full">
+            {children}
+          </div>
+        </SmoothScrollProvider>
       </body>
     </html>
   );
